@@ -1,0 +1,198 @@
+<p>hotel-bookings works!</p>
+<div class="bookings-container">
+    <div class="header">
+        <h2>Bookings</h2>
+        <div class="actions">
+            <button class="btn-primary" (click)="exportBookings()">Export Bookings</button>
+        </div>
+    </div>
+
+    <div class="filters">
+        <div class="filter-group">
+            <select [(ngModel)]="selectedGuest">
+                <option value="">All Guests</option>
+                <option *ngFor="let guest of uniqueGuests" [value]="guest">{{guest}}</option>
+            </select>
+            <input type="date" [(ngModel)]="startDate" placeholder="Start Date">
+            <input type="date" [(ngModel)]="endDate" placeholder="End Date">
+            <button class="btn-filter" (click)="applyFilters()">Filter</button>
+        </div>
+
+        <div class="search">
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Search bookings...">
+            <button class="btn-search" (click)="searchBookings()">Search</button>
+        </div>
+    </div>
+
+    <table class="bookings-table">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Who Booked</th>
+                <th>Property</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Guests</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let booking of bookings">
+                <tr>
+                    <td>#{{booking.id}}</td>
+                    <td>
+                        <div class="guest-info">
+                            <div class="guest-details">
+                                <span class="name">{{booking?.firstName}} {{booking?.lastName}}</span>
+                                <span class="email">{{booking.email}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{booking.propertyName}}</td>
+                    <td>{{booking.checkIn | date:'mediumDate'}}</td>
+                    <td>{{booking.checkOut | date:'mediumDate'}}</td>
+                    <td>{{ (booking.adults || 0) + (booking.teens || 0) + (booking.children || 0) }}</td>
+                    <td>Rs {{booking.totalAmount | number}}</td>
+                    <td>
+                        <span class="status-badge" [class]="booking.status.toLowerCase()">
+                            {{booking.status}}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-icon" (click)="viewBooking(booking)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon" (click)="editBooking(booking)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="booking.showDetails || booking.isEditing" class="details-row">
+                    <td colspan="10">
+                        <div class="booking-details">
+                            <div class="details-grid">
+                                <div class="detail-section">
+                                    <h3>Who Is Booking</h3>
+                                    <div class="detail-item">
+                                        <span>Full Name:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.firstName}} {{booking.lastName}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.guestName" placeholder="Guest Name">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Email:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.email}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.email" type="email" placeholder="Email">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Phone:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.phoneNumber || 'N/A'}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.phoneNumber" placeholder="Phone Number">
+                                    </div>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h3>Guest Information (Checking In)</h3>
+                                    <div *ngFor="let room of booking.rooms; let i = index" class="room-section">
+                                        <h4>Room {{ i + 1 }}</h4>
+                                        <div *ngFor="let guest of room.guests; let j = index" class="guest-item">
+                                            <span>Guest {{ j + 1 }}:</span>
+                                            <span *ngIf="!booking.isEditing">{{guest.firstName}} {{guest.lastName}}</span>
+                                            <div *ngIf="booking.isEditing" class="form-grid">
+                                                <input [(ngModel)]="guest.firstName" placeholder="First Name">
+                                                <input [(ngModel)]="guest.lastName" placeholder="Last Name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p *ngIf="!booking.rooms?.length && !booking.isEditing">No guest information provided.</p>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h3>Room Details</h3>
+                                    <div class="detail-item">
+                                        <span>Room Category:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.roomCategory || 'N/A'}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.roomCategory" placeholder="Room Category">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Number of Rooms:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.rooms.length || 'N/A'}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.roomsLength" type="number" placeholder="Number of Rooms">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Nights:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.nights || 'N/A'}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.nights" type="number" placeholder="Nights">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Adults:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.adults || 0}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.adults" type="number" placeholder="Adults">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Teens:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.teens || 0}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.teens" type="number" placeholder="Teens">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Children:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.children || 0}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.children" type="number" placeholder="Children">
+                                    </div>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h3>Payment Information</h3>
+                                    <div class="detail-item">
+                                        <span>Payment Method:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.paymentMethod || 'Not specified'}}</span>
+                                        <select *ngIf="booking.isEditing" [(ngModel)]="booking.paymentMethod">
+                                            <option value="Not specified">Not specified</option>
+                                            <option value="Credit/Debit Card">Credit/Debit Card</option>
+                                            <option value="MCB JUICE">MCB JUICE</option>
+                                            <option value="Bank Transfer">Bank Transfer</option>
+                                            <option value="Blink by Emtel">Blink by Emtel</option>
+                                            <option value="my.t money">my.t money</option>
+                                        </select>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Price per Night:</span>
+                                        <span *ngIf="!booking.isEditing && booking.planPrice; else noPrice">
+                                            Rs {{booking.planPrice | number}}
+                                        </span>
+                                        <ng-template #noPrice>Rs N/A</ng-template>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.planPrice" type="number" placeholder="Price per Night">
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Total Amount:</span>
+                                        <span *ngIf="!booking.isEditing">{{booking.totalAmount | number}}</span>
+                                        <input *ngIf="booking.isEditing" [(ngModel)]="booking.totalAmount" type="number" placeholder="Total Amount">
+                                    </div>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h3>Additional Notes</h3>
+                                    <p *ngIf="!booking.isEditing && booking.note; else noNote">{{booking.note}}</p>
+                                    <ng-template #noNote>No additional notes</ng-template>
+                                    <textarea *ngIf="booking.isEditing" [(ngModel)]="booking.note" placeholder="Additional Notes"></textarea>
+                                </div>
+                            </div>
+                            <div class="detail-actions" *ngIf="booking.isEditing">
+                                <button class="btn-save" (click)="saveBooking(booking)">Save Changes</button>
+                                <button class="btn-cancel" (click)="cancelEdit(booking)">Cancel</button>
+                            </div>
+                            <div class="detail-actions">
+                                <button class="btn-delete" (click)="deleteBooking(booking)" [disabled]="booking.status === 'Cancelled'">Delete Booking</button>
+                                <button class="btn-accept" (click)="acceptBooking(booking)" [disabled]="booking.status === 'Confirmed' || booking.status === 'Cancelled'">Accept Booking</button>
+                                <button class="btn-reject" (click)="rejectBooking(booking)" [disabled]="booking.status === 'Confirmed' || booking.status === 'Cancelled'">Reject Booking</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

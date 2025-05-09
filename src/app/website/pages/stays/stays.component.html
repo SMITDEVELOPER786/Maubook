@@ -1,0 +1,108 @@
+<div class="stays-container">
+  <main class="stays-content">
+    <!-- Search Bar -->
+    <div class="search-section">
+      <h2>Search from our selection of {{ propertyCount }} properties to book!</h2>
+      <div class="search-container">
+        <div class="search-form">
+          <div class="search-items-desktop">
+            <div class="search-item">
+              <div class="title">Check-in date</div>
+              <mat-form-field appearance="fill">
+                <mat-label>Check-in date</mat-label>
+                <input matInput [matDatepicker]="checkinPicker" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date" readonly (focus)="checkinPicker.open()">
+                <mat-datepicker-toggle matSuffix [for]="checkinPicker"></mat-datepicker-toggle>
+                <mat-datepicker #checkinPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-item">
+              <div class="title">Check-out date</div>
+              <mat-form-field appearance="fill">
+                <mat-label>Check-out date</mat-label>
+                <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate" [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()">
+                <mat-datepicker-toggle matSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
+                <mat-datepicker #checkoutPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-item">
+              <div class="title">Number of guests</div>
+              <div class="guest-select">
+                <select [(ngModel)]="numberOfGuests">
+                  <option *ngFor="let guest of guestOptions" [value]="guest">{{ guest }} Guest(s)</option>
+                </select>
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+            <button class="search-button" (click)="searchProperties()">
+              <i class="fas fa-search"></i>
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Property Listings -->
+    <div class="property-grid">
+      <div *ngIf="loading" class="loading-state">
+        Loading properties...
+      </div>
+
+      <div *ngIf="error" class="error-state">
+        {{ error }}
+      </div>
+
+      <div *ngIf="!loading && !error && properties.length === 0" class="empty-state">
+        No properties found.
+      </div>
+
+      <div class="property-card" *ngFor="let property of properties" (click)="navigateToPropertyDetails(property.id)">
+        <div class="property-image">
+          <img [src]="property.images[0] || 'assets/fallback.jpg'" [alt]="property.name">
+        </div>
+        <div class="property-content">
+          <div class="property-header">
+            <div class="title-section">
+              <h3>{{ property.name }}</h3>
+              <div class="property-tabs">
+                <span class="tab category">{{ property.category | uppercase }}</span>
+                <span class="tab region">{{ property.region | uppercase }}</span>
+              </div>
+            </div>
+            <div class="rating">
+              <div class="stars">
+                <i class="fas fa-star" *ngFor="let star of getFullStars(property.rating)"></i>
+                <i class="fas fa-star-half-alt" *ngIf="hasHalfStar(property.rating)"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="features">
+            <span class="feature" *ngFor="let feature of property.features">
+              <i class="fas fa-check-circle"></i> {{ feature }}
+            </span>
+          </div>
+
+          <p class="offer-text">{{ property.offerText }}</p>
+
+          <div class="property-footer">
+            <div class="location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ property.location }}</span>
+            </div>
+            <div class="price-section">
+              <span>Starting from Rs {{ property.rooms[0]?.plans[0]?.price | number }}</span>
+            </div>
+          </div>
+
+          <button class="availability-btn">
+            See Availability
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

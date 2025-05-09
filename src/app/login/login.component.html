@@ -1,0 +1,36 @@
+<div class="login-page">
+    <div class="login-form">
+      <h2>Welcome Back</h2>
+      <form (ngSubmit)="onLogin()">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            [(ngModel)]="email"
+            name="email"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            [(ngModel)]="password"
+            name="password"
+            required
+          >
+        </div>
+        <button type="submit" class="login-button">Sign In</button>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <div class="form-links">
+            <!-- <a href="#" class="forgot-password" (click)="forgotPassword()">Forgot Password?</a> -->
+            <a routerLink="/register" class="register-link">Create an Account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  

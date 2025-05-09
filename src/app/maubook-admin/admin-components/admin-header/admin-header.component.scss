@@ -1,0 +1,174 @@
+// Variables
+$primary-color: #2563eb;
+$secondary-color: #1e293b;
+$accent-color: #3b82f6;
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$border-color: #e2e8f0;
+$hover-bg: #f1f5f9;
+$active-bg: #dbeafe;
+$white: #ffffff;
+$danger: #ef4444;
+
+// Admin Header Styles
+.admin-header {
+  height: 70px;
+  background: $white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  .header-container {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $text-primary;
+
+      .text-accent {
+        color: $accent-color;
+      }
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .search-bar {
+    position: relative;
+    width: 350px;
+
+    input {
+      width: 100%;
+      padding: 0.75rem 3rem 0.75rem 1rem;
+      border: 1px solid $border-color;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: $accent-color;
+        box-shadow: 0 0 0 3px rgba($accent-color, 0.1);
+      }
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: $text-secondary;
+      cursor: pointer;
+    }
+  }
+
+  .header-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .icon-btn {
+      position: relative;
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      color: $text-secondary;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $text-primary;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: $danger;
+        color: $white;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+        border-radius: 10px;
+        border: 2px solid $white;
+      }
+    }
+
+    .divider {
+      height: 24px;
+      width: 1px;
+      background: $border-color;
+      margin: 0 0.5rem;
+    }
+  }
+
+  .admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: $hover-bg;
+    }
+
+    .profile-info {
+      text-align: right;
+
+      .admin-name {
+        display: block;
+        font-weight: 600;
+        color: $text-primary;
+      }
+
+      .admin-role {
+        font-size: 0.85rem;
+        color: $text-secondary;
+      }
+    }
+
+    .admin-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .profile-menu-btn {
+      background: none;
+      border: none;
+      color: $text-secondary;
+      cursor: pointer;
+    }
+  }
+}
+

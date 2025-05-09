@@ -1,0 +1,53 @@
+{
+  "name": "maubook",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^16.2.0",
+    "@angular/cdk": "^16.2.14",
+    "@angular/common": "^16.2.0",
+    "@angular/compiler": "^16.2.0",
+    "@angular/core": "^16.2.0",
+    "@angular/fire": "^16.0.0",
+    "@angular/forms": "^16.2.0",
+    "@angular/material": "^16.2.14",
+    "@angular/platform-browser": "^16.2.0",
+    "@angular/platform-browser-dynamic": "^16.2.0",
+    "@angular/router": "^16.2.0",
+    "@seatsio/seatsio-angular": "^13.14.0",
+    "bootstrap": "^5.3.3",
+    "cloudinary": "^2.6.0",
+    "country-flag-icons": "^1.5.18",
+    "country-list-with-dial-code-and-flag": "^5.1.0",
+    "crypto-js": "^4.2.0",
+    "firebase": "^11.6.0",
+    "flag-icons": "^7.3.2",
+    "libphonenumber-js": "^1.12.7",
+    "ngx-quill": "^16.2.1",
+    "rxjs": "~7.8.0",
+    "swiper": "^10.3.1",
+    "tslib": "^2.3.0",
+    "world-countries": "^5.1.0",
+    "zone.js": "~0.13.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.2.16",
+    "@angular/cli": "^16.2.16",
+    "@angular/compiler-cli": "^16.2.0",
+    "@types/jasmine": "~4.3.0",
+    "jasmine-core": "~4.6.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.1.3"
+  }
+}

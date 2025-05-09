@@ -1,0 +1,58 @@
+<div class="properties-container">
+    <div class="header">
+        <h2>Properties</h2>
+        <div class="actions">
+            <button class="btn-primary" (click)="addNewProperty()">Add new property</button>
+        </div>
+    </div>
+
+    <div class="filters">
+        <div class="filter-group">
+            <select [(ngModel)]="selectedCategory">
+                <option value="">Select category</option>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>   
+            <button class="btn-filter" (click)="applyFilters()">Filter</button>
+        </div>
+
+        <div class="search">
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Search properties">
+            <button class="btn-search" (click)="searchProperties()">Search</button>
+        </div>
+    </div>
+
+    <table class="properties-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let property of properties; let i = index">
+                <td>{{i + 1}}</td>
+                <td>
+                    <img [src]="property.images[0]" alt="Property image" 
+                         *ngIf="property.images?.length > 0">
+                </td>
+                <td>{{property.name}}</td>
+                <td>{{property.location}}</td>
+                <td>{{property.category}}</td>
+                <td>Starting from Rs {{property.rooms[0]?.price || 0}}</td>
+                <td class="action-buttons">
+                    <button class="btn-edit" (click)="editProperty(property.id)" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-delete" (click)="deleteProperty(property.id)" title="Delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

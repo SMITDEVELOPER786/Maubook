@@ -1,0 +1,17 @@
+<div class="sidebar" [class.active]="isActive">
+  <button class="close-btn" (click)="toggleSidebar()">×</button>
+  
+  <div class="user-header">
+    <div class="greeting">
+      Hello, <span class="user-name">{{ userFirstName || 'Guest' }}</span>
+    </div>
+  </div>
+  
+  <ul>
+    <li><a [routerLink]="['/profile']" [queryParams]="{ tab: 'my-account' }" (click)="$event.preventDefault(); navigateToProfile('my-account')">My Account</a></li>
+    <li><a [routerLink]="['/profile']" [queryParams]="{ tab: 'my-bookings' }" (click)="$event.preventDefault(); navigateToProfile('my-bookings')">My Bookings</a></li>
+    <li><a [routerLink]="['/profile']" [queryParams]="{ tab: 'change-password' }" (click)="$event.preventDefault(); navigateToProfile('change-password')">Change Password</a></li>
+    <li><a routerLink="/contact-us" (click)="toggleSidebar()">Contact Us</a></li>
+    <li><a class="sign-out" (click)="logout()">Sign Out</a></li>
+  </ul>
+</div>

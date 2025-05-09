@@ -1,0 +1,180 @@
+<div class="booking-container">
+  <div class="booking-header">
+    <div class="container">
+      <h1>{{ hotelName }}</h1>
+      <div class="timer-section">
+        <span class="timer-label">Complete your booking in</span>
+        <span class="timer" #timer>20:00</span>
+        <div class="timer-warning">
+          <i class="fas fa-info-circle"></i>
+          <span>Booking will be cancelled if payment is not completed within this time limit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="booking-content">
+      <div class="booking-form-section">
+        <!-- Who is Booking? -->
+        <div class="form-card">
+          <h2><i class="fas fa-user"></i> Who is Booking?</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>First Name <span class="required">*</span></label>
+              <input type="text" [(ngModel)]="booking.firstName" placeholder="Enter first name" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name <span class="required">*</span></label>
+              <input type="text" [(ngModel)]="booking.lastName" placeholder="Enter last name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number <span class="required">*</span></label>
+              <input type="tel" [(ngModel)]="booking.phoneNumber" placeholder="Enter phone number" required>
+            </div>
+            <div class="form-group">
+              <label>Email <span class="required">*</span></label>
+              <input type="email" [(ngModel)]="booking.email" placeholder="Enter email" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Who is Checking In? -->
+        <div class="form-card">
+          <h2><i class="fas fa-bed"></i> Who is Checking In?</h2>
+          <div *ngFor="let room of selectedRooms; let i = index" class="room-section">
+            <h3>Room {{ i + 1 }}</h3>
+            <div class="guest-grid">
+              <div *ngFor="let guest of room.guests; let j = index" class="guest-form">
+                <h4>Guest {{ j + 1 }}</h4>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label>First Name <span class="required">*</span></label>
+                    <input type="text" [(ngModel)]="guest.firstName" placeholder="Enter first name" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Last Name <span class="required">*</span></label>
+                    <input type="text" [(ngModel)]="guest.lastName" placeholder="Enter last name" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Notes -->
+        <div class="form-card">
+          <h2><i class="fas fa-comment-alt"></i> Additional Notes</h2>
+          <div class="form-group">
+            <textarea [(ngModel)]="booking.note" rows="4"
+                      placeholder="Add a note to your booking, other guest names, special requests or dietary requirements (optional)"></textarea>
+          </div>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="terms-section">
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="booking.agreedToTerms">
+            <span class="checkmark"></span>
+            I have read and agreed to the terms and conditions
+          </label>
+        </div>
+      </div>
+
+      <!-- Booking Summary -->
+      <div class="booking-summary-section">
+        <div class="summary-card">
+          <h2>Booking Summary</h2>
+          <div class="summary-content">
+            <div *ngIf="isPackageCategory; else hotelBooking" class="package-summary">
+              <div class="summary-row">
+                <span>{{ bookingSummary.title || 'Package Booking' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Ticket</span>
+                <span>{{ bookingSummary.tickets[0]?.name || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Booked Date:</span>
+                <span>{{ bookingSummary.checkIn | date: 'EEE d MMM yyyy' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Per ticket:</span>
+                <span>Rs {{ bookingSummary.tickets[0]?.price || 0 | number }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Quantity:</span>
+                <span>{{ bookingSummary.tickets[0]?.quantity || 1 }}</span>
+              </div>
+              <div class="summary-row total">
+                <span>Amount:</span>
+                <span>Rs {{ bookingSummary.total || 0 | number }}</span>
+              </div>
+            </div>
+            <ng-template #hotelBooking>
+              <div class="summary-row">
+                <span>Hotel</span>
+                <span>{{ bookingSummary.hotelName || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Check In</span>
+                <span>{{ bookingSummary.checkIn || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Check Out</span>
+                <span>{{ bookingSummary.checkOut || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Nights</span>
+                <span>{{ bookingSummary.nights || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Rooms</span>
+                <span>{{ bookingSummary.rooms || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Adults</span>
+                <span>{{ bookingSummary.adults || 0 }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Teens</span>
+                <span>{{ bookingSummary.teens || 0 }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Children</span>
+                <span>{{ bookingSummary.children || 0 }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Room Category</span>
+                <span>{{ bookingSummary.roomCategory || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Plan</span>
+                <span>{{ bookingSummary.plan?.name || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Bed Type</span>
+                <span>{{ bookingSummary.plan?.bedType || 'N/A' }}</span>
+              </div>
+              <div class="summary-row">
+                <span>Price per Night</span>
+                <span>Rs {{ bookingSummary.plan?.price || 0 | number }}</span>
+              </div>
+              <div class="summary-row total">
+                <span>Total</span>
+                <span>Rs {{ bookingSummary.total || 0 | number }}</span>
+              </div>
+            </ng-template>
+          </div>
+          <p class="summary-note">
+            <i class="fas fa-info-circle"></i>
+            Rates, taxes, and fees included
+          </p>
+          <button class="proceed-button" [disabled]="!booking.agreedToTerms" (click)="proceedToPayment()">
+            Proceed to Payment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<ng-container *ngIf="!isLoading; else loadingTemplate">
+  <!-- Main Header -->
+  <nav class="navbar navbar-light bg-white main-header">
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand" routerLink="/">
+        <img src="assets/logo.png" alt="Maubook Logo" height="40">
+      </a>
+
+      <!-- Main Navigation -->
+      <div class="main-nav">
+        <ul class="nav-links">
+          <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+          <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
+          <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+        </ul>
+
+        <!-- Login Button -->
+        <div class="auth-section">
+          <ng-container *ngIf="!isLoggedIn; else userInfo">
+            <a class="btn-login" routerLink="/login">Login</a>
+          </ng-container>
+          <ng-template #userInfo>
+            <div class="user-info" (click)="toggleSidebar()">
+              <i class="fas fa-user-circle"></i>
+              <span>{{ userFirstName }}</span>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Add the sidebar component here -->
+  <app-user-sidebar></app-user-sidebar>
+
+  <!-- Categories Navigation -->
+  <nav class="categories-nav">
+    <div class="container">
+      <div class="categories-scroll">
+        <a class="category-link" routerLink="/stays" routerLinkActive="active">
+          <i class="fas fa-bed"></i>
+          <span>Stays</span>
+        </a>
+        <a class="category-link" routerLink="/category/evening" routerLinkActive="active">
+          <i class="fas fa-sun"></i>
+          <span>Day & Evening</span>
+        </a>
+        <a class="category-link" routerLink="/category/spa" routerLinkActive="active">
+          <i class="fas fa-spa"></i>
+          <span>Spa Package</span>
+        </a>
+        <a class="category-link" routerLink="/category/events" routerLinkActive="active">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Events</span>
+        </a>
+        <a class="category-link" routerLink="/category/restaurant" routerLinkActive="active">
+          <i class="fas fa-utensils"></i>
+          <span>Restaurant</span>
+        </a>
+        <a class="category-link" routerLink="/category/activities" routerLinkActive="active">
+          <i class="fas fa-hiking"></i>
+          <span>Activities</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <div class="d-flex justify-content-center align-items-center p-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <span class="ms-2">Loading user...</span>
+  </div>
+</ng-template>

@@ -1,0 +1,201 @@
+.users-container {
+    margin-left: 280px;
+    margin-top: 70px;
+    padding: 2rem;
+    background: #f8fafc;
+    min-height: 100vh;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        h2 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+    }
+
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            min-width: 200px;
+            font-size: 0.95rem;
+
+            &:focus {
+                outline: none;
+                border-color: #3b82f6;
+            }
+        }
+    }
+
+    .users-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        td {
+            color: #1e293b;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+
+        .role-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+
+            &.admin {
+                background: #fee2e2;
+                color: #ef4444;
+            }
+
+            &.user {
+                background: #e0f2fe;
+                color: #0ea5e9;
+            }
+
+            &.manager {
+                background: #f0fdf4;
+                color: #22c55e;
+            }
+
+            &.staff {
+                background: #fef3c7;
+                color: #f59e0b;
+            }
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: #f1f5f9;
+            color: #64748b;
+
+            &.active {
+                background: #f0fdf4;
+                color: #22c55e;
+            }
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+
+            .btn-icon {
+                width: 32px;
+                height: 32px;
+                border-radius: 6px;
+                border: 1px solid #e2e8f0;
+                background: white;
+                color: #64748b;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    background: #f8fafc;
+                    color: #3b82f6;
+                }
+
+                &.delete:hover {
+                    background: #fee2e2;
+                    color: #ef4444;
+                    border-color: #fecaca;
+                }
+            }
+        }
+
+        tbody tr {
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #f8fafc;
+            }
+        }
+    }
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: #2563eb;
+        transform: translateY(-1px);
+    }
+}
+
+.btn-filter, .btn-search {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: #059669;
+        transform: translateY(-1px);
+    }
+}

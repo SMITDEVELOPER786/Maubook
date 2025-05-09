@@ -1,0 +1,206 @@
+<div class="property-details">
+  <!-- Hero Section with Full-width Image -->
+  <section class="hero-banner">
+    <swiper-container [config]="mainSwiperConfig" class="main-swiper">
+      <swiper-slide *ngFor="let image of property.images">
+        <img [src]="image" [alt]="property.name">
+      </swiper-slide>
+    </swiper-container>
+    <div class="hero-content">
+      <div class="container">
+        <div class="property-info">
+          <div class="badges">
+            <span class="category">{{property.category}}</span>
+            <span class="region">{{property.region}}</span>
+          </div>
+          <h1>{{property.name}}</h1>
+          <div class="meta">
+            <span><i class="fas fa-map-marker-alt"></i> {{property.location}}</span>
+            <span><i class="fas fa-star"></i> {{property.rating}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section class="booking-section">
+    <div class="container">
+      <div class="booking-card">
+        <div class="dates">
+          <div class="check-in">
+            <label>Check In <span class="required">*</span></label>
+            <input type="date" [(ngModel)]="checkInDate" [min]="today" [class.error]="showError && !checkInDate">
+          </div>
+          <div class="check-out">
+            <label>Check Out <span class="required">*</span></label>
+            <input type="date" [(ngModel)]="checkOutDate" [min]="checkInDate || today" [class.error]="showError && !checkOutDate">
+          </div>
+        </div>
+        <div class="guests">
+          <label>Guests <span class="required">*</span></label>
+          <select [(ngModel)]="selected_guest_option" [class.error]="showError && !selected_guest_option">
+            <option value="">Select guests</option>
+            <option *ngFor="let option of guestOptions" [ngValue]="option">
+              {{ option.display }}
+            </option>
+          </select>
+        </div>
+        <div class="rooms">
+          <label>Rooms <span class="required">*</span></label>
+          <select [(ngModel)]="selectedRoomCount" [class.error]="showError && !selectedRoomCount">
+            <option value="">Select rooms</option>
+            <option *ngFor="let room of roomOptions" [value]="room">{{ room }} Room(s)</option>
+          </select>
+        </div>
+
+        <button class="search-btn" 
+                [disabled]="!checkInDate || !checkOutDate || !selected_guest_option || !selectedRoomCount"
+                (click)="checkAndScrollToRooms()">
+          Check Availability
+        </button>
+        
+        <div class="error-message" *ngIf="showError">
+          Please fill in all required fields
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="main-content">
+    <div class="container">
+      <div class="content-grid">
+        <!-- Left Column -->
+        <div class="left-column">
+          <!-- About Property -->
+          <section class="about-section">
+            <h2>About This Property</h2>
+            <p>{{property.description}}</p>
+            <div class="features">
+              <div class="feature" *ngFor="let feature of property.features">
+                <i class="fas fa-check-circle"></i>
+                <span>{{feature}}</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Facilities -->
+          <section class="facilities-section">
+            <h2>Popular Facilities</h2>
+            <div class="facilities-grid">
+              <div class="facility" *ngFor="let facility of property.popularFacilities">
+                <i [class]="facility.icon"></i>
+                <span>{{facility.name}}</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Available Rooms -->
+          <section class="rooms-section" #roomsSection>
+            <h2>Available Rooms</h2>
+            <div class="room-details" *ngFor="let room of property.rooms">
+              <div class="room-layout">
+                <!-- Room Gallery -->
+                <div class="room-gallery">
+                  <swiper-container [config]="roomSwiperConfig">
+                    <swiper-slide *ngFor="let image of room.images">
+                      <img [src]="image" [alt]="room.type">
+                    </swiper-slide>
+                  </swiper-container>
+                </div>
+
+                <!-- Room Information -->
+                <div class="room-info">
+                  <h3 class="room-type">{{room.type}}</h3>
+                  <p class="room-description">{{room.description}}</p>
+                  
+                  <!-- Room Facilities -->
+                  <div class="room-facilities">
+                    <h4>Room Facilities</h4>
+                    <div class="facilities-grid">
+                      <div class="facility" *ngFor="let facility of room.facilities">
+                        <i class="fas fa-check"></i>
+                        <span>{{facility}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Room Plans -->
+              <div class="room-plans">
+                <div class="plan" *ngFor="let plan of room.plans">
+                  <div class="room-meta">
+                    <div class="meta-item" *ngIf="plan.adultCapacity">
+                      <i class="fas fa-user"></i>
+                      <span>{{plan.adultCapacity}} Adult</span>
+                    </div>
+                    <div class="meta-item" *ngIf="plan.teenCapacity">
+                      <i class="fas fa-user-friends"></i>
+                      <span>{{plan.teenCapacity}} Teen</span>
+                    </div>
+                    <div class="meta-item" *ngIf="plan.childCapacity">
+                      <i class="fas fa-child"></i>
+                      <span>{{plan.childCapacity}} Child</span>
+                    </div>
+                    <div class="meta-item">
+                      <i class="fas fa-bed"></i>
+                      <span>{{plan.bedType}}</span>
+                    </div>
+                  </div>
+
+                  <div class="booking-details">
+                    <div class="price-info">
+                      <div class="price">From Rs {{plan.price}}</div>
+                      <div class="rate-info">Rates, taxes and fees included</div>
+                    </div>
+
+                    <div class="booking-features">
+                      <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>Immediate confirmation</span>
+                      </div>
+                      <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>No booking or credit card fees!</span>
+                      </div>
+                      <div class="feature">
+                        <i class="fas fa-check"></i>
+                        <span>Fast & Safe to book</span>
+                      </div>
+                    </div>
+
+                    <button class="book-now" (click)="checkAuthAndBook(room, plan)">
+                      Book Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+          <!-- Map Section -->
+          <section class="map-section">
+            <h2>Location</h2>
+            <div class="map-container">
+              <iframe [src]="property.safeGoogleMapUrl" frameborder="0" allowfullscreen></iframe>            </div>
+          </section>
+
+          <!-- Other Facilities -->
+          <section class="other-facilities">
+            <h2>Additional Amenities</h2>
+            <div class="facilities-list">
+              <div class="facility" *ngFor="let facility of property.otherFacilities">
+                <i [class]="facility.icon"></i>
+                <span>{{facility.name}}</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

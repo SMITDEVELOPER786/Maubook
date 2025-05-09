@@ -1,0 +1,121 @@
+
+// Variables
+$primary-color: #2563eb;
+$secondary-color: #1e293b;
+$accent-color: #3b82f6;
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$border-color: #e2e8f0;
+$hover-bg: #f1f5f9;
+$active-bg: #dbeafe;
+$white: #ffffff;
+$danger: #ef4444;
+
+// Admin Sidebar Styles
+.admin-sidebar {
+    width: 280px;
+    background: $white;
+    border-right: 1px solid $border-color;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    bottom: 0;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  
+    .nav-section {
+      margin-bottom: 2rem;
+      padding: 0 1.5rem;
+  
+      .nav-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: $text-secondary;
+        margin-bottom: 1rem;
+        letter-spacing: 0.05em;
+      }
+    }
+  
+    .nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  
+      .nav-item {
+        margin-bottom: 0.5rem;
+  
+        a {
+          display: flex;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          color: $text-secondary;
+          text-decoration: none;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+  
+          i {
+            font-size: 1.2rem;
+            width: 24px;
+            margin-right: 1rem;
+          }
+  
+          .badge {
+            margin-left: auto;
+            padding: 0.25rem 0.5rem;
+            background: $accent-color;
+            color: $white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+          }
+  
+          &:hover {
+            background: $hover-bg;
+            color: $text-primary;
+          }
+        }
+  
+        &.active a {
+          background: $active-bg;
+          color: $primary-color;
+          font-weight: 500;
+        }
+      }
+    }
+  
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 1.5rem;
+  
+      .logout-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background: $danger;
+        color: $white;
+        border: none;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+  
+        &:hover {
+          background: darken($danger, 10%);
+        }
+  
+        i {
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+  
+  // Main content area adjustment
+  .main-content {
+    margin-left: 280px;
+    margin-top: 70px;
+    padding: 2rem;
+  }

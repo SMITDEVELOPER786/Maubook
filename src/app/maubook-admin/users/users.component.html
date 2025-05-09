@@ -1,0 +1,71 @@
+<div class="users-container">
+    <div class="header">
+      <h2>Users</h2>
+      <div class="actions">
+        <button class="btn-primary" (click)="exportUsers()">Export Users</button>
+      </div>
+    </div>
+  
+    <div class="filters">
+      <div class="search">
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Search users...">
+        <button class="btn-search" (click)="searchUsers()">Search</button>
+      </div>
+    </div>
+  
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Country</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{i + 1}}</td>
+          <td>
+            <span *ngIf="!user.isEditing">{{user.name}}</span>
+            <div *ngIf="user.isEditing" class="form-grid">
+              <input [(ngModel)]="user.firstName" placeholder="First Name" required>
+              <input [(ngModel)]="user.lastName" placeholder="Last Name" required>
+            </div>
+          </td>
+          <td>
+            <span *ngIf="!user.isEditing">{{user.email}}</span>
+            <input *ngIf="user.isEditing" [(ngModel)]="user.email" type="email" placeholder="Email" required>
+          </td>
+          <td>
+            <span *ngIf="!user.isEditing">{{user.phoneCode}} {{user.phoneNumber}}</span>
+            <div *ngIf="user.isEditing" class="form-grid">
+              <input [(ngModel)]="user.phoneCode" placeholder="Code" style="width: 80px;">
+              <input [(ngModel)]="user.phoneNumber" placeholder="Phone Number">
+            </div>
+          </td>
+          <td>
+            <span *ngIf="!user.isEditing">{{user.countryFullName}}</span>
+            <input *ngIf="user.isEditing" [(ngModel)]="user.country" placeholder="Country Code (e.g., in)">
+          </td>
+          <td>
+            <div class="actions">
+              <button *ngIf="!user.isEditing" class="btn-icon edit" (click)="editUser(user)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button *ngIf="user.isEditing" class="btn-icon save" (click)="saveUser(user)">
+                <i class="fas fa-save"></i>
+              </button>
+              <button *ngIf="user.isEditing" class="btn-icon cancel" (click)="cancelEdit(user)">
+                <i class="fas fa-times"></i>
+              </button>
+              <button class="btn-icon delete" (click)="deleteUser(user)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

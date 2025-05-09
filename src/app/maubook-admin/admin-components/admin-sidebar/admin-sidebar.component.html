@@ -1,0 +1,83 @@
+<aside class="admin-sidebar">
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <h3 class="nav-title">MAIN MENU</h3>
+      <ul class="nav-list">
+        <li class="nav-item" [class.active]="isActive('/admin/dashboard')">
+          <a href="/admin/dashboard">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <!-- Removed Analytics -->
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <h3 class="nav-title">MANAGEMENT</h3>
+      <ul class="nav-list">
+        <li class="nav-item" [class.active]="isActive('/admin/properties')">
+          <a href="/admin/properties">
+            <i class="fas fa-building"></i>
+            <span>Hotels</span>
+          </a>
+        </li>
+        <li class="nav-item" [class.active]="isActive('/admin/packages')">
+          <a href="/admin/packages">
+            <i class="fas fa-box"></i>
+            <span>Packages</span>
+          </a>
+        </li>
+        <li class="nav-item" [class.active]="isActive('/admin/users')">
+          <a href="/admin/users">
+            <i class="fas fa-users"></i>
+            <span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <h3 class="nav-title">BOOKINGS</h3>
+      <ul class="nav-list">
+        <li class="nav-item" [class.active]="isActive('/admin/hotels-bookings')">
+          <a href="/admin/hotels-bookings">
+            <i class="fas fa-calendar-check"></i>
+            <span>Hotels Bookings</span>
+          </a>
+        </li>
+        <li class="nav-item" [class.active]="isActive('/admin/package-bookings')">
+          <a href="/admin/package-bookings">
+            <i class="fas fa-ticket-alt"></i>
+            <span>Packages Bookings</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- <div class="nav-section">
+      <h3 class="nav-title">SETTINGS</h3>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="/admin/profile">
+            <i class="fas fa-user-circle"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/settings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </div> -->
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </button>
+  </div>
+</aside>

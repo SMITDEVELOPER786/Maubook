@@ -1,0 +1,290 @@
+<section class="hero">
+  <div class="hero-content">
+    <h1>Forget Busy Work,<br>Start Next Vacation</h1>
+    <p class="hero-text">
+      We provide what you need to enjoy your holiday with family. Time to make another memorable moments.
+    </p>
+
+    <div class="search-container">
+      <div class="search-form">
+        <!-- Desktop version -->
+        <div class="search-items-desktop" *ngIf="!isMobile">
+          <div class="search-item">
+            <div class="title">Check-in date</div>
+            <mat-form-field appearance="fill">
+              <mat-label>Check-in date</mat-label>
+              <input matInput [matDatepicker]="checkinPicker" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date" readonly (focus)="checkinPicker.open()">
+              <mat-datepicker-toggle matSuffix [for]="checkinPicker"></mat-datepicker-toggle>
+              <mat-datepicker #checkinPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="search-divider"></div>
+          <div class="search-item">
+            <div class="title">Check-out date</div>
+            <mat-form-field appearance="fill">
+              <mat-label>Check-out date</mat-label>
+              <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate" [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()">
+              <mat-datepicker-toggle matSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
+              <mat-datepicker #checkoutPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="search-divider"></div>
+          <div class="search-item">
+            <div class="title">Number of guests</div>
+            <div class="guest-select">
+              <select [(ngModel)]="numberOfGuests">
+                <option *ngFor="let guest of guestOptions" [value]="guest">{{ guest }} Guest(s)</option>
+              </select>
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <button class="search-button" (click)="search()">
+            <i class="fas fa-search"></i>
+            Search
+          </button>
+        </div>
+    
+        <!-- Mobile version -->
+        <div class="search-items-mobile" *ngIf="isMobile">
+          <div class="search-item">
+            <div class="title">Check-in date</div>
+            <mat-form-field appearance="fill">
+              <mat-label>Check-in date</mat-label>
+              <input matInput [matDatepicker]="checkinPickerMobile" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date" readonly (focus)="checkinPickerMobile.open()">
+              <mat-datepicker-toggle matSuffix [for]="checkinPickerMobile"></mat-datepicker-toggle>
+              <mat-datepicker #checkinPickerMobile></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="search-item">
+            <div class="title">Check-out date</div>
+            <mat-form-field appearance="fill">
+              <mat-label>Check-out date</mat-label>
+              <input matInput [matDatepicker]="checkoutPickerMobile" [(ngModel)]="checkOutDate" [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPickerMobile.open()">
+              <mat-datepicker-toggle matSuffix [for]="checkoutPickerMobile"></mat-datepicker-toggle>
+              <mat-datepicker #checkoutPickerMobile></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="search-item">
+            <div class="title">Number of guests</div>
+            <div class="guest-select">
+              <select [(ngModel)]="numberOfGuests">
+                <option *ngFor="let guest of guestOptions" [value]="guest">{{ guest }} Guest(s)</option>
+              </select>
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <button class="search-button" (click)="search()">
+            <i class="fas fa-search"></i>
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero-slider">
+  <div class="slider-container">
+    <div class="slider-wrapper">
+      <div class="slider-item">
+        <img src="assets/homepage/atif.png" alt="Atif Aslam Concert">
+        <div class="slider-overlay"></div>
+      </div>
+      <div class="slider-item">
+        <img src="assets/homepage/aqualand.png" alt="Aqua Park">
+        <div class="slider-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="most-picked">
+  <h2>Most Picked</h2>
+  <div class="most-picked-grid">
+    <div class="most-picked-item" *ngFor="let property of mostPickedProperties" (click)="goToPropertyDetails(property)">
+      <div class="price-tag">Rs {{ property.rooms[0]?.plans[0]?.price || 0 }} per night</div>
+      <img [src]="property.images[0]" [alt]="property.name" *ngIf="property.images?.length > 0">
+      <div class="property-info">
+        <h3>{{ property.name }}</h3>
+        <p>{{ property.location }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="most-picked-mobile">
+  <h2>Most Picked</h2>
+  <swiper-container [navigation]="true" [pagination]="{ clickable: true }" [autoplay]="{ delay: 3000 }" [loop]="true"> <!-- Updated pagination to be clickable -->
+    <swiper-slide *ngFor="let property of mostPickedProperties">
+      <div class="most-picked-item" (click)="goToPropertyDetails(property)">
+        <div class="price-tag">Rs {{ property.rooms[0]?.plans[0]?.price || 0 }} per night</div>
+        <img [src]="property.images[0]" [alt]="property.name" *ngIf="property.images?.length > 0">
+        <div class="property-info">
+          <h3>{{ property.name }}</h3>
+          <p>{{ property.location }}</p>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+</section>
+
+<section class="why-choose-us">
+  <div class="section-header">
+    <h2>Why Choose Us</h2>
+    <p>The main reason is because our competitors have disgusting sites, but we can't write that here, so the text here will be different</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="icon-wrapper">
+        <i class="fas fa-credit-card"></i>
+      </div>
+      <h3>Payment methods</h3>
+      <p>We have a lot of them, from cryptocurrencies to barter for potatoes</p>
+    </div>
+
+    <div class="feature-item">
+      <div class="icon-wrapper">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>Simple search process</h3>
+      <p>We checked it out, even the kid did it, but it was my mom's friend's son</p>
+    </div>
+
+    <div class="feature-item">
+      <div class="icon-wrapper">
+        <i class="fas fa-headset"></i>
+      </div>
+      <h3>24/7 Support</h3>
+      <p>Is there something you don't understand? Feel free to call us. Phone number in the footer</p>
+    </div>
+
+    <div class="feature-item">
+      <div class="icon-wrapper">
+        <i class="fas fa-heart"></i>
+      </div>
+      <h3>We are nice</h3>
+      <p>Fantasy is over, there will be something really convincing here</p>
+    </div>
+  </div>
+</section>
+
+<section class="best-seller-events">
+  <h2>Best Seller Events</h2>
+  <div class="events-grid">
+    <div class="event-card">
+      <img src="assets/homepage/event1.png" alt="Aqualand is Back">
+      <div class="event-overlay">
+        <div class="event-content">
+          <h3>AQUALAND IS BACK!</h3>
+          <p>CRYSTALS</p>
+          <div class="price">Rs1,950 per adult</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <img src="assets/homepage/event2.png" alt="Mystik Garden">
+      <div class="event-overlay">
+        <div class="event-content">
+          <h3>MYSTIK GARDEN</h3>
+          <p>97% ALL FESTIVAL TICKETS</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-card">
+      <img src="assets/homepage/event3.png" alt="Atif Aslam Concert">
+      <div class="event-overlay">
+        <div class="event-content">
+          <h3>ATIF ASLAM</h3>
+          <p>AFTERPARTY FEAT.</p>
+          <p>SAT 8TH APRIL 25</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="choose-category">
+  <h2>Choose By Category</h2>
+  <div class="category-grid">
+    <div class="category-card" (click)="navigateToStays()">
+      <img src="assets/homepage/stays.png" alt="Stays">
+      <div class="category-content">
+        <h3>Stays</h3>
+      </div>
+    </div>
+
+    <div class="category-card" (click)="navigateToCategory('restaurant')">
+      <img src="assets/homepage/dinner.png" alt="Dinner">
+      <div class="category-content">
+        <h3>Dinner</h3>
+      </div>
+    </div>
+
+    <div class="category-card" (click)="navigateToCategory('events')">
+      <img src="assets/homepage/events.png" alt="Events">
+      <div class="category-content">
+        <h3>Events</h3>
+      </div>
+    </div>
+
+    <div class="category-card" (click)="navigateToCategory('spa')">
+      <img src="assets/homepage/spa.png" alt="Spa & Packages">
+      <div class="category-content">
+        <h3>Spa & Packages</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="recent-posts">
+  <h2>Recent posts</h2>
+  <div class="posts-grid">
+    <div class="post-card">
+      <img src="assets/homepage/post1.png" alt="My trip to Athens">
+      <div class="post-content">
+        <div class="post-meta">
+          <span class="date">May 23, 2022</span>
+          <span class="read-time">
+            <i class="far fa-clock"></i>
+            5 minutes
+          </span>
+        </div>
+        <h3>My trip to Athens</h3>
+        <p>It would seem that in a city where Theseus, Plato and Epicurus once walked, the very idea of the subway is alien to the city, but already...</p>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <img src="assets/homepage/post2.png" alt="Vilnius resorts">
+      <div class="post-content">
+        <div class="post-meta">
+          <span class="date">May 22, 2022</span>
+          <span class="read-time">
+            <i class="far fa-clock"></i>
+            1 minute
+          </span>
+        </div>
+        <h3>Vilnius resorts</h3>
+        <p>I haven't seen any resorts in Vilnius, but there are wonderful people and pubs</p>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <img src="assets/homepage/post3.png" alt="Tips for flying on a plane">
+      <div class="post-content">
+        <div class="post-meta">
+          <span class="date">May 20, 2022</span>
+          <span class="read-time">
+            <i class="far fa-clock"></i>
+            15 minutes
+          </span>
+        </div>
+        <h3>Tips for flying on a plane</h3>
+        <p>If you have a fear of flying, here's a helpful tip: bring your co-pilot so you can take a nap while he steers the plane for you</p>
+      </div>
+    </div>
+  </div>
+</section>

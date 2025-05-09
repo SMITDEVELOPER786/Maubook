@@ -1,0 +1,96 @@
+<div class="payment-container">
+  <div class="payment-content">
+    <div class="payment-form-section">
+      <!-- Discount Code Section -->
+      <div class="form-card">
+        <h2><i class="fas fa-tag"></i> Discount Code</h2>
+        <div class="discount-form">
+          <input type="text" [(ngModel)]="discountCode" placeholder="Enter discount code">
+          <button (click)="applyDiscount()">Apply</button>
+        </div>
+      </div>
+
+      <!-- Payment Methods -->
+      <div class="form-card">
+        <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+        <div class="payment-methods">
+          <div *ngFor="let method of paymentMethods" 
+               class="payment-method-option"
+               [class.selected]="selectedPaymentMethod === method.id"
+               (click)="selectedPaymentMethod = method.id">
+            <i class="fas" [ngClass]="method.icon"></i>
+            <span>{{ method.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Summary -->
+    <div class="booking-summary-section">
+      <div class="summary-card">
+        <h2>Booking Summary</h2>
+        <div class="summary-content">
+          <div class="summary-row">
+            <span>Hotel</span>
+            <span>{{ bookingSummary.hotelName || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Check In</span>
+            <span>{{ bookingSummary.checkIn || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Check Out</span>
+            <span>{{ bookingSummary.checkOut || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Nights</span>
+            <span>{{ bookingSummary.nights || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Rooms</span>
+            <span>{{ bookingSummary.rooms || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Adults</span>
+            <span>{{ bookingSummary.adults || 0 }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Teens</span>
+            <span>{{ bookingSummary.teens || 0 }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Children</span>
+            <span>{{ bookingSummary.children || 0 }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Room Category</span>
+            <span>{{ bookingSummary.roomCategory || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Plan</span>
+            <span>{{ bookingSummary.plan?.name || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Bed Type</span>
+            <span>{{ bookingSummary.plan?.bedType || 'N/A' }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Price per Night</span>
+            <span>Rs {{ bookingSummary.plan?.price || 0 | number }}</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span>Rs {{ bookingSummary.total || 0 | number }}</span>
+          </div>
+        </div>
+        <p class="summary-note">
+          <i class="fas fa-info-circle"></i>
+          Rates, taxes, and fees included
+        </p>
+        <button class="pay-button" [disabled]="!selectedPaymentMethod" (click)="processPayment()">
+          Pay Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,165 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="user-info">
+      <div class="avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div class="user-details">
+        <h2>{{ userDetails?.displayName || 'User Name' }}</h2>
+        <p>{{ userDetails?.email || 'email@example.com' }}</p>
+      </div>
+      <button *ngIf="activeTab === 'my-account' && !isEditing" class="edit-profile-btn" (click)="startEditing()">
+        <i class="fas fa-edit"></i> Edit Profile
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-tabs">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'my-account'" (click)="setActiveTab('my-account')">
+            <i class="fas fa-user"></i> My Account
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'my-bookings'" (click)="setActiveTab('my-bookings')">
+            <i class="fas fa-calendar-check"></i> My Bookings
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'change-password'" (click)="setActiveTab('change-password')">
+            <i class="fas fa-lock"></i> Change Password
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content">
+      <!-- My Account Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'my-account'" *ngIf="activeTab === 'my-account'">
+        <div class="profile-details">
+          <h3>Personal Details</h3>
+          <form [formGroup]="personalDetailsForm" (ngSubmit)="onSubmit()">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Title *</label>
+                <select formControlName="title" class="form-control" [disabled]="!isEditing">
+                  <option value="">Select Title</option>
+                  <option value="Mr">Mr</option>
+                  <option value="Mrs">Mrs</option>
+                  <option value="Miss">Miss</option>
+                  <option value="Ms">Ms</option>
+                  <option value="Dr">Dr</option>
+                </select>
+                <div *ngIf="personalDetailsForm.get('title')?.touched && personalDetailsForm.get('title')?.invalid" class="error">
+                  Title is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>First Name *</label>
+                <input type="text" formControlName="firstName" class="form-control" [disabled]="!isEditing">
+                <div *ngIf="personalDetailsForm.get('firstName')?.touched && personalDetailsForm.get('firstName')?.invalid" class="error">
+                  First Name is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Last Name *</label>
+                <input type="text" formControlName="lastName" class="form-control" [disabled]="!isEditing">
+                <div *ngIf="personalDetailsForm.get('lastName')?.touched && personalDetailsForm.get('lastName')?.invalid" class="error">
+                  Last Name is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Telephone Number *</label>
+                <div class="phone-input">
+                  <select formControlName="phoneCode" class="form-control code-select" [disabled]="!isEditing">
+                    <option *ngFor="let country of countryCodes" [value]="country.dialCode">
+                      <span class="fi fi-{{ country.code }}"></span> {{ country.dialCode }} {{ country.country }} ({{ country.code | uppercase }})
+                    </option>
+                  </select>
+                  <input type="tel" formControlName="phone" class="form-control phone-number" placeholder="Phone number" [disabled]="!isEditing">
+                </div>
+                <div *ngIf="personalDetailsForm.get('phone')?.touched && personalDetailsForm.get('phone')?.invalid" class="error">
+                  Valid phone number is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Date of birth *</label>
+                <input type="date" formControlName="dob" class="form-control" [disabled]="!isEditing">
+                <div *ngIf="personalDetailsForm.get('dob')?.touched && personalDetailsForm.get('dob')?.invalid" class="error">
+                  Date of birth is required.
+                </div>
+              </div>
+
+              <div class="form-group email-section">
+                <label>Email *</label>
+                <input type="email" formControlName="email" class="form-control" [disabled]="!isEditing">
+                <div *ngIf="personalDetailsForm.get('email')?.touched && personalDetailsForm.get('email')?.invalid" class="error">
+                  Valid email is required.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Confirm Email</label>
+                <input type="email" formControlName="confirmEmail" class="form-control" [disabled]="!isEditing">
+                <div *ngIf="personalDetailsForm.get('confirmEmail')?.touched && personalDetailsForm.get('confirmEmail')?.invalid" class="error">
+                  Emails must match.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Address</label>
+                <input type="text" formControlName="address" class="form-control" [disabled]="!isEditing">
+              </div>
+
+              <div class="form-group">
+                <label>Town / Village</label>
+                <input type="text" formControlName="town" class="form-control" [disabled]="!isEditing">
+              </div>
+
+              <div class="form-group">
+                <label>Country</label>
+                <div class="custom-select-wrapper">
+                  <select formControlName="country" class="form-control country-select" [disabled]="!isEditing">
+                    <option value="">Select Country</option>
+                    <option *ngFor="let country of filteredCountryCodes" [value]="country.code">
+                      <span class="fi fi-{{ country.code }}"></span> {{ country.country }} ({{ country.code | uppercase }})
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Zip Code</label>
+                <input type="text" formControlName="zipCode" class="form-control" [disabled]="!isEditing">
+              </div>
+            </div>
+
+            <div class="form-actions" *ngIf="isEditing">
+              <button type="submit" class="btn btn-primary" [disabled]="personalDetailsForm.invalid">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- My Bookings Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'my-bookings'" *ngIf="activeTab === 'my-bookings'">
+        <div class="bookings-container">
+          <app-my-bookings></app-my-bookings>
+        </div>
+      </div>
+
+      <!-- Change Password Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'change-password'" *ngIf="activeTab === 'change-password'">
+        <div class="change-password-container">
+          <app-change-password></app-change-password>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

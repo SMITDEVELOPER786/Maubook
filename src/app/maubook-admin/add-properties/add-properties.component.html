@@ -1,0 +1,307 @@
+<div class="add-property-container">
+    <div class="header">
+        <div class="header-left">
+            <button class="back-button" (click)="goBack()">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </button>
+            <h2>Add New Property</h2>
+        </div>
+    </div>
+
+    <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+        <div class="form-section">
+            <div class="form-group">
+                <label for="category">Property Category</label>
+                <select id="category" formControlName="category">
+                    <option value="">Select Category</option>
+                    <option value="beach">Beach Resorts</option>
+                    <option value="golf">Golf Resorts</option>
+                    <option value="city">City Hotels</option>
+                    <option value="cottages">Cottages</option>
+                    <option value="guesthouses">Guest Houses</option>
+                    <option value="villa">Villas</option>
+                    <option value="apartment">Apartments</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="region">Property Region</label>
+                <select id="region" formControlName="region">
+                    <option value="">Select Category</option>
+                    <option value="north">North</option>
+                    <option value="south">South</option>
+                    <option value="east">East</option>
+                    <option value="west">West</option>
+                    <option value="centre">Centre</option>
+                    <option value="rodrigues">Rodrigues</option>
+                    <option value="southeast">South East</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Property Name</label>
+                <input type="text" id="name" formControlName="name" placeholder="Enter property name">
+            </div>
+
+            <div class="form-group">
+                <label for="location">Property Location</label>
+                <input type="text" id="location" formControlName="location" placeholder="Enter property location">
+            </div>
+
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <select id="rating" formControlName="rating">
+                    <option value="">Select Rating</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="features">Features</label>
+                <div class="features-grid" formArrayName="features">
+                    <div class="features-row">
+                        <div *ngFor="let feature of featuresList" 
+                            class="feature-tab" 
+                            [class.active]="isFeatureSelected(feature)"
+                            (click)="toggleFeature(feature)">
+                            {{feature}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="offerText">Offer Text</label>
+                <textarea id="offerText" formControlName="offerText" rows="3" 
+                    placeholder="Enter special offer details"></textarea>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Property Gallery</h3>
+            <div class="image-upload">
+                <div class="upload-area" (click)="triggerImageUpload()">
+                    <input type="file" #fileInput multiple accept="image/*" (change)="onImageSelect($event)" hidden>
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to upload images or drag and drop</p>
+                </div>
+                <div class="image-preview" *ngIf="selectedImages.length > 0">
+                    <div *ngFor="let image of selectedImages; let i=index" class="image-item">
+                        <img [src]="image.preview" alt="Preview">
+                        <button type="button" class="btn-remove-image" (click)="removeImage(i)">×</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Included Description</h3>
+            <div class="form-group">
+                <textarea formControlName="description" 
+                        rows="6" 
+                        placeholder="Enter a detailed description of what's included with the property"></textarea>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Most Popular Facilities</h3>
+            <div class="facilities-grid" formArrayName="popularFacilities">
+                <div class="facilities-row">
+                    <div *ngFor="let facility of popularFacilitiesList" 
+                        class="facility-tab"
+                        [class.active]="isFacilitySelected(facility)"
+                        (click)="toggleFacility(facility)">
+                        <i class="facility-icon" [ngClass]="getFacilityIcon(facility)"></i>
+                        <span>{{facility}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Other Facilities</h3>
+            <div class="facilities-grid" formArrayName="otherFacilities">
+                <div *ngFor="let facility of otherFacilitiesList" class="facility-item">
+                    <label>
+                        <input type="checkbox" [value]="facility" (change)="onOtherFacilityChange($event, facility)">
+                        {{facility}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section rooms-section">
+            <div class="section-header">
+                <h3>Room Types</h3>
+                <button type="button" class="btn-add-room" (click)="addRoom()">
+                    <i class="fas fa-plus"></i> Add Room Type
+                </button>
+            </div>
+            
+            <div formArrayName="rooms" class="rooms-container">
+                <div *ngFor="let room of rooms.controls; let i=index" [formGroupName]="i" class="room-card">
+                    <!-- Basic Room Info -->
+                    <div class="room-info-section">
+                        <div class="room-header">
+                            <h4>Room Type {{i + 1}}</h4>
+                            <button type="button" class="btn-remove" (click)="removeRoom(i)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <div class="room-basic-info">
+                            <div class="form-group">
+                                <label>Room Type Name</label>
+                                <input type="text" formControlName="type" placeholder="e.g., Deluxe Suite">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Room Description</label>
+                                <textarea formControlName="description" rows="4" 
+                                    placeholder="Describe room features and amenities"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Room Gallery -->
+                        <div class="room-gallery">
+                            <label>Room Images</label>
+                            <div class="gallery-upload">
+                                <label class="upload-trigger" for="roomGallery{{i}}">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Upload Images</span>
+                                </label>
+                                <input type="file" id="roomGallery{{i}}" 
+                                    multiple accept="image/*" 
+                                    (change)="onRoomImageSelect($event, i)" 
+                                    hidden>
+                            </div>
+                            <div class="gallery-preview" *ngIf="roomImages[i]?.length">
+                                <div *ngFor="let image of roomImages[i]; let imgIndex=index" 
+                                    class="preview-item">
+                                    <img [src]="image.preview" alt="Room preview">
+                                    <button type="button" class="remove-preview" 
+                                        (click)="removeRoomImage(i, imgIndex)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Room Facilities -->
+                        <div class="room-facilities">
+                            <label>Room Facilities</label>
+                            <div class="facilities-grid" formArrayName="facilities">
+                                <div *ngFor="let facility of roomFacilitiesList" 
+                                    class="facility-item"
+                                    [class.active]="isRoomFacilitySelected(facility, i)"
+                                    (click)="toggleRoomFacility(facility, i)">
+                                    <i [ngClass]="getRoomFacilityIcon(facility)"></i>
+                                    <span>{{facility}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Room Plans -->
+                    <div class="room-plans-section">
+                        <div class="plans-header">
+                            <h5>Room Plans</h5>
+                            <button type="button" class="btn-add-plan" (click)="addPlan(i)">
+                                <i class="fas fa-plus"></i> Add Plan
+                            </button>
+                        </div>
+
+                        <div formArrayName="plans" class="plans-container">
+                            <div *ngFor="let plan of getRoomPlans(i).controls; let planIndex=index" 
+                                [formGroupName]="planIndex" class="plan-card">
+                                <div class="plan-header">
+                                    <span>Plan {{planIndex + 1}}</span>
+                                    <button type="button" class="btn-remove-plan" (click)="removePlan(i, planIndex)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <div class="plan-details">
+                                    <div class="form-group">
+                                        <label>Adult Capacity</label>
+                                        <input type="number" formControlName="adultCapacity" placeholder="Number of adults">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Child Capacity</label>
+                                        <input type="number" formControlName="childCapacity" placeholder="Number of children">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Teen Capacity</label>
+                                        <input type="number" formControlName="teenCapacity" placeholder="Number of teens">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Bed Configuration</label>
+                                        <select formControlName="bedType">
+                                            <option value="">Select bed type</option>
+                                            <option value="single">Single Bed</option>
+                                            <option value="double">Double Bed</option>
+                                            <option value="double-extra">Double + Extra Bed</option>
+                                            <option value="triple">Triple Bed</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Price Per Night</label>
+                                        <div class="price-input">
+                                            <span class="currency">Rs</span>
+                                            <input type="number" formControlName="price" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>More Information</h3>
+            <div class="form-group">
+                <label for="additionalInfo">Additional Information</label>
+                <textarea id="additionalInfo" formControlName="additionalInfo" rows="6" 
+                    placeholder="Enter any additional information about the property"></textarea>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Property Highlight Video</h3>
+            <div class="form-group">
+                <label for="videoLink">YouTube Video Link</label>
+                <input type="text" id="videoLink" formControlName="videoLink" 
+                    placeholder="Enter YouTube video URL">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Property Location</h3>
+            <div class="form-group">
+                <label for="googleMapUrl">Google Maps URL</label>
+                <input
+                    type="text"
+                    id="googleMapUrl"
+                    formControlName="googleMapUrl"
+                    placeholder="Paste Google Maps share link"
+                >
+                <small class="helper-text">
+                    <i class="fas fa-info-circle"></i>
+                    Example: https://www.google.com/maps/place/Hotel+Taj/...
+                </small>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="goBack()">Cancel</button>
+            <button type="submit" class="btn-primary">Save Property</button>
+        </div>
+    </form>
+</div>

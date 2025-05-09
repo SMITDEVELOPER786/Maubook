@@ -1,0 +1,255 @@
+.confirmation-container {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  
+  .confirmation-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  
+    .success-icon {
+      color: #28a745;
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+  
+    h1 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+  
+    .booking-id {
+      background: #e9ecef;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  }
+  
+  .confirmation-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .main-section {
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+  
+      button {
+        padding: 1rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+  
+        i {
+          font-size: 1.2rem;
+        }
+      }
+  
+      .whatsapp-button {
+        background: #25d366;
+        color: white;
+  
+        &:hover {
+          background: #128c7e;
+        }
+      }
+  
+      .help-button {
+        background: #007bff;
+        color: white;
+  
+        &:hover {
+          background: #0056b3;
+        }
+      }
+    }
+  }
+  
+  .customer-details {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+    h2 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+  
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+  
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  
+  .booking-summary-section {
+    .summary-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: sticky;
+      top: 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+      h2 {
+        color: #333;
+        margin-bottom: 1.5rem;
+      }
+  
+      .summary-content {
+        .summary-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 0.75rem 0;
+          border-bottom: 1px solid #eee;
+  
+          &.total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-top: 2px solid #eee;
+            margin-top: 1rem;
+          }
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .confirmation-content {
+      grid-template-columns: 1fr;
+    }
+  
+    .action-buttons {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  
+  // Add these new styles
+  
+  .pending-icon {
+    color: #ffc107;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pending-notice {
+    color: #856404;
+    background-color: #fff3cd;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+  }
+  
+  .payment-instructions {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+    h2 {
+      color: #333;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  
+    .alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+  
+      &.alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+      }
+    }
+  
+    .bank-details {
+      .instruction-text {
+        margin-bottom: 1rem;
+        color: #495057;
+      }
+  
+      .detail-grid {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+  
+        .detail-item {
+          display: grid;
+          grid-template-columns: 150px 1fr;
+          gap: 1rem;
+  
+          .label {
+            font-weight: bold;
+            color: #495057;
+          }
+  
+          .value {
+            color: #212529;
+          }
+        }
+      }
+    }
+  
+    .reference-notice {
+      background: #e9ecef;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      
+      align-items: center;
+      gap: 0.5rem;
+      color: #495057;
+      margin-top: 1rem;
+      width: 100%;
+  
+      i {
+        color: #007bff;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        
+      }
+  
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.2;
+      }
+  
+      strong {
+        color: #212529;
+        font-weight: 600;
+        margin: 0 0.25rem;
+      }
+    }
+  }

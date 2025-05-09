@@ -1,0 +1,62 @@
+<div class="category-container">
+  <div class="category-header">
+    <div class="header-wrapper">
+      <h1>{{capitalizeFirstLetter(category)}} <span class="count">({{packages.length}})</span></h1>
+      <!-- <div class="search-date">
+        <span class="search-label">Search Date:</span>
+        <div class="date-picker">
+          <mat-form-field appearance="outline">
+            <input matInput 
+                   [matDatepicker]="picker" 
+                   [(ngModel)]="selectedDate" 
+                   (dateChange)="onDateChange($event)"
+                   [placeholder]="'DD/MM/YYYY'"
+                   readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <i class="far fa-calendar"></i>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="packages-row">
+      <div *ngFor="let package of packages" class="package-item">
+        <div class="package-card">
+          <div class="image-container">
+            <img [src]="package.images[0]" [alt]="package.name" class="main-image">
+          </div>
+
+          <div class="content">
+            <div class="package-info">
+              <h3 class="title">{{package.name}}</h3>
+              <div class="offer-text">{{package.offerText}}</div>
+              <div class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{package.location}}</span>
+              </div>
+              <div class="features-list">
+                <div class="feature" *ngFor="let feature of package.features">
+                  <i class="fas fa-check"></i>
+                  <span>{{formatFeature(feature)}}</span>
+                </div>
+              </div>
+              
+            </div>
+
+            <div class="package-meta">
+              <div class="price-info" *ngIf="package.tickets && package.tickets.length">
+                <span class="label">From Rs</span>
+                <span class="price">{{package.tickets[0].price}}</span>
+              </div>
+              <button class="btn-book" [routerLink]="['/package', package.id]">Get Tickets →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

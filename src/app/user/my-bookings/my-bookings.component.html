@@ -1,0 +1,114 @@
+<div class="my-bookings-container">
+    <div class="header">
+        <h2>My Bookings</h2>
+    </div>
+
+    <div class="filters">
+        <div class="filter-group">
+            <input type="date" [(ngModel)]="startDate" placeholder="Start Date">
+            <input type="date" [(ngModel)]="endDate" placeholder="End Date">
+            <button class="btn-filter" (click)="applyFilters()">Filter</button>
+        </div>
+
+        <div class="search">
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Search bookings...">
+            <button class="btn-search" (click)="searchBookings()">Search</button>
+        </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">Loading bookings...</div>
+
+    <table class="bookings-table" *ngIf="bookings.length && !isLoading; else noBookings">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Property</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Guests</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let booking of bookings">
+                <tr>
+                    <td>#{{booking.id}}</td>
+                    <td>{{booking.hotelName}}</td>
+                    <td>{{booking.bookingSummary?.checkIn | date:'mediumDate'}}</td>
+                    <td>{{booking.bookingSummary?.checkOut | date:'mediumDate'}}</td>
+                    <td>
+                        {{booking.bookingSummary?.guests?.adults || 0}} Adults,
+                        {{booking.bookingSummary?.guests?.teens || 0}} Teens,
+                        {{booking.bookingSummary?.guests?.children || 0}} Children
+                    </td>
+                    <td>Rs {{booking.bookingSummary?.total | number}}</td>
+                    <td>
+                        <span class="status-badge" [class]="booking.status.toLowerCase()">
+                            {{booking.status}}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-icon" (click)="viewBooking(booking)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="booking.showDetails" class="details-row">
+                    <td colspan="8">
+                        <div class="booking-details">
+                            <div class="details-grid">
+                                <!-- Guest Information -->
+                                <div class="detail-section">
+                                    <h3>Guest Information</h3>
+                                    <div class="detail-item">
+                                        <span>Name:</span>
+                                        <span>{{booking.booking?.firstName}} {{booking.booking?.lastName}}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Email:</span>
+                                        <span>{{booking.booking?.email}}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Phone:</span>
+                                        <span>{{booking.booking?.phoneNumber}}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Room Details -->
+                                <div class="detail-section">
+                                    <h3>Room Details</h3>
+                                    <div class="detail-item">
+                                        <span>Room Type:</span>
+                                        <span>{{booking.room?.type}}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Number of Rooms:</span>
+                                        <span>{{booking.bookingSummary?.rooms}}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>Price per Night:</span>
+                                        <span>Rs {{booking.bookingSummary?.plan?.price | number}}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Notes -->
+                                <div class="detail-section">
+                                    <h3>Additional Notes</h3>
+                                    <p>{{booking.booking?.note || 'No additional notes'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+
+    <ng-template #noBookings>
+        <div class="no-bookings" *ngIf="!isLoading">
+            <p>No bookings found.</p>
+        </div>
+    </ng-template>
+</div>

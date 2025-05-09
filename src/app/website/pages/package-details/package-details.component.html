@@ -1,0 +1,139 @@
+<div class="spa-booking-container">
+  <main class="container">
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <div class="gallery-wrapper" *ngIf="package.images && package.images.length">
+        <img [src]="package.images[currentImageIndex]" alt="Spa treatment" />
+        <div class="hero-content">
+          <div class="hero-badge">{{ package.category }}</div>
+          <h1 class="hero-title">{{ package.name }}</h1>
+          <p class="hero-subtitle">{{ package.offerText }}</p>
+        </div>
+        <div class="gallery-controls">
+          <button class="gallery-btn prev" (click)="prevImage()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="gallery-btn next" (click)="nextImage()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="main-content">
+        <!-- Package Info Card -->
+        <div class="info-card">
+          <div class="info-highlights">
+            <div class="highlight-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ package.location }}</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fas fa-star"></i>
+              <span>{{ package.features }}</span>
+            </div>
+            <div class="highlight-item">
+              <i class="fas fa-tag"></i>
+              <span>From Rs {{package.tickets[0]?.price}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="content-section">
+          <h2 class="section-heading">About This Experience</h2>
+          <div class="section-content">
+            <p>{{ package.description }}</p>
+          </div>
+        </div>
+
+        <!-- Ticket Options - Horizontal Layout -->
+        <div class="content-section">
+          <div class="date-selector-inline">
+            <label for="date-input">Select Date:</label>
+            <input id="date-input" type="date" (change)="onDateSelect($event)" />
+          </div>
+          <h2 class="section-heading">Choose Your Package</h2>
+          <div class="tickets-horizontal">
+            <!-- Ticket Rows -->
+            <div class="ticket-row" *ngFor="let ticket of package.tickets" (click)="selectTicket(ticket)" [class.disabled]="!selectedDate">
+              <div class="ticket-info">
+                <div class="ticket-header">
+                  <h3 class="ticket-name">{{ ticket.name }}</h3>
+                  <div class="ticket-price">Rs {{ ticket.price }}</div>
+                </div>
+                <p class="ticket-desc">{{ ticket.description }}</p>
+              </div>
+              <div class="ticket-action">
+                <div class="quantity-control">
+                  <button class="qty-btn" (click)="decrementQuantity(ticket.name)" [disabled]="!quantities[ticket.name] || !selectedDate">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <div class="qty-display">{{ quantities[ticket.name] || 0 }}</div>
+                  <button class="qty-btn" (click)="incrementQuantity(ticket.name)" [disabled]="!selectedDate">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- More Information -->
+        <div class="content-section">
+          <h2 class="section-heading">Additional Details</h2>
+          <div class="section-content">
+            <p>{{ package.moreInfo }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Summary -->
+      <div class="sidebar">
+        <div class="booking-card">
+          <div class="booking-header">
+            <h2>Your Booking</h2>
+          </div>
+          <div class="booking-body">
+            <div class="booking-location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ package.location }}</span>
+            </div>
+            <div class="booking-details">
+              <div class="detail-row">
+                <span>Date</span>
+                <span>{{ selectedDate ? (selectedDate | date:'dd MMM yyyy') : 'No date selected' }}</span>
+              </div>
+              <div class="detail-row">
+                <span>Package</span>
+                <span>{{ selectedTicket?.name || 'No ticket selected' }}</span>
+              </div>
+              <div class="detail-row">
+                <span>Per ticket</span>
+                <span>Rs {{ calculatePerTicketPrice() }}</span>
+              </div>
+              <div class="detail-row">
+                <span>Quantity</span>
+                <span>{{ calculateTotalQuantity() }}</span>
+              </div>
+            </div>
+            <div class="booking-total">
+              <span>Total amount</span>
+              <span>Rs {{ calculateTotalPrice() }}</span>
+            </div>
+            <button class="book-now-btn" (click)="bookNow()">Book Now</button>
+            <div class="support-section">
+              <p>Need help with your booking?</p>
+              <button class="support-btn">
+                <i class="fas fa-comments"></i>
+                Chat with support
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+  

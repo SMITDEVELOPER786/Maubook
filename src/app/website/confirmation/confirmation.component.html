@@ -1,0 +1,128 @@
+<div class="confirmation-container">
+    <div class="confirmation-header">
+      <div class="pending-icon">
+        <i class="fas fa-clock"></i>
+      </div>
+      <h1>Thank You for Your Booking!</h1>
+      <p class="pending-notice">Your booking is pending confirmation. Please complete the payment to confirm your reservation.</p>
+      <div class="booking-id">Booking Reference: HT-{{bookingId}}</div>
+    </div>
+  
+    <div class="confirmation-content">
+      <div class="main-section">
+        <!-- Payment Instructions -->
+        <div class="payment-instructions">
+          <h2><i class="fas fa-university"></i> Payment Details</h2>
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            Payment must be made within 3 hours to avoid booking cancellation
+          </div>
+          
+          <div class="bank-details">
+            <p class="instruction-text">Please make your payment via Bank Transfer. We will confirm your booking once payment is received.</p>
+            
+            <div class="detail-grid">
+              <div class="detail-item">
+                <span class="label">Bank Name:</span>
+                <span class="value">MCB (Mauritius Commercial Bank)</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Account Name:</span>
+                <span class="value">Ticketbox (Mauritius) Ltd</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Account Number:</span>
+                <span class="value">000447361260</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Branch:</span>
+                <span class="value">MCB, Ebene, Mauritius</span>
+              </div>
+            </div>
+
+            <div class="reference-notice">
+              <i class="fas fa-info-circle"></i>
+              Please include your booking reference <strong>HT-{{bookingId}}</strong> when making the payment
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="whatsapp-button" (click)="sendWhatsAppProof()">
+            <i class="fab fa-whatsapp"></i>
+            Send Payment Proof
+          </button>
+          <button class="help-button" (click)="openHelpChat()">
+            <i class="fas fa-comments"></i>
+            Need Help? Chat Now
+          </button>
+        </div>
+  
+        <!-- Existing customer details section -->
+        <div class="customer-details">
+          <h2>Customer Details</h2>
+          <div class="detail-row">
+            <span>Name:</span>
+            <span>{{customerName}}</span>
+          </div>
+          <div class="detail-row">
+            <span>Email:</span>
+            <span>{{customerEmail}}</span>
+          </div>
+          <div class="detail-row">
+            <span>Phone:</span>
+            <span>{{customerPhone}}</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Existing booking summary section -->
+      <div class="booking-summary-section">
+        <div class="summary-card">
+          <h2>Booking Summary</h2>
+          <div class="summary-content">
+            <div class="summary-row">
+              <span>Hotel</span>
+              <span>{{hotelName}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Check In</span>
+              <span>{{bookingSummary.checkIn}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Check Out</span>
+              <span>{{bookingSummary.checkOut}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Nights</span>
+              <span>{{bookingSummary.nights}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Rooms</span>
+              <span>{{bookingSummary.rooms}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Adults</span>
+              <span>{{bookingSummary.adults}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Teens</span>
+              <span>{{bookingSummary.teens}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Children</span>
+              <span>{{bookingSummary.children}}</span>
+            </div>
+            <div class="summary-row">
+              <span>Room Category</span>
+              <span>{{bookingSummary.roomCategory}}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <span>Rs {{bookingSummary.total | number}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

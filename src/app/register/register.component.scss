@@ -1,0 +1,130 @@
+.register-page {
+  display: flex;
+  height: 100vh;
+  background: white
+}
+
+.register-form {
+  flex: 1;
+  max-width: 650px; // Increased width to accommodate the grid
+  margin: auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 30px;
+    color: #1e3c72;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  form {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    width: 100%;
+    text-align: left;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: #1e3c72;
+        box-shadow: 0 0 0 2px rgba(30, 60, 114, 0.2);
+      }
+    }
+  }
+
+  .register-button {
+    background: #1e3c72;
+    color: white;
+    font-weight: 600;
+    padding: 14px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 10px;
+
+    &:hover {
+      background: #2a5298;
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .form-links {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    
+    span {
+      color: #555;
+      font-size: 14px;
+    }
+
+    a {
+      color: #1e3c72;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #2a5298;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .register-page {
+    padding: 20px;
+  }
+  
+  .register-form {
+    padding: 30px 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+}
