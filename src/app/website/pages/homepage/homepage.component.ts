@@ -70,6 +70,8 @@ export class HomepageComponent implements OnInit {
       alert('Please select both check-in and check-out dates.');
       return;
     }
+    this.checkInDate = new Date(this.checkInDate);
+    this.checkOutDate = new Date(this.checkOutDate); 
     if (this.checkOutDate <= this.checkInDate) {
       alert('Check-out date must be after check-in date.');
       return;

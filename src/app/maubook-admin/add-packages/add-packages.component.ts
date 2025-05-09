@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dtsngfxmm/image/upload';
-const CLOUDINARY_UPLOAD_PRESET = 'Your Preset Name';
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
 const CLOUDINARY_FOLDER = 'Folder Name';
 
 interface ImagePreview {

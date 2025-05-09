@@ -5,34 +5,42 @@
       We provide what you need to enjoy your holiday with family. Time to make another memorable moments.
     </p>
 
-    <div class="search-container">
-      <div class="search-form">
+    <div class="search-container"  style="background-color: red;">
+      <div class="search-form"  style="background-color: transparent;">
         <!-- Desktop version -->
         <div class="search-items-desktop" *ngIf="!isMobile">
           <div class="search-item">
-            <div class="title">Check-in date</div>
-            <mat-form-field appearance="fill">
+            <!-- <div class="title">Check-in date</div> -->
+            <!-- <mat-form-field appearance="fill"  style="border: 1px solid red;border-bottom: 0px !important;">
               <mat-label>Check-in date</mat-label>
               <input matInput [matDatepicker]="checkinPicker" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date" readonly (focus)="checkinPicker.open()">
               <mat-datepicker-toggle matSuffix [for]="checkinPicker"></mat-datepicker-toggle>
               <mat-datepicker #checkinPicker></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
+            <div class="input-container" >
+              <label for="checkInDate">Check-in date</label>
+              <input type="date" id="checkInDate" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date"  />
+            </div>
           </div>
           <div class="search-divider"></div>
           <div class="search-item">
-            <div class="title">Check-out date</div>
+            <!-- <div class="title">Check-out date</div>
             <mat-form-field appearance="fill">
               <mat-label>Check-out date</mat-label>
               <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate" [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()">
               <mat-datepicker-toggle matSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
               <mat-datepicker #checkoutPicker></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
+            <div class="input-container">
+              <label for="checkInDate">Check-out date</label>
+              <input type="date" id="checkOutDate" [(ngModel)]="checkOutDate"  [min]="checkInDate || minDate" placeholder="Select date" />
+            </div>
           </div>
           <div class="search-divider"></div>
           <div class="search-item">
-            <div class="title">Number of guests</div>
+            <div class="title" style="margin-top: 5px;">Number of guests</div>
             <div class="guest-select">
-              <select [(ngModel)]="numberOfGuests">
+              <select [(ngModel)]="numberOfGuests"  >
                 <option *ngFor="let guest of guestOptions" [value]="guest">{{ guest }} Guest(s)</option>
               </select>
               <i class="fas fa-user"></i>
