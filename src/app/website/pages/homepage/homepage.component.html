@@ -5,8 +5,8 @@
       We provide what you need to enjoy your holiday with family. Time to make another memorable moments.
     </p>
 
-    <div class="search-container"  style="background-color: red;">
-      <div class="search-form"  style="background-color: transparent;">
+    <div class="search-container"  >
+      <div class="search-form" >
         <!-- Desktop version -->
         <div class="search-items-desktop" *ngIf="!isMobile">
           <div class="search-item">
@@ -46,43 +46,53 @@
               <i class="fas fa-user"></i>
             </div>
           </div>
-          <button class="search-button" (click)="search()">
+          <button class="search-button" (click)="search()" style="margin-top: 30px;height: 40px;">
             <i class="fas fa-search"></i>
             Search
           </button>
         </div>
     
         <!-- Mobile version -->
-        <div class="search-items-mobile" *ngIf="isMobile">
-          <div class="search-item">
-            <div class="title">Check-in date</div>
-            <mat-form-field appearance="fill">
+        <div class="search-items-mobile" *ngIf="isMobile" style="text-align: center;">
+          <div class="search-item" style="margin: auto;width: 100%;" >
+            <!-- <div class="title">Check-in date</div> -->
+               <div class="input-container" appearance="fill">
+              <label for="checkInDate">Check-in date</label>
+              <input type="date" id="checkInDate" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date"  />
+            </div>
+            <!-- <mat-form-field appearance="fill">
               <mat-label>Check-in date</mat-label>
               <input matInput [matDatepicker]="checkinPickerMobile" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date" readonly (focus)="checkinPickerMobile.open()">
               <mat-datepicker-toggle matSuffix [for]="checkinPickerMobile"></mat-datepicker-toggle>
               <mat-datepicker #checkinPickerMobile></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
-          <div class="search-item">
-            <div class="title">Check-out date</div>
-            <mat-form-field appearance="fill">
+          <div class="search-item" style="margin: auto;width: 100%;">
+          <div class="input-container" appearance="fill">
+              <label for="checkOutDate">Check-Out date</label>
+              <input type="date" id="checkOutDate" [(ngModel)]="checkOutDate" [min]="minDate" placeholder="Select date"  />
+            </div>
+            
+            <!-- <mat-form-field appearance="fill">
               <mat-label>Check-out date</mat-label>
               <input matInput [matDatepicker]="checkoutPickerMobile" [(ngModel)]="checkOutDate" [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPickerMobile.open()">
               <mat-datepicker-toggle matSuffix [for]="checkoutPickerMobile"></mat-datepicker-toggle>
               <mat-datepicker #checkoutPickerMobile></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
+            
           </div>
-          <div class="search-item">
-            <div class="title">Number of guests</div>
-            <div class="guest-select">
-              <select [(ngModel)]="numberOfGuests">
+          <div class="search-item" style="color: rgb(0, 0, 0);font-weight: bold;">
+            <div class="title"  >Number of guests</div>
+           
+            <div class="guest-select" style="background-color: white;width: 100%;height: 45px;border-radius: 5px;margin: auto;border: 2px solid #22bdc5;"   >
+              <select [(ngModel)]="numberOfGuests"  style="background-color: white;width: 80%;height: 100%;border-radius: 5px;border: 1px solid transparent;"   >
                 <option *ngFor="let guest of guestOptions" [value]="guest">{{ guest }} Guest(s)</option>
               </select>
               <i class="fas fa-user"></i>
             </div>
           </div>
-          <button class="search-button" (click)="search()">
-            <i class="fas fa-search"></i>
+          <button class="search-button" (click)="search()" style="color: white;font-size: 15px;font-weight: bold;margin-top: 30px;height: 40px;background-color: #22bdc5;width: 200px;margin: auto;margin-top: 15px;border: 1px solid white;">
+            <i class="fas fa-search" style="color: white;font-size: 15px;font-weight: bold;"></i>
             Search
           </button>
         </div>
@@ -95,12 +105,16 @@
   <div class="slider-container">
     <div class="slider-wrapper">
       <div class="slider-item">
-        <img src="assets/homepage/atif.png" alt="Atif Aslam Concert">
+         <a href="/category/events">
+        <img src="assets/homepage/atif.png" alt="Atif Aslam Concert" style="height: 100%;">
         <div class="slider-overlay"></div>
+        </a>
       </div>
       <div class="slider-item">
-        <img src="assets/homepage/aqualand.png" alt="Aqua Park">
+        <a href="/category/events">
+        <img src="assets/homepage/aqualand.png" alt="Aqua Park"  style="height: 100%;">
         <div class="slider-overlay"></div>
+        </a>
       </div>
     </div>
   </div>
@@ -142,40 +156,34 @@
     <p>The main reason is because our competitors have disgusting sites, but we can't write that here, so the text here will be different</p>
   </div>
 
-  <div class="features-grid">
-    <div class="feature-item">
-      <div class="icon-wrapper">
-        <i class="fas fa-credit-card"></i>
-      </div>
-      <h3>Payment methods</h3>
-      <p>We have a lot of them, from cryptocurrencies to barter for potatoes</p>
-    </div>
-
-    <div class="feature-item">
-      <div class="icon-wrapper">
-        <i class="fas fa-search"></i>
-      </div>
-      <h3>Simple search process</h3>
-      <p>We checked it out, even the kid did it, but it was my mom's friend's son</p>
-    </div>
-
-    <div class="feature-item">
-      <div class="icon-wrapper">
-        <i class="fas fa-headset"></i>
-      </div>
-      <h3>24/7 Support</h3>
-      <p>Is there something you don't understand? Feel free to call us. Phone number in the footer</p>
-    </div>
-
-    <div class="feature-item">
-      <div class="icon-wrapper">
-        <i class="fas fa-heart"></i>
-      </div>
-      <h3>We are nice</h3>
-      <p>Fantasy is over, there will be something really convincing here</p>
+  <!-- Desktop Grid Layout -->
+  <div class="features-grid" *ngIf="!isMobile">
+    <div class="feature-item" *ngFor="let item of features">
+      <div class="icon-wrapper"><i class="{{ item.icon }}"></i></div>
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.description }}</p>
     </div>
   </div>
+
+  <!-- Mobile Swiper Layout -->
+  <swiper
+    *ngIf="isMobile"
+    [slidesPerView]="1"
+    [spaceBetween]="20"
+    style="color: red;"
+    [pagination]="{ clickable: true }"
+    class="features-slider"
+  >
+    <ng-template swiperSlide *ngFor="let item of features">
+      <div class="feature-item">
+        <div class="icon-wrapper"><i class="{{ item.icon }}"></i></div>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.description }}</p>
+      </div>
+    </ng-template>
+  </swiper>
 </section>
+
 
 <section class="best-seller-events">
   <h2>Best Seller Events</h2>

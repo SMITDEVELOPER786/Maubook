@@ -1,9 +1,11 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",
+  "types": ["swiper"],
+ 
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+   "types": ["swiper"]
   },
   "files": [
     "src/main.ts"

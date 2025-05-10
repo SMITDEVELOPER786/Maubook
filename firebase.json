@@ -1,1 +1,10 @@
-{}
+{
+  "hosting": {
+    "public": "dist/maubook",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

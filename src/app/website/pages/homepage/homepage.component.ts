@@ -1,11 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import SwiperCore from 'swiper';
-import { Pagination , Navigation, Autoplay} from 'swiper/modules';
+import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
+
+
 import { DatePipe } from '@angular/common';
 import { PropertyService } from '../../../services/property.service';
 
-SwiperCore.use([Pagination]);
+SwiperCore.use([Pagination, Navigation, Autoplay]);
+
 
 @Component({
   selector: 'app-homepage',
@@ -64,6 +66,29 @@ export class HomepageComponent implements OnInit {
   getStars(stars: number): number[] {
     return Array(stars).fill(0);
   }
+  features = [
+  {
+    icon: 'fas fa-credit-card',
+    title: 'Payment methods',
+    description: 'We have a lot of them, from cryptocurrencies to barter for potatoes'
+  },
+  {
+    icon: 'fas fa-search',
+    title: 'Simple search process',
+    description: 'We checked it out, even the kid did it, but it was my mom\'s friend\'s son'
+  },
+  {
+    icon: 'fas fa-headset',
+    title: '24/7 Support',
+    description: 'Is there something you don\'t understand? Feel free to call us.'
+  },
+  {
+    icon: 'fas fa-heart',
+    title: 'We are nice',
+    description: 'Fantasy is over, there will be something really convincing here'
+  }
+];
+
 
   search() {
     if (!this.checkInDate || !this.checkOutDate) {

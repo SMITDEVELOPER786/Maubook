@@ -18,7 +18,7 @@
         <!-- Login Button -->
         <div class="auth-section">
           <ng-container *ngIf="!isLoggedIn; else userInfo">
-            <a class="btn-login" routerLink="/login">Login</a>
+            <a class="btn-login" routerLink="/login" style="background-color: #22bdc5;" >Login</a>
           </ng-container>
           <ng-template #userInfo>
             <div class="user-info" (click)="toggleSidebar()">

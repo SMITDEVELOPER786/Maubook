@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SwiperModule } from 'swiper/angular';
 
 import { HeaderComponent } from './website/components/header/header.component';
 import { FooterComponent } from './website/components/footer/footer.component';
@@ -138,7 +139,7 @@ export const auth = firebaseAuth(firebaseApp);
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     SeatsioAngularModule,
-  
+    SwiperModule
     
   ],
   providers: [
