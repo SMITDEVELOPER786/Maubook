@@ -4,9 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { db } from '../../app.module';
 import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
 
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/Your Folder/image/upload';
-const CLOUDINARY_UPLOAD_PRESET = 'Finfly';
-const CLOUDINARY_FOLDER = 'Maubook';
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
+const CLOUDINARY_FOLDER = 'Folder Name';
 const CLOUDINARY_API_KEY = '893699556445192';
 
 @Component({
@@ -293,7 +293,7 @@ export class AddPropertiesComponent implements OnInit {
       formData.append('api_key', CLOUDINARY_API_KEY);
       formData.append('timestamp', timestamp.toString());
 
-      const response = await fetch('https://api.cloudinary.com/v1_1/dtsngfxmm/image/destroy', {
+      const response = await fetch('https://api.cloudinary.com/v1_1/dkfgfnbst/image/destroy', {
         method: 'POST',
         body: formData
       });
@@ -438,6 +438,8 @@ export class AddPropertiesComponent implements OnInit {
     formData.append('file', file);
     formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
     formData.append('folder', CLOUDINARY_FOLDER);
+    console.log("test")
+    console.log(CLOUDINARY_URL)
 
     const response = await fetch(CLOUDINARY_URL, {
       method: 'POST',

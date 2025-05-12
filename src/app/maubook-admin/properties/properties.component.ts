@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../app.module';
-
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dtsngfxmm/image/upload';
-const CLOUDINARY_UPLOAD_PRESET = 'Finfly';
-const CLOUDINARY_API_KEY = '893699556865192';
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
+const CLOUDINARY_FOLDER = 'Folder Name';
+const CLOUDINARY_API_KEY = '884498524894638';
 
 @Component({
   selector: 'app-properties',

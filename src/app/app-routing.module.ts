@@ -50,21 +50,21 @@ const routes: Routes = [
   },
 
   // Admin routes
-  {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    children: [
-      { path: '', component: AdminDashboardComponent },
-      { path: 'dashboard', component: AdminDashboardComponent },
-      { path: 'packages', component: PackagesComponent },
-      { path: 'add-packages', component: AddPackagesComponent },
-      { path: 'properties', component: PropertiesComponent },
-      { path: 'add-properties', component: AddPropertiesComponent },
-      { path: 'users', component: UsersComponent },
-      { path: 'hotels-bookings', component: HotelBookingsComponent },
-      { path: 'package-bookings', component: PackageBookingsComponent },
-    ]
-  },
+  // {
+  //   path: 'admin',
+  //   component: AdminLayoutComponent,
+  //   children: [
+  //     { path: '', component: AdminDashboardComponent },
+  //     { path: 'dashboard', component: AdminDashboardComponent },
+  //     { path: 'packages', component: PackagesComponent },
+  //     { path: 'add-packages', component: AddPackagesComponent },
+  //     { path: 'properties', component: PropertiesComponent },
+  //     { path: 'add-properties', component: AddPropertiesComponent },
+  //     { path: 'users', component: UsersComponent },
+  //     { path: 'hotels-bookings', component: HotelBookingsComponent },
+  //     { path: 'package-bookings', component: PackageBookingsComponent },
+  //   ]
+  // },
 
   // Wildcard route
   { path: '**', redirectTo: '' }
