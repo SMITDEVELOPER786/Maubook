@@ -3,7 +3,7 @@
     <div class="payment-form-section">
       <!-- Discount Code Section -->
       <div class="form-card">
-        <h2><i class="fas fa-tag"></i> Discount Code</h2>
+        <h2><i class="fas fa-tag" style="background-color: #21BEC5;"></i> Discount Code</h2>
         <div class="discount-form">
           <input type="text" [(ngModel)]="discountCode" placeholder="Enter discount code">
           <button (click)="applyDiscount()">Apply</button>
@@ -12,7 +12,7 @@
 
       <!-- Payment Methods -->
       <div class="form-card">
-        <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+        <h2><i class="fas fa-credit-card" style="color: #21BEC5;"></i> Payment Method</h2>
         <div class="payment-methods">
           <div *ngFor="let method of paymentMethods" 
                class="payment-method-option"
@@ -87,7 +87,7 @@
           <i class="fas fa-info-circle"></i>
           Rates, taxes, and fees included
         </p>
-        <button class="pay-button" [disabled]="!selectedPaymentMethod" (click)="processPayment()">
+        <button class="pay-button" [disabled]="!selectedPaymentMethod" (click)="processPayment()" style="background-color:#21BEC5 ;">
           Pay Now
         </button>
       </div>

@@ -28,18 +28,18 @@
     <div class="container">
       <div class="booking-card">
         <div class="dates">
-          <div class="check-in">
+          <div class="check-in" >
             <label>Check In <span class="required">*</span></label>
-            <input type="date" [(ngModel)]="checkInDate" [min]="today" [class.error]="showError && !checkInDate">
+            <input type="date" style="border: 2px solid #21BEC5;" [(ngModel)]="checkInDate" [min]="today" [class.error]="showError && !checkInDate">
           </div>
           <div class="check-out">
             <label>Check Out <span class="required">*</span></label>
-            <input type="date" [(ngModel)]="checkOutDate" [min]="checkInDate || today" [class.error]="showError && !checkOutDate">
+            <input type="date" style="border: 2px solid #21BEC5;" [(ngModel)]="checkOutDate" [min]="checkInDate || today" [class.error]="showError && !checkOutDate">
           </div>
         </div>
         <div class="guests">
-          <label>Guests <span class="required">*</span></label>
-          <select [(ngModel)]="selected_guest_option" [class.error]="showError && !selected_guest_option">
+          <label style="font-size: 13px;">Guests <span class="required">*</span></label>
+          <select [(ngModel)]="selected_guest_option" style="border: 2px solid #21BEC5;" [class.error]="showError && !selected_guest_option">
             <option value="">Select guests</option>
             <option *ngFor="let option of guestOptions" [ngValue]="option">
               {{ option.display }}
@@ -48,7 +48,7 @@
         </div>
         <div class="rooms">
           <label>Rooms <span class="required">*</span></label>
-          <select [(ngModel)]="selectedRoomCount" [class.error]="showError && !selectedRoomCount">
+          <select [(ngModel)]="selectedRoomCount" style="border: 2px solid #21BEC5;" [class.error]="showError && !selectedRoomCount">
             <option value="">Select rooms</option>
             <option *ngFor="let room of roomOptions" [value]="room">{{ room }} Room(s)</option>
           </select>
@@ -78,8 +78,8 @@
             <p>{{property.description}}</p>
             <div class="features">
               <div class="feature" *ngFor="let feature of property.features">
-                <i class="fas fa-check-circle"></i>
-                <span>{{feature}}</span>
+                <i class="fas fa-check-circle" ></i>
+                <span style="font-size: 15px;font-weight: bold;">{{feature}}</span>
               </div>
             </div>
           </section>
@@ -90,7 +90,7 @@
             <div class="facilities-grid">
               <div class="facility" *ngFor="let facility of property.popularFacilities">
                 <i [class]="facility.icon"></i>
-                <span>{{facility.name}}</span>
+                 <span style="font-size: 15px;font-weight: bold;">{{facility.name}}</span>
               </div>
             </div>
           </section>

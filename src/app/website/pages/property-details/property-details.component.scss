@@ -10,12 +10,14 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 1.5rem;
+    
   }
 
   .hero-banner {
     position: relative;
     height: 80vh;
     overflow: hidden;
+
 
     .main-swiper {
       height: 100%;
@@ -118,7 +120,7 @@
       display: flex;
       gap: 1.5rem;
       align-items: flex-end;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
 
       .dates {
@@ -358,11 +360,12 @@
   }
 
   @media (max-width: 1200px) {
+   
     .main-content {
       .content-grid {
         grid-template-columns: 1fr;
       }
-      
+     
       .left-column {
         grid-template-columns: 1fr;  // Stack on mobile
         
@@ -378,6 +381,13 @@
   }
 
   @media (max-width: 768px) {
+     .hero-banner{
+      background-color: red;
+      margin-top: 40px;
+    }
+    .rooms{
+      width: 100%;
+    }
     .hero-banner {
       height: 60vh;
 

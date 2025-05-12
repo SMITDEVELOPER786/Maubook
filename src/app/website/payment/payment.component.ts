@@ -22,7 +22,7 @@ export class PaymentComponent implements OnInit {
     { id: 'mcb', name: 'MCB JUICE', icon: 'fa-mobile-alt' },
     { id: 'bank', name: 'Bank Transfer', icon: 'fa-university' },
     { id: 'blink', name: 'Blink by Emtel', icon: 'fa-bolt' },
-    { id: 'myt', name: 'my.t money', icon: 'fa-wallet' }
+    // { id: 'myt', name: 'my.t money', icon: 'fa-wallet' }
   ];
 
   constructor(
