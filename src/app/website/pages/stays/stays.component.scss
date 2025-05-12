@@ -468,6 +468,60 @@ $border-color: #E2E8F0;
   }
 }
 
+@media (min-width: 768px) {
+   .mobile {
+    display: none;
+   }
+}
+
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically if needed */
+    padding: 20px;
+    width: 100%;
+    gap: 0;
+  }
+
+  .search-container {
+    width: 100%;
+    max-width: 400px; /* Limit max width on mobile */
+  }
+
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .search-items-desktop {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0px;
+  }
+
+  .search-item {
+    width: 100%;
+  }
+
+  .search-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #21BEC5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+}
+
 .stays-container {
   display: flex;
   gap: 2rem;

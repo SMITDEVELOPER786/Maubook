@@ -1,7 +1,7 @@
 <div class="stays-container">
   <main class="stays-content">
     <!-- Search Bar -->
-    <div class="search-section">
+    <div class="search-section desktop" style="width: 100%;margin: auto;">
       <h2>Search from our selection of {{ propertyCount }} properties to book!</h2>
       <div class="search-container">
         <div class="search-form">
@@ -10,7 +10,8 @@
               <div class="title">Check-in date</div>
               <mat-form-field appearance="fill">
                 <mat-label>Check-in date</mat-label>
-                <input matInput [matDatepicker]="checkinPicker" [(ngModel)]="checkInDate" [min]="minDate" placeholder="Select date" readonly (focus)="checkinPicker.open()">
+                <input matInput [matDatepicker]="checkinPicker" [(ngModel)]="checkInDate" [min]="minDate"
+                  placeholder="Select date" readonly (focus)="checkinPicker.open()">
                 <mat-datepicker-toggle matSuffix [for]="checkinPicker"></mat-datepicker-toggle>
                 <mat-datepicker #checkinPicker></mat-datepicker>
               </mat-form-field>
@@ -20,7 +21,8 @@
               <div class="title">Check-out date</div>
               <mat-form-field appearance="fill">
                 <mat-label>Check-out date</mat-label>
-                <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate" [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()">
+                <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate"
+                  [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()">
                 <mat-datepicker-toggle matSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
                 <mat-datepicker #checkoutPicker></mat-datepicker>
               </mat-form-field>
@@ -35,7 +37,64 @@
                 <i class="fas fa-user"></i>
               </div>
             </div>
-            <button class="search-button" (click)="searchProperties()" style="background-color: #21BEC5;margin-top: 20px;">
+            <button class="search-button" (click)="searchProperties()"
+              style="background-color: #21BEC5;margin-top: 20px;">
+              <i class="fas fa-search"></i>
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="search-section mobile" style="width: 100%;margin: auto;">
+      <h2>Search from our selection of {{ propertyCount }} properties to book!</h2>
+      <div class="search-container">
+        <div class="search-form">
+          <div class="search-items-desktop">
+            <div class="search-item">
+              <div class="title"  style="width: 100%;text-align: center;">Check-in date</div>
+              <mat-form-field appearance="fill" style="width: 100%;text-align: center;">
+                <mat-label>Check-in date</mat-label>
+                <input matInput [matDatepicker]="checkinPicker" [(ngModel)]="checkInDate" [min]="minDate" style="width: 100%;text-align: center;"
+                  placeholder="Select date" readonly (focus)="checkinPicker.open()">
+                <mat-datepicker-toggle matSuffix [for]="checkinPicker"></mat-datepicker-toggle>
+                <mat-datepicker #checkinPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="search-divider"></div>
+            <!-- <div class="search-item">
+              <div class="title"  style="width: 100%;text-align: center;">Check-out date</div>
+              <mat-form-field appearance="fill">
+                <mat-label > Check-out date</mat-label>
+                <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate" 
+                  [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()" style="width: 100%;text-align: center;background-color: red;">
+                <mat-datepicker-toggle matSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
+                <mat-datepicker #checkoutPicker></mat-datepicker>
+              </mat-form-field>
+            </div> -->
+              <div class="search-item">
+              <div class="title"  style="width: 100%;text-align: center;">Check-in date</div>
+              <mat-form-field appearance="fill" style="width: 100%;text-align: center;">
+                <mat-label>Check-in date</mat-label>
+                <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate" 
+                  [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()"  style="width: 100%;text-align: center;"
+                >
+                <mat-datepicker-toggle matSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
+                <mat-datepicker #checkoutPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-item">
+              <div class="title">Number of guests</div>
+              <div class="guest-select">
+                <select [(ngModel)]="numberOfGuests">
+                  <option *ngFor="let guest of guestOptions" [value]="guest">{{ guest }} Guest(s)</option>
+                </select>
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+            <button class="search-button" (click)="searchProperties()"
+              style="background-color: #21BEC5;margin-top: 20px;">
               <i class="fas fa-search"></i>
               Search
             </button>
@@ -98,7 +157,7 @@
           </div>
 
           <button class="availability-btn">
-           Book Now
+            Book Now
             <i class="fas fa-arrow-right"></i>
           </button>
         </div>
