@@ -37,7 +37,7 @@ export class PropertiesComponent implements OnInit {
   }
 
   addNewProperty() {
-    this.router.navigate(['/admin/add-properties']);
+    this.router.navigate(['/add-properties']);
   }
 
   async editProperty(propertyId: string) {
@@ -56,7 +56,7 @@ export class PropertiesComponent implements OnInit {
           }
         };
         
-        await this.router.navigate(['/admin/add-properties'], navigationExtras);
+        await this.router.navigate(['/add-properties'], navigationExtras);
       } else {
         console.error('Property not found:', propertyId);
       }

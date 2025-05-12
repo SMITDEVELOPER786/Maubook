@@ -4,9 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { db } from '../../app.module';
 import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
 
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/Your Folder/image/upload';
-const CLOUDINARY_UPLOAD_PRESET = 'Finfly';
-const CLOUDINARY_FOLDER = 'Maubook';
+
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
+const CLOUDINARY_FOLDER = 'Folder Name';
 const CLOUDINARY_API_KEY = '893699556445192';
 
 @Component({
@@ -277,7 +278,7 @@ export class AddPropertiesComponent implements OnInit {
         await addDoc(propertiesRef, propertyData);
       }
 
-      this.router.navigate(['/admin/properties']);
+      this.router.navigate(['/properties']);
     } catch (error: any) {
       console.error('Error saving property:', error);
       this.showError('Failed to save property. Please try again.');
@@ -430,7 +431,7 @@ export class AddPropertiesComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/admin/properties']);
+    this.router.navigate(['/properties']);
   }
 
   private async uploadToCloudinary(file: File): Promise<string> {

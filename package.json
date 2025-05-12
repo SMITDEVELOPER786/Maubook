@@ -6,6 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+     "build:user": "ng build --configuration=production --output-path=dist/user",
+  "build:admin": "ng build --configuration=production --output-path=dist/admin",
     "test": "ng test"
   },
   "private": true,

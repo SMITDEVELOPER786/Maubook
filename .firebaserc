@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "maubooktravel"
-  }
+  },
+  "targets": {
+    "maubooktravel": {
+      "hosting": {
+        "user": [
+          "your-user-site-id"
+        ],
+        "admin": [
+          "your-admin-site-id"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

@@ -187,7 +187,7 @@ export class AddPackagesComponent implements OnInit {
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
           alert('Package saved successfully!');
-          this.router.navigate(['/admin/packages']);
+          this.router.navigate(['/packages']);
         })
         .catch(error => {
           console.error('Error adding document: ', error);
@@ -203,6 +203,6 @@ export class AddPackagesComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/admin/packages']);
+    this.router.navigate(['/packages']);
   }
 }

@@ -28,46 +28,22 @@ import { PackageBookingsComponent } from './maubook-admin/package-bookings/packa
 
 const routes: Routes = [
   // Website routes
-  {
-    path: '',
-    component: WebsiteLayoutComponent,
-    children: [
-      { path: '', component: HomepageComponent }, // Public: Homepage
-      { path: 'login', component: LoginComponent }, // Public: Login
-      { path: 'register', component: RegisterComponent }, // Public: Register
-      { path: 'stays', component: StaysComponent }, // Public: Stays
-      { path: 'property/:id', component: PropertyDetailsComponent }, // Public: Property details
-      { path: 'category/:category', component: CategoryPackagesComponent }, // Public: Category packages
-      { path: 'package/:id', component: PackageDetailsComponent }, // Public: Package details
-      { path: 'booking', component: BookingComponent }, // Public: Booking (adjust if needed)
-      { path: 'payment', component: PaymentComponent }, // Public: Payment (adjust if needed)
-      { path: 'confirmation', component: ConfirmationComponent }, // Public: Confirmation (adjust if needed)
-      { path: 'change-password', component: ChangePasswordComponent }, // Public: Change password (adjust if needed)
-      { path: 'booking-category', component: BookingCategoryComponent }, 
-      { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, // Protected: User profile
-      { path: 'my-bookings', component: MyBookingsComponent, canActivate: [AuthGuard] } // Protected: User bookings
-    ]
-  },
+ {
+  path: '',
+  component: AdminLayoutComponent,
+  children: [
+    { path: '', component: AdminDashboardComponent },
+    { path: 'dashboard', component: AdminDashboardComponent },
+    { path: 'packages', component: PackagesComponent },
+    { path: 'add-packages', component: AddPackagesComponent },
+    { path: 'properties', component: PropertiesComponent },
+    { path: 'add-properties', component: AddPropertiesComponent },
+    { path: 'users', component: UsersComponent },
+    { path: 'hotels-bookings', component: HotelBookingsComponent },
+    { path: 'package-bookings', component: PackageBookingsComponent },
+  ]
+}
 
-  // Admin routes
-  {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    children: [
-      { path: '', component: AdminDashboardComponent },
-      { path: 'dashboard', component: AdminDashboardComponent },
-      { path: 'packages', component: PackagesComponent },
-      { path: 'add-packages', component: AddPackagesComponent },
-      { path: 'properties', component: PropertiesComponent },
-      { path: 'add-properties', component: AddPropertiesComponent },
-      { path: 'users', component: UsersComponent },
-      { path: 'hotels-bookings', component: HotelBookingsComponent },
-      { path: 'package-bookings', component: PackageBookingsComponent },
-    ]
-  },
-
-  // Wildcard route
-  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

@@ -41,7 +41,7 @@ export class PackagesComponent implements OnInit {
   }
 
   addNewProduct() {
-    this.router.navigate(['/admin/add-packages']);
+    this.router.navigate(['/add-packages']);
   }
 
   applyFilters() {
@@ -80,7 +80,7 @@ export class PackagesComponent implements OnInit {
   }
 
   editPackage(id: string) {
-    this.router.navigate(['/admin/edit-packages', id]);
+    this.router.navigate(['/edit-packages', id]);
   }
 
   async deletePackage(id: string) {
