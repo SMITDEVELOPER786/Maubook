@@ -97,7 +97,7 @@ export class StaysComponent implements OnInit {
 
     const formattedCheckin = this.datePipe.transform(this.checkInDate, 'yyyy-MM-dd');
     const formattedCheckout = this.datePipe.transform(this.checkOutDate, 'yyyy-MM-dd');
-
+console.log("test")
     const searchParams = {
       checkInDate: this.checkInDate.toISOString(),
       checkOutDate: this.checkOutDate.toISOString(),
