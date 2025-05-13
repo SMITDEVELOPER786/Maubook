@@ -25,6 +25,7 @@ import { ConfirmationComponent } from './website/confirmation/confirmation.compo
 import { AuthGuard } from './auth.guard';
 import { BookingCategoryComponent } from './booking-category/booking-category.component';
 import { PackageBookingsComponent } from './maubook-admin/package-bookings/package-bookings.component';
+import { AddSpaComponent } from './maubook-admin/add-spa/add-spa.component';
 
 const routes: Routes = [
   // Website routes
@@ -41,6 +42,7 @@ const routes: Routes = [
     { path: 'users', component: UsersComponent },
     { path: 'hotels-bookings', component: HotelBookingsComponent },
     { path: 'package-bookings', component: PackageBookingsComponent },
+      { path: 'add-spa', component: AddSpaComponent },
   ]
 }
 
