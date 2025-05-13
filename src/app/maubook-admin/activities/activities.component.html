@@ -1,0 +1,49 @@
+<div class="packages-container">
+    <div class="header">
+        <h2>Activities List</h2>
+        <div class="actions">
+            <button class="btn-primary" (click)="addNewProduct()">Add new Activities</button>
+        </div>
+    </div>
+
+    <!-- <div class="filters">
+        <div class="filter-group">
+            <select [(ngModel)]="selectedCategory">
+                <option value="">All Categories</option>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+            <button class="btn-filter" (click)="applyFilters()">Filter</button>
+        </div>
+
+        <div class="search">
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Search packages">
+            <button class="btn-search" (click)="searchPackages()">Search</button>
+        </div>
+    </div> -->
+
+    <table class="products-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let package of packages; let i = index">
+                <td>{{i + 1}}</td>
+                <td><img [src]="package.images[0]" alt="Package image" *ngIf="package.images?.length"></td>
+                <td>{{package.name}}</td>
+                <td>{{package.category}}</td>
+                <td>{{package.location}}</td>
+                <td>
+                    <button class="btn-edit" (click)="editPackage(package.id)">Edit</button>
+                    <button class="btn-delete" (click)="deletePackage(package.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

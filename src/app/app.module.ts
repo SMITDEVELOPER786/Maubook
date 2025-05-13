@@ -63,6 +63,15 @@ import { PackageBookingsComponent } from './maubook-admin/package-bookings/packa
 
 import { SeatsioAngularModule } from '@seatsio/seatsio-angular';
 import { AddSpaComponent } from './maubook-admin/add-spa/add-spa.component';
+import { SpaComponent } from './maubook-admin/spas/spa.component';
+import { eveningComponent } from './maubook-admin/evening/evening.component';
+import { AddEveningComponent } from './maubook-admin/add-evening/add-evening.component';
+import { EventsComponent } from './maubook-admin/events/events.component';
+import { AddEventsComponent } from './maubook-admin/add-events/add-events.component';
+import { AddResturantComponent } from './maubook-admin/add-resturant/add-resturants.component';
+import { resturantsComponent } from './maubook-admin/resturants/resturants.component';
+import { AddActivitiesComponent } from './maubook-admin/add-activities/add-activities.component';
+import { ActivitiesComponent } from './maubook-admin/activities/activities.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -104,9 +113,11 @@ export const auth = firebaseAuth(firebaseApp);
     CategoryPackagesComponent,
     PackageDetailsComponent,
     TicketsComponent,
+    SpaComponent,
     AddSpaComponent,
     ProfileComponent,
-    
+    eveningComponent,
+    AddEveningComponent,
     ChangePasswordComponent,
     LoginComponent,
     RegisterComponent,
@@ -120,6 +131,12 @@ export const auth = firebaseAuth(firebaseApp);
     // TicketComponent,
     BookingCategoryComponent,
     PackageBookingsComponent,
+    EventsComponent,
+    AddEventsComponent,
+    AddResturantComponent,
+    resturantsComponent,
+    AddActivitiesComponent,
+    ActivitiesComponent
     
   ],
   imports: [

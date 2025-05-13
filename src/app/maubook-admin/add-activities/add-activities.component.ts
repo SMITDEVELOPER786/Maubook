@@ -13,11 +13,11 @@ interface ImagePreview {
 }
 
 @Component({
-  selector: 'app-add-packages',
-  templateUrl: './add-spa.component.html',
-  styleUrls: ['./add-spa.component.scss']
+  selector: 'add-activities',
+  templateUrl: './add-activities.component.html',
+  styleUrls: ['./add-activities.component.scss']
 })
-export class AddSpaComponent implements OnInit {
+export class AddActivitiesComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   packageForm: FormGroup;
   selectedImages: ImagePreview[] = [];
@@ -164,7 +164,7 @@ export class AddSpaComponent implements OnInit {
       );
 
       // const categoryValue = this.packageForm.get('category')?.value;
-      const categoryValue = 'spa';
+      const categoryValue = 'activities';
 
       const packageData: any = {
         category: categoryValue,
@@ -190,8 +190,8 @@ export class AddSpaComponent implements OnInit {
       await this.firestore.collection('packages').add(packageData)
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
-          alert('Package saved successfully!');
-          this.router.navigate(['/spas']);
+          alert('Activities saved successfully!');
+          this.router.navigate(['/activities']);
         })
         .catch(error => {
           console.error('Error adding document: ', error);
@@ -200,13 +200,13 @@ export class AddSpaComponent implements OnInit {
 
     } catch (error) {
       console.error('Error saving package:', error);
-      alert(`Failed to save package: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+      alert(`Failed to save Activities: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
     } finally {
       this.isSubmitting = false;
     }
   }
 
   cancel(): void {
-    this.router.navigate(['/packages']);
+    this.router.navigate(['/activities']);
   }
 }

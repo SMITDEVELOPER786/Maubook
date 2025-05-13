@@ -26,6 +26,15 @@ import { AuthGuard } from './auth.guard';
 import { BookingCategoryComponent } from './booking-category/booking-category.component';
 import { PackageBookingsComponent } from './maubook-admin/package-bookings/package-bookings.component';
 import { AddSpaComponent } from './maubook-admin/add-spa/add-spa.component';
+import { SpaComponent } from './maubook-admin/spas/spa.component';
+import { eveningComponent } from './maubook-admin/evening/evening.component';
+import { AddEveningComponent } from './maubook-admin/add-evening/add-evening.component';
+import { EventsComponent } from './maubook-admin/events/events.component';
+import { AddEventsComponent } from './maubook-admin/add-events/add-events.component';
+import { AddResturantComponent } from './maubook-admin/add-resturant/add-resturants.component';
+import { resturantsComponent } from './maubook-admin/resturants/resturants.component';
+import { ActivitiesComponent } from './maubook-admin/activities/activities.component';
+import { AddActivitiesComponent } from './maubook-admin/add-activities/add-activities.component';
 
 const routes: Routes = [
   // Website routes
@@ -43,6 +52,21 @@ const routes: Routes = [
     { path: 'hotels-bookings', component: HotelBookingsComponent },
     { path: 'package-bookings', component: PackageBookingsComponent },
       { path: 'add-spa', component: AddSpaComponent },
+      { path: 'spas', component: SpaComponent },
+      { path: 'evening', component: eveningComponent },
+      { path: 'add-evening', component: AddEveningComponent },
+      { path: 'add-events', component: AddEventsComponent },
+      { path: 'events', component: EventsComponent },
+      { path: 'resturants', component: resturantsComponent },
+      { path: 'add-resturants', component: AddResturantComponent },
+      { path: 'activities', component: ActivitiesComponent },
+      { path: 'add-activities', component: AddActivitiesComponent },
+
+
+
+
+
+
   ]
 }
 

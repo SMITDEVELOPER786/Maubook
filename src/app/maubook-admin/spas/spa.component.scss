@@ -1,0 +1,126 @@
+.packages-container {
+//   padding: 20px;
+  margin-left: 280px;
+    margin-top: 70px;
+    padding: 2rem;
+    background: #f8fafc;
+    min-height: 100vh;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+  }
+
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 20px;
+
+    .filter-group {
+      display: flex;
+      gap: 10px;
+
+      select {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
+    }
+
+    .search {
+      display: flex;
+      gap: 10px;
+
+      input {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        min-width: 200px;
+      }
+    }
+  }
+
+  .products-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f5f5f5;
+      font-weight: 600;
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .btn-edit, .btn-delete {
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+
+    .btn-edit {
+      background-color: #4CAF50;
+      color: white;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+
+    .btn-delete {
+      background-color: #f44336;
+      color: white;
+
+      &:hover {
+        background-color: #da190b;
+      }
+    }
+  }
+
+  .btn-primary {
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #1976D2;
+    }
+  }
+
+  .btn-filter, .btn-search {
+    padding: 8px 16px;
+    background-color: #607D8B;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #455A64;
+    }
+  }
+}

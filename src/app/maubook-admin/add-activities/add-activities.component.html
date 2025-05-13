@@ -1,0 +1,159 @@
+<div class="add-package-container">
+    <div class="header">
+        <h2>Add New Activities</h2>
+    </div>
+
+    <form [formGroup]="packageForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+            <div class="form-section main-info">
+                <h3>Basic Information</h3>
+                <!-- <div class="form-group">
+                    <label for="category">Package Category</label>
+                    <select id="category" formControlName="category">
+                        <option value="">Select Category</option>
+                        <option value="evening">Day & Evening Packages</option>
+                        <option value="spa">Spa Packages</option>
+                        <option value="events">Events</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="activities">Activities</option>
+                    </select>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="name">Activities Name</label>
+                    <input type="text" id="name" formControlName="name" placeholder="Enter Activities name">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="offerText">Offer Text</label>
+                        <input type="text" id="offerText" formControlName="offerText"
+                            placeholder="e.g., Early Bird Offer">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" formControlName="location" placeholder="Enter location">
+                    </div>
+                    <!-- Conditional Event Fields -->
+                    <div *ngIf="packageForm.get('category')?.value === 'events'" class="form-row event-details">
+                        <div class="form-group">
+                            <label for="eventDate">Event Date</label>
+                            <input type="date" id="eventDate" formControlName="eventDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">Start Time</label>
+                            <input type="time" id="startTime" formControlName="startTime">
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">End Time</label>
+                            <input type="time" id="endTime" formControlName="endTime">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Activities Features</label>
+                    <div class="features-grid">
+                        <button type="button" class="feature-btn"
+                            [class.active]="selectedFeatures.includes('exclusive')"
+                            (click)="toggleFeature('exclusive')">Exclusive</button>
+                        <button type="button" class="feature-btn"
+                            [class.active]="selectedFeatures.includes('allInclusive')"
+                            (click)="toggleFeature('allInclusive')">All-Inclusive</button>
+                        <button type="button" class="feature-btn"
+                            [class.active]="selectedFeatures.includes('familyFriendly')"
+                            (click)="toggleFeature('familyFriendly')">Family Friendly</button>
+                        <button type="button" class="feature-btn"
+                            [class.active]="selectedFeatures.includes('adultOnly')"
+                            (click)="toggleFeature('adultOnly')">Adults Only</button>
+                        <button type="button" class="feature-btn"
+                            [class.active]="selectedFeatures.includes('beachfront')"
+                            (click)="toggleFeature('beachfront')">Beachfront</button>
+                        <button type="button" class="feature-btn"
+                            [class.active]="selectedFeatures.includes('businessCenter')"
+                            (click)="toggleFeature('businessCenter')">Business Center</button>
+                        <button type="button" class="feature-btn"
+                            [class.active]="selectedFeatures.includes('petFriendly')"
+                            (click)="toggleFeature('petFriendly')">Pet Friendly</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section description-section">
+                <h3>Activities Details</h3>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" formControlName="description" rows="6"
+                        placeholder="Enter package description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="moreInfo">More Information</label>
+                    <textarea id="moreInfo" formControlName="moreInfo" rows="6"
+                        placeholder="Enter additional information, terms, conditions, etc."></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="chartKey">Seating Chart Key (Seats.io)</label>
+                <input type="text" id="chartKey" formControlName="chartKey" placeholder="e.g., public_chart_key_1234">
+            </div>
+
+            <div class="form-section tickets-section">
+                <h3>Ticket Types</h3>
+                <div formArrayName="tickets" class="tickets-container">
+                    <div *ngFor="let ticket of tickets.controls; let i=index" [formGroupName]="i" class="ticket-item">
+                        <div class="ticket-header">
+                            <h4>Ticket Type {{i + 1}}</h4>
+                            <button type="button" class="btn-remove" (click)="removeTicket(i)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="ticket-form">
+                            <div class="form-group">
+                                <label>Ticket Name</label>
+                                <input type="text" formControlName="name" placeholder="e.g., Adult, Child">
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="number" formControlName="price" placeholder="Enter price">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <input type="text" formControlName="description" placeholder="Ticket description">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" (click)="addTicket()">
+                    <i class="fas fa-plus"></i> Add Ticket Type
+                </button>
+            </div>
+
+            <div class="form-section images-section">
+                <h3>Images</h3>
+                <div class="image-upload">
+                    <div class="upload-area" (click)="triggerImageUpload()">
+                        <input type="file" #fileInput multiple accept="image/*" (change)="onImageSelect($event)" hidden>
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload images or drag and drop</p>
+                    </div>
+                    <div class="image-preview" *ngIf="selectedImages.length > 0">
+                        <div *ngFor="let image of selectedImages; let i=index" class="image-item">
+                            <img [src]="image.preview" alt="Preview">
+                            <button type="button" class="btn-remove-image" (click)="removeImage(i)">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+            <button type="submit" class="btn-secondary" [disabled]="isSubmitting" (click)="onSubmit()">
+                {{ isSubmitting ? 'Saving...' : 'Save Activities' }}
+            </button>
+        </div>
+    </form>
+</div>

@@ -14,10 +14,10 @@ interface ImagePreview {
 
 @Component({
   selector: 'app-add-packages',
-  templateUrl: './add-spa.component.html',
-  styleUrls: ['./add-spa.component.scss']
+  templateUrl: './add-events.component.html',
+  styleUrls: ['./add-events.component.scss']
 })
-export class AddSpaComponent implements OnInit {
+export class AddEventsComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   packageForm: FormGroup;
   selectedImages: ImagePreview[] = [];
@@ -30,6 +30,7 @@ export class AddSpaComponent implements OnInit {
     private firestore: AngularFirestore
   ) {
     this.packageForm = this.fb.group({
+       category: ['events'],
       // category: ['', Validators.required],
       name: ['', Validators.required],
       offerText: [''],
@@ -42,7 +43,7 @@ export class AddSpaComponent implements OnInit {
       endTime: [''],
       chartKey: [''] // <-- Added chartKey field
     });
-
+    
   }
 
   ngOnInit(): void {
@@ -149,8 +150,6 @@ export class AddSpaComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-      console.log("test")
-
     if (this.packageForm.invalid) {
       this.packageForm.markAllAsTouched();
       return;
@@ -163,8 +162,7 @@ export class AddSpaComponent implements OnInit {
         this.selectedImages.map(image => this.uploadToCloudinary(image.file))
       );
 
-      // const categoryValue = this.packageForm.get('category')?.value;
-      const categoryValue = 'spa';
+      const categoryValue = this.packageForm.get('category')?.value;
 
       const packageData: any = {
         category: categoryValue,
@@ -179,19 +177,18 @@ export class AddSpaComponent implements OnInit {
         createdAt: new Date().toISOString()
       };
 
-      // if (categoryValue === 'events') {
-      //   packageData.eventDate = this.packageForm.get('eventDate')?.value;
-      //   packageData.startTime = this.packageForm.get('startTime')?.value;
-      //   packageData.endTime = this.packageForm.get('endTime')?.value;
-      //   packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save it
-      // }
-      console.log("test")
+      if (categoryValue === 'events') {
+  packageData.eventDate = this.packageForm.get('eventDate')?.value;
+  packageData.startTime = this.packageForm.get('startTime')?.value;
+  packageData.endTime = this.packageForm.get('endTime')?.value;
+  packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save it
+}
 
       await this.firestore.collection('packages').add(packageData)
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
           alert('Package saved successfully!');
-          this.router.navigate(['/spas']);
+          this.router.navigate(['/packages']);
         })
         .catch(error => {
           console.error('Error adding document: ', error);
@@ -207,6 +204,6 @@ export class AddSpaComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/packages']);
+    this.router.navigate(['/events']);
   }
 }

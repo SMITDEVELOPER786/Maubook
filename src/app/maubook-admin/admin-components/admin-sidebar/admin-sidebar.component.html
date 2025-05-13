@@ -22,24 +22,49 @@
             <span>Hotels</span>
           </a>
         </li>
-        <li class="nav-item" [class.active]="isActive('/packages')">
+         <li class="nav-item" [class.active]="isActive('/spas')">
+          <a href="/spas">
+            <i class="fas fa-users"></i>
+            <span>Spa</span>
+          </a>
+        </li>
+         <li class="nav-item" [class.active]="isActive('/evening')">
+          <a href="/evening">
+            <i class="fas fa-users"></i>
+            <span>Day and Evening</span>
+          </a>
+        </li>
+          <li class="nav-item" [class.active]="isActive('/events')">
+          <a href="/events">
+            <i class="fas fa-box"></i>
+            <span>Events</span>
+          </a>
+        </li>
+         <li class="nav-item" [class.active]="isActive('/resturants')">
+          <a href="/resturants">
+            <i class="fas fa-box"></i>
+            <span>Resturants</span>
+          </a>
+        </li>
+         <li class="nav-item" [class.active]="isActive('/activities')">
+          <a href="/activities">
+            <i class="fas fa-box"></i>
+            <span>Activities</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item" [class.active]="isActive('/packages')">
           <a href="/packages">
             <i class="fas fa-box"></i>
             <span>Packages</span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item" [class.active]="isActive('/users')">
           <a href="/users">
             <i class="fas fa-users"></i>
             <span>Users</span>
           </a>
         </li>
-         <li class="nav-item" [class.active]="isActive('/users')">
-          <a href="/add-spa">
-            <i class="fas fa-users"></i>
-            <span>Spa</span>
-          </a>
-        </li>
+        
       </ul>
     </div>
 

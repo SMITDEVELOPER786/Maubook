@@ -13,11 +13,11 @@ interface ImagePreview {
 }
 
 @Component({
-  selector: 'app-add-packages',
-  templateUrl: './add-spa.component.html',
-  styleUrls: ['./add-spa.component.scss']
+  selector: 'app-resturants',
+  templateUrl: './add-resturants.component.html',
+  styleUrls: ['./add-resturants.component.scss']
 })
-export class AddSpaComponent implements OnInit {
+export class AddResturantComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   packageForm: FormGroup;
   selectedImages: ImagePreview[] = [];
@@ -30,7 +30,7 @@ export class AddSpaComponent implements OnInit {
     private firestore: AngularFirestore
   ) {
     this.packageForm = this.fb.group({
-      // category: ['', Validators.required],
+      category: ['restaurant'],
       name: ['', Validators.required],
       offerText: [''],
       location: [''],
@@ -164,7 +164,7 @@ export class AddSpaComponent implements OnInit {
       );
 
       // const categoryValue = this.packageForm.get('category')?.value;
-      const categoryValue = 'spa';
+      const categoryValue = 'restaurant';
 
       const packageData: any = {
         category: categoryValue,
@@ -190,8 +190,8 @@ export class AddSpaComponent implements OnInit {
       await this.firestore.collection('packages').add(packageData)
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
-          alert('Package saved successfully!');
-          this.router.navigate(['/spas']);
+          alert('Resturant saved successfully!');
+          this.router.navigate(['/resturants']);
         })
         .catch(error => {
           console.error('Error adding document: ', error);
@@ -200,7 +200,7 @@ export class AddSpaComponent implements OnInit {
 
     } catch (error) {
       console.error('Error saving package:', error);
-      alert(`Failed to save package: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+      alert(`Failed to save Resturant: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
     } finally {
       this.isSubmitting = false;
     }

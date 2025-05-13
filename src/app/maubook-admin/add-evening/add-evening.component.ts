@@ -14,10 +14,10 @@ interface ImagePreview {
 
 @Component({
   selector: 'app-add-packages',
-  templateUrl: './add-spa.component.html',
-  styleUrls: ['./add-spa.component.scss']
+  templateUrl: './add-evening.component.html',
+  styleUrls: ['./add-evening.component.scss']
 })
-export class AddSpaComponent implements OnInit {
+export class AddEveningComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   packageForm: FormGroup;
   selectedImages: ImagePreview[] = [];
@@ -164,7 +164,7 @@ export class AddSpaComponent implements OnInit {
       );
 
       // const categoryValue = this.packageForm.get('category')?.value;
-      const categoryValue = 'spa';
+      const categoryValue = 'evening';
 
       const packageData: any = {
         category: categoryValue,
@@ -191,7 +191,7 @@ export class AddSpaComponent implements OnInit {
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
           alert('Package saved successfully!');
-          this.router.navigate(['/spas']);
+          this.router.navigate(['/evening']);
         })
         .catch(error => {
           console.error('Error adding document: ', error);
