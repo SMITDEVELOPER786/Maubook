@@ -1,0 +1,41 @@
+<h2>About Us</h2>
+
+<!-- Display View -->
+<div *ngIf="!isEditing">
+  <div class="rich-text-display" [innerHTML]="aboutContent"></div>
+  <button
+    class="edit-btn"
+    (click)="toggleEdit()"
+    style="
+      background-color: aqua;
+      width: 100px;
+      height: 30px;
+      margin-top: 20px;
+      border: 1px solid white;
+    "
+  >
+    Edit
+  </button>
+</div>
+
+<!-- Edit Mode -->
+<div *ngIf="isEditing">
+  <!-- <div class="toolbar">
+    <button (click)="format('bold')"><b>B</b></button>
+    <button (click)="format('italic')"><i>I</i></button>
+    <button (click)="format('underline')"><u>U</u></button>
+    <button (click)="format('insertUnorderedList')">• List</button>
+  </div> -->
+
+  <div
+    class="editor"
+    contenteditable="true"
+    #editor
+    (input)="onEditorChange($event)"
+  ></div>
+
+  <div class="button-group">
+    <button class="save-btn" (click)="save()">Save</button>
+    <button class="cancel-btn" (click)="toggleEdit()">Cancel</button>
+  </div>
+</div>

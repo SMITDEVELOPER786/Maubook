@@ -6,8 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-     "build:user": "ng build --configuration=production --output-path=dist/user",
-  "build:admin": "ng build --configuration=production --output-path=dist/admin",
+    "build:user": "ng build --configuration=production --output-path=dist/user",
+    "build:admin": "ng build --configuration=production --output-path=dist/admin",
     "test": "ng test"
   },
   "private": true,
@@ -33,6 +33,7 @@
     "firebase": "^11.6.0",
     "flag-icons": "^7.3.2",
     "libphonenumber-js": "^1.12.7",
+    "ngx-editor": "^19.0.0-beta.1",
     "ngx-quill": "^16.2.1",
     "rxjs": "~7.8.0",
     "swiper": "^8.4.7",

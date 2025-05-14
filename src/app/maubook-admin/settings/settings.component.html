@@ -1,0 +1,30 @@
+<!-- Button Navigation -->
+<div class="nav-button-group packages-container">
+  <button 
+    [class.active]="selected === 'about'" 
+    (click)="select('about')">About Us</button>
+
+  <button 
+    [class.active]="selected === 'contact'" 
+    (click)="select('contact')">Contact</button>
+
+  <button 
+    [class.active]="selected === 'services'" 
+    (click)="select('services')">Services</button>
+
+
+<hr />
+
+<!-- Dynamic Display Based on Selection -->
+<div *ngIf="selected === 'about'">
+  <app-about></app-about>
+</div>
+
+<div *ngIf="selected === 'contact'">
+  <app-contact></app-contact>
+</div>
+
+<div *ngIf="selected === 'services'">
+  <app-services></app-services>
+</div>
+</div>

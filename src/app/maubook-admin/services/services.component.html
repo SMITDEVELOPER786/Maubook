@@ -1,0 +1,32 @@
+<div class="services-container">
+  <h2>Our Services</h2>
+
+  <!-- Add/Edit Service Section -->
+  <div class="service-form">
+    <input 
+      type="text" 
+      [(ngModel)]="newService" 
+      placeholder="Enter new service" 
+      class="service-input"
+    />
+    <button (click)="isEditing ? saveEditedService() : addService()" class="action-btn">
+      {{ isEditing ? 'Save' : 'Add' }} Service
+    </button>
+    <button *ngIf="isEditing" (click)="cancelEdit()" class="cancel-btn">Cancel</button>
+  </div>
+
+  <!-- Display All Services -->
+  <div *ngIf="services.length > 0">
+    <ul>
+      <li *ngFor="let service of services">
+        {{ service.name }}
+        <button (click)="editService(service.id)" class="edit-btn">Edit</button>
+        <button (click)="deleteService(service.id)" class="delete-btn">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="services.length === 0">
+    <p>No services found. Add a new service above.</p>
+  </div>
+</div>

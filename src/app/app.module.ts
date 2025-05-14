@@ -72,6 +72,10 @@ import { AddResturantComponent } from './maubook-admin/add-resturant/add-restura
 import { resturantsComponent } from './maubook-admin/resturants/resturants.component';
 import { AddActivitiesComponent } from './maubook-admin/add-activities/add-activities.component';
 import { ActivitiesComponent } from './maubook-admin/activities/activities.component';
+import { SettingsComponent } from './maubook-admin/settings/settings.component';
+import { AboutComponent } from './maubook-admin/about/about.component';
+import { ContactComponent } from './maubook-admin/contact/contact.component';
+import { ServicesComponent } from './maubook-admin/services/services.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -136,11 +140,20 @@ export const auth = firebaseAuth(firebaseApp);
     AddResturantComponent,
     resturantsComponent,
     AddActivitiesComponent,
-    ActivitiesComponent
+    ActivitiesComponent,
+    SettingsComponent,
+    AboutComponent,
+    ContactComponent,
+    ServicesComponent,
+    SettingsComponent,
+    AboutComponent,
+    ContactComponent,
+    ServicesComponent
     
   ],
   imports: [
     BrowserModule,
+    
     AppRoutingModule,
     FormsModule,
     CommonModule,

@@ -35,6 +35,7 @@ import { AddResturantComponent } from './maubook-admin/add-resturant/add-restura
 import { resturantsComponent } from './maubook-admin/resturants/resturants.component';
 import { ActivitiesComponent } from './maubook-admin/activities/activities.component';
 import { AddActivitiesComponent } from './maubook-admin/add-activities/add-activities.component';
+import { SettingsComponent } from './maubook-admin/settings/settings.component';
 
 const routes: Routes = [
   // Website routes
@@ -61,6 +62,8 @@ const routes: Routes = [
       { path: 'add-resturants', component: AddResturantComponent },
       { path: 'activities', component: ActivitiesComponent },
       { path: 'add-activities', component: AddActivitiesComponent },
+      { path: 'settings', component: SettingsComponent },
+
 
 
 
