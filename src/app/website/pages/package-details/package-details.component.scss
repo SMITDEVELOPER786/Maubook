@@ -132,6 +132,17 @@ body {
   }
 }
 
+input[type="date"]#date-input {
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #22bdc5;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 5px rgba(2, 125, 45, 0.3);
+  margin-top: 5px;
+}
+
+
 // Content Layout
 .content-wrapper {
   display: grid;

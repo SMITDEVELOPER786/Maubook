@@ -92,7 +92,7 @@
       <!-- Booking Summary -->
       <div class="sidebar">
         <div class="booking-card">
-          <div class="booking-header">
+          <div class="booking-header" style="background-color: #22bdc5;">
             <h2>Your Booking</h2>
           </div>
           <div class="booking-body">
@@ -122,11 +122,11 @@
               <span>Total amount</span>
               <span>Rs {{ calculateTotalPrice() }}</span>
             </div>
-            <button class="book-now-btn" (click)="bookNow()">Book Now</button>
+            <button class="book-now-btn" (click)="bookNow()" style="background-color: #22bdc5;">Book Now</button>
             <div class="support-section">
               <p>Need help with your booking?</p>
-              <button class="support-btn">
-                <i class="fas fa-comments"></i>
+              <button class="support-btn" style="border: 2px solid #22bdc5;color: #22bdc5;">
+                <i class="fas fa-comments" style="color: #22bdc5;"></i>
                 Chat with support
               </button>
             </div>
