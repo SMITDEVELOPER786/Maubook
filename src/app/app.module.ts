@@ -76,6 +76,10 @@ import { SettingsComponent } from './maubook-admin/settings/settings.component';
 import { AboutComponent } from './maubook-admin/about/about.component';
 import { ContactComponent } from './maubook-admin/contact/contact.component';
 import { ServicesComponent } from './maubook-admin/services/services.component';
+import { FaqComponent } from './maubook-admin/faq/faq.component';
+import { TermsComponent } from './maubook-admin/terms/terms.component';
+import { PrivacyPolicyComponent } from './maubook-admin/privacy-policy/privacy-policy.component';
+import { RefundPolicyComponent } from './maubook-admin/refund-policy/refund-policy.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -148,7 +152,11 @@ export const auth = firebaseAuth(firebaseApp);
     SettingsComponent,
     AboutComponent,
     ContactComponent,
-    ServicesComponent
+    ServicesComponent,
+    FaqComponent,
+    TermsComponent,
+    PrivacyPolicyComponent,
+    RefundPolicyComponent
     
   ],
   imports: [

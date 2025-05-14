@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
+interface Service {
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -8,9 +12,17 @@ import { Observable } from 'rxjs';
 export class FirestoreService {
   constructor(private firestore: AngularFirestore) {}
 
-  // Get all services
+  // Get all services with IDs
   getServices(): Observable<any[]> {
-    return this.firestore.collection('services').valueChanges();
+    return this.firestore.collection('services').snapshotChanges().pipe(
+      map(actions =>
+        actions.map(a => {
+          const data = a.payload.doc.data()  as Service; ;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      )
+    );
   }
 
   // Add a new service
@@ -25,6 +37,7 @@ export class FirestoreService {
 
   // Delete a service
   deleteService(id: string): Promise<void> {
+    console.log("Deleting service with ID:", id);
     return this.firestore.collection('services').doc(id).delete();
   }
 }

@@ -59,6 +59,7 @@ export class ServicesComponent implements OnInit {
   }
 
   deleteService(serviceId: string) {
+    console.log("test",serviceId)
     this.firestoreService.deleteService(serviceId).then(() => {
       this.loadServices();  // Reload services after delete
     });
