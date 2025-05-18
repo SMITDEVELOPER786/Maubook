@@ -178,17 +178,18 @@ export class AddEventsComponent implements OnInit {
       };
 
       if (categoryValue === 'events') {
+
   packageData.eventDate = this.packageForm.get('eventDate')?.value;
   packageData.startTime = this.packageForm.get('startTime')?.value;
   packageData.endTime = this.packageForm.get('endTime')?.value;
-  packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save it
-}
+  packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save i
+  }
 
       await this.firestore.collection('packages').add(packageData)
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
           alert('Package saved successfully!');
-          this.router.navigate(['/packages']);
+          this.router.navigate(['/events']);
         })
         .catch(error => {
           console.error('Error adding document: ', error);
