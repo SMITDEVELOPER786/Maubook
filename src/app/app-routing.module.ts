@@ -28,6 +28,10 @@ import { PackageBookingsComponent } from './maubook-admin/package-bookings/packa
 import { AboutusComponent } from './website/pages/aboutus/aboutus.component';
 import { ContactusComponent } from './website/pages/contactus/contactus.component';
 import { ourServiceComponent } from './website/pages/ourservices/ourservices.component';
+import { FaqsComponent } from './website/pages/faqs/faqs.component';
+import { privacyComponent } from './website/pages/privacy-policy/privacy-policy.component';
+import { refundComponent } from './website/pages/refund-policy/refund-policy.component';
+import { termComponent } from './website/pages/term-conditions/term-conditions';
 
 const routes: Routes = [
   // Website routes
@@ -52,7 +56,13 @@ const routes: Routes = [
       { path: 'about', component: AboutusComponent, }, // Protected: User bookings
       { path: 'contact', component:ContactusComponent, },
       { path: 'our-services', component:ourServiceComponent, }, // Protected: User bookings
+      { path: 'faqs', component:FaqsComponent, }, // Protected: User bookings
        // Protected: User bookings
+      { path: 'privacy', component:privacyComponent, }, // Protected: User bookings
+      { path: 'refund', component:refundComponent, },
+      { path: 'terms', component:termComponent, }, // Protected: User bookings
+       // Protected: User bookings
+
 
    
     ]

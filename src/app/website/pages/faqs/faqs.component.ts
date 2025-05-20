@@ -3,11 +3,11 @@ import { AboutService } from '../../../services/about.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-aboutus',
-  templateUrl: './aboutus.component.html',
-  styleUrls: ['./aboutus.component.scss']
+  selector: 'app-faq',
+  templateUrl: './faqs.component.html',
+  styleUrls: ['./faqs.component.scss']
 })
-export class AboutusComponent implements OnInit {
+export class FaqsComponent implements OnInit {
   introText: SafeHtml | null = null;
   loading: boolean = true;
 
@@ -17,7 +17,7 @@ export class AboutusComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.aboutService.getAbout().subscribe((intro) => {
+    this.aboutService.getFaq().subscribe((intro) => {
       console.log(intro);
       
       // Decode the HTML-encoded content

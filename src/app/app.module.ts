@@ -63,6 +63,10 @@ import { PackageBookingsComponent } from './maubook-admin/package-bookings/packa
 
 import { SeatsioAngularModule } from '@seatsio/seatsio-angular';
 import { ourServiceComponent } from './website/pages/ourservices/ourservices.component';
+import { FaqsComponent } from './website/pages/faqs/faqs.component';
+import { privacyComponent } from './website/pages/privacy-policy/privacy-policy.component';
+import { refundComponent } from './website/pages/refund-policy/refund-policy.component';
+import { termComponent } from './website/pages/term-conditions/term-conditions';
 
 
 export const MY_DATE_FORMATS = {
@@ -121,7 +125,11 @@ export const auth = firebaseAuth(firebaseApp);
     // TicketComponent,
     BookingCategoryComponent,
     PackageBookingsComponent,
-    ourServiceComponent
+    ourServiceComponent,
+    FaqsComponent,
+    privacyComponent,
+    refundComponent,
+    termComponent
     
   ],
   imports: [
