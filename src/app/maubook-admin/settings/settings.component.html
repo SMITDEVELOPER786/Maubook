@@ -24,6 +24,10 @@
     [class.active]="selected === 'faq'" 
     (click)="select('faq')">FAQ</button>
 
+     <button 
+    [class.active]="selected === 'term'" 
+    (click)="select('term')">TERMS & Condition</button>
+
 
 <hr />
 
@@ -51,4 +55,9 @@
 <div *ngIf="selected === 'faq'">
   <faq-questions></faq-questions>
 </div>
+
+<div *ngIf="selected === 'term'">
+  <app-terms></app-terms>
+</div>
+
 </div>

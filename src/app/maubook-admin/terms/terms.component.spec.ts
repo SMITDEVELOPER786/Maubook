@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TermsComponent } from './terms.component';
+import { TermConditionComponent } from './terms.component';
 
-describe('TermsComponent', () => {
-  let component: TermsComponent;
-  let fixture: ComponentFixture<TermsComponent>;
+describe('AboutComponent', () => {
+  let component: TermConditionComponent;
+  let fixture: ComponentFixture<TermConditionComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TermsComponent]
+      declarations: [TermConditionComponent]
     });
-    fixture = TestBed.createComponent(TermsComponent);
+    fixture = TestBed.createComponent(TermConditionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

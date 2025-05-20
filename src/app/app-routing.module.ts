@@ -63,6 +63,7 @@ const routes: Routes = [
       { path: 'activities', component: ActivitiesComponent },
       { path: 'add-activities', component: AddActivitiesComponent },
       { path: 'settings', component: SettingsComponent },
+      
 
 
 

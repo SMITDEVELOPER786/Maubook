@@ -1,1 +1,29 @@
-<p>terms works!</p>
+<h2>TERMS & Condition</h2>
+
+<!-- Display View (Without HTML Tags) -->
+<div *ngIf="!isEditing">
+  <div class="rich-text-display" [innerHTML]="refundSafeText"></div>
+  <button
+    class="edit-btn"
+    (click)="togglePrivacyPolicyEdit()"
+    style="background-color: aqua; width: 100px; height: 30px; margin-top: 20px; border: 1px solid white;"
+  >
+    Edit
+  </button>
+</div>
+
+<!-- Edit Mode (With HTML Tags) -->
+<div *ngIf="isEditing">
+  <div
+    class="editor"
+    contenteditable="true"
+    #editor
+    (input)="onPrivacyPolicyEditorChange($event)"
+    style="height: 200px;border: 1px solid grey;"
+  ></div>
+
+  <div class="button-group">
+    <button class="save-btn" (click)="savePrivacyPolicy()"   style="background-color: aqua; width: 100px; height: 30px; margin-top: 20px; border: 1px solid white;">Save</button>
+    <button class="cancel-btn" (click)="togglePrivacyPolicyEdit()"   style="background-color: aqua; width: 100px; height: 30px; margin-top: 20px; border: 1px solid white;">Cancel</button>
+  </div>
+</div>

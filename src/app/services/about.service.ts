@@ -9,6 +9,8 @@ export class AboutService {
   private aboutCollection = this.firestore.collection('about');
   private privacyPolicyCollection = this.firestore.collection('privacy-policy');
   private refundPolicyCollection = this.firestore.collection('refund-policy');
+  private termsCollection = this.firestore.collection('term-conditions');
+
   private faqCollection = this.firestore.collection('faq');
 
 
@@ -43,8 +45,17 @@ getRefundPrivacyPolicy(): Observable<any> {
  
 }
 
+getTerm(): Observable<any> {
+   return this.termsCollection.doc('term-conditions').valueChanges();
+ 
+}
+
 updateRefundPrivacyPolicy(content: string): Promise<void> {
  return this.firestore.collection('refund-policy').doc('refund-policy').set({ content }, { merge: true });
+}
+
+updateTerm(content: string): Promise<void> {
+ return this.firestore.collection('term-conditions').doc('term-conditions').set({ content }, { merge: true });
 }
 
 getFaq(): Observable<any> {
