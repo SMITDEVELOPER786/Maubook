@@ -1,32 +1,19 @@
 <h2>About Us</h2>
 
-<!-- Display View -->
+<!-- Display View (Without HTML Tags) -->
 <div *ngIf="!isEditing">
-  <div class="rich-text-display" [innerHTML]="aboutContent"></div>
+  <div class="rich-text-display" [innerHTML]="safeText"></div>
   <button
     class="edit-btn"
     (click)="toggleEdit()"
-    style="
-      background-color: aqua;
-      width: 100px;
-      height: 30px;
-      margin-top: 20px;
-      border: 1px solid white;
-    "
+    style="background-color: aqua; width: 100px; height: 30px; margin-top: 20px; border: 1px solid white;"
   >
     Edit
   </button>
 </div>
 
-<!-- Edit Mode -->
+<!-- Edit Mode (With HTML Tags) -->
 <div *ngIf="isEditing">
-  <!-- <div class="toolbar">
-    <button (click)="format('bold')"><b>B</b></button>
-    <button (click)="format('italic')"><i>I</i></button>
-    <button (click)="format('underline')"><u>U</u></button>
-    <button (click)="format('insertUnorderedList')">• List</button>
-  </div> -->
-
   <div
     class="editor"
     contenteditable="true"

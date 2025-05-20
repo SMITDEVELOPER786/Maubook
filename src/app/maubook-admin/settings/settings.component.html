@@ -12,6 +12,18 @@
     [class.active]="selected === 'services'" 
     (click)="select('services')">Services</button>
 
+     <button 
+    [class.active]="selected === 'privacyPolicy'" 
+    (click)="select('privacyPolicy')">Privacy Policy</button>
+
+     <button 
+    [class.active]="selected === 'RefundPolicy'" 
+    (click)="select('RefundPolicy')">Refund Policy</button>
+
+     <button 
+    [class.active]="selected === 'faq'" 
+    (click)="select('faq')">FAQ</button>
+
 
 <hr />
 
@@ -26,5 +38,17 @@
 
 <div *ngIf="selected === 'services'">
   <app-services></app-services>
+</div>
+
+<div *ngIf="selected === 'privacyPolicy'">
+  <app-privacy-policy></app-privacy-policy>
+</div>
+
+<div *ngIf="selected === 'RefundPolicy'">
+  <app-refund-policy></app-refund-policy>
+</div>
+
+<div *ngIf="selected === 'faq'">
+  <faq-questions></faq-questions>
 </div>
 </div>

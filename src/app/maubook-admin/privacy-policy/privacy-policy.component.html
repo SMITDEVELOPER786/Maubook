@@ -1,1 +1,28 @@
-<p>privacy-policy works!</p>
+<h2>Privacy Policy</h2>
+
+<!-- Display View (Without HTML Tags) -->
+<div *ngIf="!isEditing">
+  <div class="rich-text-display" [innerHTML]="privacySafeText"></div>
+  <button
+    class="edit-btn"
+    (click)="togglePrivacyPolicyEdit()"
+    style="background-color: aqua; width: 100px; height: 30px; margin-top: 20px; border: 1px solid white;"
+  >
+    Edit
+  </button>
+</div>
+
+<!-- Edit Mode (With HTML Tags) -->
+<div *ngIf="isEditing">
+  <div
+    class="editor"
+    contenteditable="true"
+    #editor
+    (input)="onPrivacyPolicyEditorChange($event)"
+  ></div>
+
+  <div class="button-group">
+    <button class="save-btn" (click)="savePrivacyPolicy()">Save</button>
+    <button class="cancel-btn" (click)="togglePrivacyPolicyEdit()">Cancel</button>
+  </div>
+</div>
