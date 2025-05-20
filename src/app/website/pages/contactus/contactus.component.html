@@ -1,1 +1,14 @@
-<p>contactus works!</p>
+<section class="about-section">
+  <ng-template #loading>
+    <div class="spinner"></div>
+  </ng-template>
+
+  <div class="about-container" *ngIf="name; else loading">
+    <h3>Contact us</h3>
+    <p><strong>Name:</strong> {{ name }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <p><strong>Location:</strong> {{ location }}</p>
+    
+    <div class="rich-text-display" [innerHTML]="details"></div>
+  </div>
+</section>

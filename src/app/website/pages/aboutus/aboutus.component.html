@@ -1,1 +1,12 @@
-<p>aboutus works!</p>
+<section class="about-section">
+ <ng-template #loadingTemplate>
+    <div class="spinner"></div>
+  </ng-template>
+
+  <ng-container *ngIf="!loading; else loadingTemplate">
+  <div
+    class="about-container"
+    [innerHTML]="introText"
+  ></div>
+  </ng-container>
+</section>

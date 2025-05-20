@@ -62,6 +62,7 @@ import { BookingCategoryComponent } from './booking-category/booking-category.co
 import { PackageBookingsComponent } from './maubook-admin/package-bookings/package-bookings.component';
 
 import { SeatsioAngularModule } from '@seatsio/seatsio-angular';
+import { ourServiceComponent } from './website/pages/ourservices/ourservices.component';
 
 
 export const MY_DATE_FORMATS = {
@@ -120,6 +121,7 @@ export const auth = firebaseAuth(firebaseApp);
     // TicketComponent,
     BookingCategoryComponent,
     PackageBookingsComponent,
+    ourServiceComponent
     
   ],
   imports: [

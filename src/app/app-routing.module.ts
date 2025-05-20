@@ -25,6 +25,9 @@ import { ConfirmationComponent } from './website/confirmation/confirmation.compo
 import { AuthGuard } from './auth.guard';
 import { BookingCategoryComponent } from './booking-category/booking-category.component';
 import { PackageBookingsComponent } from './maubook-admin/package-bookings/package-bookings.component';
+import { AboutusComponent } from './website/pages/aboutus/aboutus.component';
+import { ContactusComponent } from './website/pages/contactus/contactus.component';
+import { ourServiceComponent } from './website/pages/ourservices/ourservices.component';
 
 const routes: Routes = [
   // Website routes
@@ -45,7 +48,13 @@ const routes: Routes = [
       { path: 'change-password', component: ChangePasswordComponent }, // Public: Change password (adjust if needed)
       { path: 'booking-category', component: BookingCategoryComponent }, 
       { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }, // Protected: User profile
-      { path: 'my-bookings', component: MyBookingsComponent, canActivate: [AuthGuard] } // Protected: User bookings
+      { path: 'my-bookings', component: MyBookingsComponent, canActivate: [AuthGuard] }, // Protected: User bookings
+      { path: 'about', component: AboutusComponent, }, // Protected: User bookings
+      { path: 'contact', component:ContactusComponent, },
+      { path: 'our-services', component:ourServiceComponent, }, // Protected: User bookings
+       // Protected: User bookings
+
+   
     ]
   },
 

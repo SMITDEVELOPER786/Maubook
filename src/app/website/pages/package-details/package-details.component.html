@@ -19,6 +19,7 @@
         </div>
       </div>
     </div>
+   
 
     <div class="content-wrapper">
       <div class="main-content">
@@ -43,17 +44,18 @@
         <!-- Description -->
         <div class="content-section">
           <h2 class="section-heading">About This Experience</h2>
-          <div class="section-content">
+          <div class="section-content" style="font-weight: bold;font-size: 18px;">
             <p>{{ package.description }}</p>
           </div>
         </div>
 
         <!-- Ticket Options - Horizontal Layout -->
-        <div class="content-section">
-          <div class="date-selector-inline">
-            <label for="date-input">Select Date:</label>
-            <input id="date-input" type="date" (change)="onDateSelect($event)" />
-          </div>
+        <div   class="content-section">
+         <div class="date-selector-inline" *ngIf="package.category !== 'events'">
+  <label for="date-input" style="font-weight: bold;font-size: 20px;">Select Date<b style="color: red;">*</b> :</label>
+  <input id="date-input" type="date" (change)="onDateSelect($event)" class="custom-date-input" />
+</div>
+
           <h2 class="section-heading">Choose Your Package</h2>
           <div class="tickets-horizontal">
             <!-- Ticket Rows -->
@@ -83,7 +85,7 @@
         <!-- More Information -->
         <div class="content-section">
           <h2 class="section-heading">Additional Details</h2>
-          <div class="section-content">
+          <div class="section-content"  style="font-weight: bold;font-size: 18px;">
             <p>{{ package.moreInfo }}</p>
           </div>
         </div>

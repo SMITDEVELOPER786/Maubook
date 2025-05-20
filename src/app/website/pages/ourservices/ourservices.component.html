@@ -1,0 +1,16 @@
+<section class="about-section">
+  <ng-template #loadingTemplate>
+    <div class="spinner"></div>
+  </ng-template>
+
+  <ng-container *ngIf="!loading; else loadingTemplate">
+    <div class="about-container">
+      <h3>Our Services</h3>
+      <ul>
+        <li *ngFor="let service of services">
+          {{ service.name }}
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+</section>

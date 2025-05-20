@@ -12,16 +12,14 @@ interface ContactInfo {
 
 @Component({
   selector: 'app-aboutus',
-  templateUrl: './contactus.component.html',
-  styleUrls: ['./contactus.component.scss']
+  templateUrl: './ourservices.component.html',
+  styleUrls: ['./ourservices.component.scss']
 })
 
 
-export class ContactusComponent implements OnInit {
-  name: string = '';
-  email: string = '';
-  location: string = '';
-  details: string = '';
+export class ourServiceComponent implements OnInit {
+   services: any[] = [];
+    loading: boolean = true; 
 
   constructor(
     private aboutService: AboutService,
@@ -29,12 +27,11 @@ export class ContactusComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.aboutService.getContact().subscribe((intro) => {
-      console.log(intro);
-      this.name = intro["name"]
-      this.email = intro["email"]
-      this.details = intro["details"]
-      this.location = intro["location"]
+    this.aboutService.getService().subscribe((intro) => {
+      console.log(intro[0]);
+      this.services=intro
+      this.loading=false;
+      
 
     });
   }
