@@ -13,6 +13,8 @@ export class AboutService {
   private privacyCollection = this.firestore.collection('privacy-policy');
   private refundpolicyCollection = this.firestore.collection('refund-policy');
   private termconditionsCollection = this.firestore.collection('term-conditions');
+  private servicesCollection = this.firestore.collection('site-config');
+
 
 
 
@@ -25,6 +27,11 @@ export class AboutService {
 
   getContact(): Observable<any> {
     return this.contactCollection.doc('contactInfo').valueChanges();
+  }
+
+
+  getFooter(): Observable<any> {
+    return this.servicesCollection.valueChanges();
   }
 
     getFaq(): Observable<any> {

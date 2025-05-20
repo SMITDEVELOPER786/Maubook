@@ -22,6 +22,7 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
   @ViewChild('timer') timerElement!: ElementRef;
 
   packageName: string = '';
+  category: string='';
   booking: BookingDetails = {
     firstName: '',
     lastName: '',
@@ -36,6 +37,7 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
   selectedSeats: string[] = [];
   seatError: string = '';
   chartError: string = '';
+
   seatsioChart: any;
 
   constructor(private router: Router, private firestore: Firestore) {}
@@ -55,9 +57,12 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
 
     if (!state || !state.fromPackagePage) {
       const storedState = localStorage.getItem('bookingState');
+      console.log(storedState)
+
       if (storedState) {
         try {
           state = JSON.parse(storedState);
+          this.category = JSON.parse(storedState)["category"];
           console.log('Retrieved state from localStorage:', state);
         } catch (e) {
           console.error('Error parsing localStorage booking state:', e);
@@ -139,16 +144,18 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
     }
   }
 
-  isBookingValid(): boolean {
-    return (
-      this.booking.agreedToTerms &&
-      this.booking.firstName.trim() !== '' &&
-      this.booking.lastName.trim() !== '' &&
-      this.booking.phoneNumber.trim() !== '' &&
-      this.booking.email.trim() !== '' &&
-      this.selectedSeats.length === this.bookingSummary.tickets[0].quantity
-    );
-  }
+ isBookingValid(): boolean {
+  const isEvent = this.category === 'events';
+
+  return (
+    this.booking.agreedToTerms &&
+    this.booking.firstName.trim() !== '' &&
+    this.booking.lastName.trim() !== '' &&
+    this.booking.phoneNumber.trim() !== '' &&
+    this.booking.email.trim() !== '' &&
+    (!isEvent || this.selectedSeats.length === this.bookingSummary.tickets[0].quantity)
+  );
+}
 
   startTimer(duration: number) {
     let timer = duration, minutes, seconds;

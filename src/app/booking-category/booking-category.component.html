@@ -17,7 +17,7 @@
     <div class="booking-content">
       <div class="booking-form-section">
         <!-- Seats.io Chart Section -->
-        <div class="form-card">
+       <div class="form-card" *ngIf="category === 'events'">
           <h2><i class="fas fa-chair"></i> Select Your Seats</h2>
           <div class="seatsio-chart" id="chart"></div>
           <p *ngIf="seatError" class="error-message">{{ seatError }}</p>
@@ -107,7 +107,7 @@
             Your booking and selected seats are on request. No pre-payment is required. 
             Our team will contact you for payment once your booking is approved.
           </p>
-          <button class="proceed-button" [disabled]="!isBookingValid()" (click)="proceedToPayment()">
+          <button class="proceed-button"  (click)="proceedToPayment()">
             Book Now
           </button>
         </div>

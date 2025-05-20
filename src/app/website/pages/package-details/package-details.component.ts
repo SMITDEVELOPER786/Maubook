@@ -163,11 +163,13 @@ export class PackageDetailsComponent implements OnInit {
     date: this.selectedDate.toISOString(),
     ticketName: this.selectedTicket.name,
     ticketPrice: this.selectedTicket.price,
-    quantity: this.quantities[this.selectedTicket.name]
+    quantity: this.quantities[this.selectedTicket.name],
+    category : this.category
   };
 
   // Store in localStorage as a fallback
   localStorage.setItem('bookingState', JSON.stringify(bookingState));
+  
 
   console.log('Navigating with state:', bookingState);
 
