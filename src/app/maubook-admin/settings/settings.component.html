@@ -28,6 +28,10 @@
     [class.active]="selected === 'term'" 
     (click)="select('term')">TERMS & Condition</button>
 
+      <button 
+    [class.active]="selected === 'footer'" 
+    (click)="select('footer')">Footer</button>
+
 
 <hr />
 
@@ -58,6 +62,10 @@
 
 <div *ngIf="selected === 'term'">
   <app-terms></app-terms>
+</div>
+
+<div *ngIf="selected === 'footer'">
+  <app-footer-admin></app-footer-admin>
 </div>
 
 </div>
