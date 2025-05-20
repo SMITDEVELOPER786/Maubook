@@ -1,49 +1,54 @@
-<h2>Footer</h2>
+<div class="footer-admin">
+  <h2>Footer Settings</h2>
 
-<ng-template #loadingTemplate>
-  <div class="spinner">Loading...</div>
-</ng-template>
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">Loading...</div>
 
-<div *ngIf="!loading; else loadingTemplate">
-  <!-- Display Mode -->
-  <div *ngIf="!isEditing">
-    <p>{{ footerData?.copyrightText }}</p>
+  <!-- View Mode -->
+  <div *ngIf="!loading && !isEditing">
+    <p><strong>Copyright:</strong> {{ footerData.copyrightText }}</p>
     <ul>
-      <li><a [href]="footerData?.socialLinks?.facebook" target="_blank">Facebook</a></li>
-      <li><a [href]="footerData?.socialLinks?.twitter" target="_blank">Twitter</a></li>
-      <li><a [href]="footerData?.socialLinks?.instagram" target="_blank">Instagram</a></li>
-      <li><a [href]="footerData?.socialLinks?.pinterest" target="_blank">Pinterest</a></li>
+      <li><strong>Facebook:</strong> {{ footerData.socialLinks.facebook }}</li>
+      <li><strong>Twitter:</strong> {{ footerData.socialLinks.twitter }}</li>
+      <li><strong>Instagram:</strong> {{ footerData.socialLinks.instagram }}</li>
+      <li><strong>Pinterest:</strong> {{ footerData.socialLinks.pinterest }}</li>
     </ul>
-
-    <button
-      class="edit-btn"
-      (click)="toggleEdit()"
-      style="background-color: aqua; width: 100px; height: 30px; margin-top: 20px; border: 1px solid white;"
-    >
-      Edit
-    </button>
+    <button (click)="toggleEdit()">Edit</button>
   </div>
 
   <!-- Edit Mode -->
-  <div *ngIf="isEditing">
-    <label>Copyright Text:</label>
-    <input type="text" [(ngModel)]="footerData.copyrightText" style="width: 100%; margin-bottom: 10px;" />
-
-    <label>Facebook:</label>
-    <input type="text" [(ngModel)]="footerData.socialLinks.facebook" style="width: 100%;" />
-
-    <label>Twitter:</label>
-    <input type="text" [(ngModel)]="footerData.socialLinks.twitter" style="width: 100%;" />
-
-    <label>Instagram:</label>
-    <input type="text" [(ngModel)]="footerData.socialLinks.instagram" style="width: 100%;" />
-
-    <label>Pinterest:</label>
-    <input type="text" [(ngModel)]="footerData.socialLinks.pinterest" style="width: 100%;" />
-
-    <div style="margin-top: 20px;">
-      <button (click)="saveFooter()" style="background-color: green; color: white; margin-right: 10px;">Save</button>
-      <button (click)="toggleEdit()" style="background-color: gray; color: white;">Cancel</button>
+  <form *ngIf="isEditing && !loading" (ngSubmit)="saveFooter()">
+    <div class="form-group">
+      <label>Copyright Text</label>
+      <input type="text" [(ngModel)]="footerData.copyrightText" name="copyright"
+        class="form-control" required />
     </div>
-  </div>
+
+    <div class="form-group">
+      <label>Facebook</label>
+      <input type="url" [(ngModel)]="footerData.socialLinks.facebook" name="facebook"
+        class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Twitter</label>
+      <input type="url" [(ngModel)]="footerData.socialLinks.twitter" name="twitter"
+        class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Instagram</label>
+      <input type="url" [(ngModel)]="footerData.socialLinks.instagram" name="instagram"
+        class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Pinterest</label>
+      <input type="url" [(ngModel)]="footerData.socialLinks.pinterest" name="pinterest"
+        class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" (click)="toggleEdit()" class="btn btn-secondary">Cancel</button>
+  </form>
 </div>
