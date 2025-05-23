@@ -72,26 +72,26 @@
           <h2>Booking Summary</h2>
           <div class="summary-content">
             <div class="summary-row">
-              <span>{{ bookingSummary.title || 'Package Booking' }}</span>
+              <span style="font-weight: bold;">{{ bookingSummary.title || 'Package Booking' }}</span>
             </div>
             <div class="summary-row">
-              <span>Ticket</span>
+              <span style="font-weight: bold;">Ticket</span>
               <span>{{ bookingSummary.tickets[0]?.name || 'N/A' }}</span>
             </div>
             <div class="summary-row">
-              <span>Booked Date:</span>
+              <span style="font-weight: bold;">Booked Date:</span>
               <span>{{ bookingSummary.checkIn | date: 'EEE d MMM yyyy' }}</span>
             </div>
             <div class="summary-row">
-              <span>Per ticket:</span>
+              <span style="font-weight: bold;">Per ticket:</span>
               <span>Rs {{ bookingSummary.tickets[0]?.price || 0 | number }}</span>
             </div>
             <div class="summary-row">
-              <span>Quantity:</span>
+              <span style="font-weight: bold;">Quantity:</span>
               <span>{{ bookingSummary.tickets[0]?.quantity || 1 }}</span>
             </div>
             <div class="summary-row">
-              <span>Selected Seats:</span>
+              <span style="font-weight: bold;">Selected Seats:</span>
               <span>{{ selectedSeats.join(', ') || 'None' }}</span>
             </div>
             <div class="summary-row total">

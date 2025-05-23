@@ -54,13 +54,25 @@ body {
 }
 
 .custom-date-input {
-  width: 250px;   /* Adjust width as needed */
-  height: 75px;   /* Adjust height as needed */
+  width: 250px;   /* Desktop width */
+  height: 75px;   /* Desktop height */
   font-size: 20px !important;
   padding: 8px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .custom-date-input {
+    width: 100%;       /* Full width on smaller screens */
+    height: 50px;      /* Smaller height for mobile */
+    font-size: 16px !important;
+    padding: 6px 10px;
+  }
+}
+
 
 
 .container {
@@ -207,15 +219,31 @@ input[type="date"]#date-input {
     margin-bottom: 30px;
     @include card-shadow;
     
-    .section-heading {
-      font-family: $font-heading;
-      font-size: 24px;
-      font-weight: 700;
-      color: $text-dark;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid $light-blue;
-    }
+   .section-heading {
+  font-family: $font-heading;
+  font-size: 24px;
+  font-weight: 700;
+  color: $text-dark;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+
+  border-bottom: 2px solid $light-blue;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+     margin-top: 10%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+     margin-top: 10%;
+  }
+}
+
     
     .section-content {
       color: $text-medium;

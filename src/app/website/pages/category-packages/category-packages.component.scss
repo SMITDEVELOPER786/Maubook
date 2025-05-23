@@ -261,6 +261,18 @@
         }
       }
     }
+.image-link {
+  pointer-events: none; /* Disable clicks by default */
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .image-link {
+    pointer-events: auto; /* Enable clicks on mobile */
+    cursor: pointer;
+  }
+}
+
     
   // 👇 Mobile responsive
   @media (max-width: 768px) {

@@ -138,19 +138,39 @@
 
 <section class="most-picked-mobile">
   <h2>Most Picked</h2>
-  <swiper-container [navigation]="true" [pagination]="{ clickable: true }" [autoplay]="{ delay: 3000 }" [loop]="true"> <!-- Updated pagination to be clickable -->
-    <swiper-slide *ngFor="let property of mostPickedProperties">
-      <div class="most-picked-item" (click)="goToPropertyDetails(property)">
-        <div class="price-tag">Rs {{ property.rooms[0]?.plans[0]?.price || 0 }} per night</div>
-        <img [src]="property.images[0]" [alt]="property.name" *ngIf="property.images?.length > 0">
-        <div class="property-info">
-          <h3>{{ property.name }}</h3>
-          <p>{{ property.location }}</p>
+
+  <ng-container *ngIf="mostPickedProperties.length > 0; else loadingTemplate">
+    <swiper
+      [navigation]="true"
+      [pagination]="{ clickable: true }"
+      [autoplay]="{ delay: 3500 }"
+      [loop]="true"
+      class="mobile-swiper"
+    >
+      <ng-template swiperSlide *ngFor="let property of mostPickedProperties">
+        <div class="most-picked-card" (click)="goToPropertyDetails(property)">
+          <img [src]="property.images[0]" [alt]="property.name" *ngIf="property.images?.length > 0" />
+          <div class="info-overlay">
+            <div class="price">Rs {{ property.rooms[0]?.plans[0]?.price || 0 }} / night</div>
+            <div class="text">
+              <h3>{{ property.name }}</h3>
+              <p>{{ property.location }}</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </swiper-slide>
-  </swiper-container>
+      </ng-template>
+    </swiper>
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading properties...</p>
+    </div>
+  </ng-template>
 </section>
+
+
 
 <section class="why-choose-us">
   <div class="section-header">

@@ -171,6 +171,7 @@
     height: 50px;
     border: 3px solid #22bdc5;
   }
+  
 
 
 
@@ -621,76 +622,114 @@
 // Mobile slider version
 .most-picked-mobile {
   display: none;
-  padding: 20px;
+  padding: 16px;
 
   @media (max-width: 768px) {
     display: block;
   }
 
   h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #222;
+  }
+
+  .mobile-swiper {
+    width: 100%;
+    padding-bottom: 40px;
+
+   ::ng-deep .swiper-button-next,
+::ng-deep .swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  z-index: 10;
+  color: wheat;
+
+  &::after {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background-color: #22bdc5;
+    color: white;
+    padding: 20px;
+    font-weight: bold;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     font-size: 28px;
-    font-weight: 500;
-    margin-bottom: 30px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+    ::ng-deep .swiper-pagination-bullet {
+      background-color:wh;
+      opacity: 1;
+    }
+    ::ng-deep .swiper-pagination-bullet:active {
+      background-color: #22bdc5;
+      opacity: 1;
+    }
   }
 
-  swiper-container {
-    width: 100%;
-    padding-bottom: 30px; // Space for pagination
-  }
-
-  swiper-slide {
-    height: 350px; // Fixed height for all slides
-  }
-
-  .most-picked-item {
+  .most-picked-card {
     position: relative;
-    border-radius: 15px;
+    border-radius: 16px;
     overflow: hidden;
-    height: 100%;
-    width: 100%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    height: 300px;
+    background: #f4f4f4;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 50px;
     }
 
-    .price-tag {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: #3EBDC6;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 0 15px 0 15px;
-      font-size: 16px;
-      font-weight: 500;
-      z-index: 2;
-    }
-
-    .property-info {
+    .info-overlay {
       position: absolute;
       bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 20px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-      color: white;
+      width: 100%;
+      // background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      padding: 16px;
+      color: transparent;
 
-      h3 {
-        font-size: 20px;
-        font-weight: 500;
+      .price {
+        font-size: 14px;
+        // background: #22bdc5;
+        padding: 4px 10px;
+        border-radius: 12px;
+        display: inline-block;
         margin-bottom: 8px;
       }
 
-      p {
-        font-size: 14px;
-        opacity: 0.9;
+      .text {
+        h3 {
+          font-size: 18px;
+          margin: 0 0 4px 0;
+        }
+
+        p {
+          font-size: 13px;
+          margin: 0;
+          opacity: 0.85;
+        }
       }
     }
   }
 }
+
 
 
 

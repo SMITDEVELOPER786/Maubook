@@ -52,11 +52,13 @@
         <!-- Ticket Options - Horizontal Layout -->
         <div   class="content-section">
          <div class="date-selector-inline" *ngIf="package.category !== 'events'">
-  <label for="date-input" style="font-weight: bold;font-size: 20px;">Select Date<b style="color: red;">*</b> :</label>
-  <input id="date-input" type="date" (change)="onDateSelect($event)" class="custom-date-input" />
-</div>
+          <label for="date-input" style="font-weight: bold;font-size: 20px;">Select Date<b style="color: red;">*</b> :</label>
+           <input id="date-input" type="date" (change)="onDateSelect($event)" class="custom-date-input" />
+          </div>
 
-          <h2 class="section-heading">Choose Your Package</h2>
+          <h2 class="section-heading" *ngIf="package.category == 'events'">Choose Your Ticket</h2>
+
+          <h2 class="section-heading" *ngIf="package.category !== 'events'">Choose Your Package</h2>
           <div class="tickets-horizontal">
             <!-- Ticket Rows -->
             <div class="ticket-row" *ngFor="let ticket of package.tickets" (click)="selectTicket(ticket)" [class.disabled]="!selectedDate">
