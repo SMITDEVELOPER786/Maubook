@@ -43,7 +43,7 @@
                 <td>{{property.name}}</td>
                 <td>{{property.location}}</td>
                 <td>{{property.category}}</td>
-                <td>Starting from Rs {{property.rooms[0]?.price || 0}}</td>
+                <td>Starting from Rs {{property.price}}</td>
                 <td class="action-buttons">
                     <button class="btn-edit" (click)="editProperty(property.id)" title="Edit">
                         <i class="fas fa-edit"></i>

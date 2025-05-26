@@ -31,6 +31,7 @@ export class PropertiesComponent implements OnInit {
         id: doc.id,
         ...doc.data()
       }));
+      console.log('Properties loaded:', this.properties);
     } catch (error) {
       console.error('Error loading properties:', error);
     }

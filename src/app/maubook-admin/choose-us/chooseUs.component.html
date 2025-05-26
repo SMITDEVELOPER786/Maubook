@@ -1,0 +1,49 @@
+<div class="container py-4">
+  <h2 class="mb-4 text-primary">Why Choose Us</h2>
+
+  <!-- View Mode -->
+  <div *ngIf="!isEditing">
+    <div *ngFor="let item of chooseUsList" class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title text-dark">{{ item.title }}</h5>
+        <p class="card-text text-muted">{{ item.detail }}</p>
+      </div>
+    </div>
+    <button class="btn btn-outline-primary" (click)="toggleEdit()">Edit</button>
+  </div>
+
+  <!-- Edit Mode -->
+  <div *ngIf="isEditing">
+    <div *ngFor="let item of chooseUsList; let i = index" class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="chooseUsList[i].title"
+            placeholder="Enter title (e.g., Trusted Experts)"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Details</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            [(ngModel)]="chooseUsList[i].detail"
+            placeholder="Enter details about this reason"
+          ></textarea>
+        </div>
+        <button class="btn btn-sm btn-danger" (click)="removeComponent(i)">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+
+    <button class="btn btn-success me-2" (click)="addComponent()">
+      <i class="bi bi-plus-circle"></i> Add New Reason
+    </button>
+    <button class="btn btn-primary me-2" (click)="saveComponents()">Save</button>
+    <button class="btn btn-secondary" (click)="toggleEdit()">Cancel</button>
+  </div>
+</div>

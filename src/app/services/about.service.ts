@@ -24,8 +24,19 @@ export class AboutService {
     return this.aboutCollection.doc('aboutUs').valueChanges();
   }
 
+   getChooseUs(): Observable<any> {
+  return this.firestore
+    .collection('chooseUs')
+    .doc('chooseUs')
+    .valueChanges(); // returns { items: [...] }
+}
 
-
+updateChooseUs(data: any): Promise<any> {
+  return this.firestore
+    .collection('chooseUs')
+    .doc('chooseUs')
+    .set({ items: data });
+}
   // Update 'About Us' content in Firestore
  updateAbout(content: string): Promise<void> {
  return this.firestore.collection('about').doc('aboutUs').set({ content }, { merge: true });
