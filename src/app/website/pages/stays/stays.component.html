@@ -47,7 +47,7 @@
             </div>
             </div>
             <button class="search-button" (click)="searchProperties()"
-              style="background-color: #21BEC5;margin-top: 20px;border: 1px solid rgb(204, 195, 195);width: 10%;box-shadow: 10px 10px 20px grey;">
+              style="background-color: #21BEC5;margin-top: 20px;border: 1px solid rgb(204, 195, 195);width: 10%;box-shadow: 10px 10px 20px grey;text-align: center;">
               <i class="fas fa-search"></i>
               Search
             </button>
@@ -84,7 +84,7 @@
               <div class="search-item">
               <div class="title"   style="width: 100%;text-align: center;color: white;font-weight: bold;font-size: 20px;">Check-out date</div>
               <mat-form-field appearance="fill" style="width: 100%;text-align: center;">
-                <mat-label>Check-in dateq</mat-label>
+                <mat-label>Check-in date</mat-label>
                 <input matInput [matDatepicker]="checkoutPicker" [(ngModel)]="checkOutDate" 
                   [min]="checkInDate || minDate" placeholder="Select date" readonly (focus)="checkoutPicker.open()"  style="width: 100%;text-align: center;"
                 >
@@ -103,8 +103,8 @@
               </div>
             </div>
             <button class="search-button" (click)="searchProperties()"
-              style="background-color: #21BEC5;margin-top: 20px;border: 1px solid rgb(204, 195, 195);width: 10%;box-shadow: 10px 10px 20px grey;width: 100%;">
-              <i class="fas fa-search"></i>
+              style="background-color: #21BEC5;margin-top: 20px;border: 1px solid rgb(204, 195, 195);width: 10%;box-shadow: 10px 10px 20px grey;width: 100%;text-align: center;justify-content: center;">
+              <i class="fas fa-search" style="text-align: center;"></i>
               Search
             </button>
           </div>

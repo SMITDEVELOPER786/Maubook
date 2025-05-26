@@ -103,7 +103,11 @@
             <i class="fas fa-info-circle"></i>
             No Pre-payment is required.
           </p>
-          <p class="summary-note">
+           <p class="summary-note"  *ngIf="category != 'events'">
+            Your booking are on request. No pre-payment is required. 
+            Our team will contact you for payment once your booking is approved.
+          </p>
+          <p class="summary-note"  *ngIf="category === 'events'">
             Your booking and selected seats are on request. No pre-payment is required. 
             Our team will contact you for payment once your booking is approved.
           </p>
