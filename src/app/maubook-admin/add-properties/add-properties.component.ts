@@ -139,7 +139,8 @@ export class AddPropertiesComponent implements OnInit {
       const roomGroup = this.createRoom();
       roomGroup.patchValue({
         type: room.type || '',
-        description: room.description || ''
+        description: room.description || '',
+         roomPrice: room.roomPrice || ''
       });
 
       // Populate room facilities
@@ -185,6 +186,7 @@ export class AddPropertiesComponent implements OnInit {
     return this.fb.group({
       type: [''],
       description: [''],
+      roomPrice: [''],
       facilities: this.fb.array([]),
       images: [[]],
       plans: this.fb.array([])
