@@ -283,6 +283,7 @@ export class AddPropertiesComponent implements OnInit {
       console.error('Error saving property:', error);
       this.showError('Failed to save property. Please try again.');
     }
+    // console.log(this.propertyForm.value);
   }
 
   private async deleteCloudinaryImage(imageUrl: string) {
