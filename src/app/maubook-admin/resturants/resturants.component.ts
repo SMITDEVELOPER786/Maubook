@@ -33,6 +33,7 @@ export class resturantsComponent implements OnInit {
         
           
        this.packages =   this.packages.filter(pkg => pkg.category?.toLowerCase() === 'restaurant');
+       console.log(this.packages)
 
       // Optional: Extract categories if still needed (only "spa" in this case)
       this.categories = [...new Set(this.packages.map(pkg => pkg.category))];
@@ -83,7 +84,7 @@ export class resturantsComponent implements OnInit {
   }
 
   editPackage(id: string) {
-    this.router.navigate(['/edit-packages', id]);
+    this.router.navigate(['/resturants/edit', id]);
   }
 
   async deletePackage(id: string) {

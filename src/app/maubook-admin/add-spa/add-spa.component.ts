@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
@@ -8,7 +8,7 @@ const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
 const CLOUDINARY_FOLDER = 'Folder Name';
 
 interface ImagePreview {
-  file: File;
+  file: File | null;
   preview: string;
 }
 
@@ -23,11 +23,15 @@ export class AddSpaComponent implements OnInit {
   selectedImages: ImagePreview[] = [];
   selectedFeatures: string[] = [];
   isSubmitting = false;
+  spaId: string | null = null; // To hold the ID of the spa being edited
+
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private route: ActivatedRoute 
+    
   ) {
     this.packageForm = this.fb.group({
       // category: ['', Validators.required],
@@ -46,7 +50,13 @@ export class AddSpaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addTicket();
+    const packageId = this.route.snapshot.paramMap.get('id');
+    this.spaId = packageId; // Store the ID for later use
+    if (packageId) {
+      this.loadPackage(packageId);
+    }
+    else{
+       this.addTicket();
 
     this.packageForm.get('category')?.valueChanges.subscribe(value => {
       const eventDate = this.packageForm.get('eventDate');
@@ -71,7 +81,65 @@ export class AddSpaComponent implements OnInit {
       startTime?.updateValueAndValidity();
       endTime?.updateValueAndValidity();
     });
+
+    }
+   
   }
+async loadPackage(id: string) {
+  try {
+    const doc = await this.firestore.collection('packages').doc(id).get().toPromise();
+    if (doc && doc.exists) {
+      const data = doc.data() as {
+        name?: string;
+        offerText?: string;
+        location?: string;
+        description?: string;
+        moreInfo?: string;
+        eventDate?: string;
+        startTime?: string;
+        endTime?: string;
+        chartKey?: string;
+        features?: string[];
+        images?: string[];
+        tickets?: any[];
+      };
+      
+      this.packageForm.patchValue({
+        name: data?.name || '',
+        offerText: data?.offerText || '',
+        location: data?.location || '',
+        description: data?.description || '',
+        moreInfo: data?.moreInfo || '',
+        eventDate: data?.eventDate || '',
+        startTime: data?.startTime || '',
+        endTime: data?.endTime || '',
+        chartKey: data?.chartKey || ''
+      });
+
+      this.selectedFeatures = data?.features || [];
+      this.selectedImages = (data?.images || []).map((url: string) => ({
+        file: null,  // no file, only URL
+        preview: url
+      }));
+
+      // Clear existing tickets and add from data
+      this.tickets.clear();
+      (data?.tickets || []).forEach((ticket: any) => {
+        this.tickets.push(this.fb.group({
+          name: [ticket.name, Validators.required],
+          price: [ticket.price, [Validators.required, Validators.min(0)]],
+          description: [ticket.description]
+        }));
+      });
+
+    } else {
+      alert('Package not found!');
+      this.router.navigate(['/spas']);
+    }
+  } catch (error) {
+    console.error('Error loading package:', error);
+  }
+}
 
   get tickets(): FormArray {
     return this.packageForm.get('tickets') as FormArray;
@@ -148,63 +216,61 @@ export class AddSpaComponent implements OnInit {
     }
   }
 
-  async onSubmit(): Promise<void> {
-      console.log("test")
-
-    if (this.packageForm.invalid) {
-      this.packageForm.markAllAsTouched();
-      return;
-    }
-
-    this.isSubmitting = true;
-
-    try {
-      const imageUrls = await Promise.all(
-        this.selectedImages.map(image => this.uploadToCloudinary(image.file))
-      );
-
-      // const categoryValue = this.packageForm.get('category')?.value;
-      const categoryValue = 'spa';
-
-      const packageData: any = {
-        category: categoryValue,
-        name: this.packageForm.get('name')?.value,
-        offerText: this.packageForm.get('offerText')?.value,
-        location: this.packageForm.get('location')?.value,
-        description: this.packageForm.get('description')?.value,
-        moreInfo: this.packageForm.get('moreInfo')?.value,
-        tickets: this.packageForm.get('tickets')?.value,
-        features: this.selectedFeatures,
-        images: imageUrls,
-        createdAt: new Date().toISOString()
-      };
-
-      // if (categoryValue === 'events') {
-      //   packageData.eventDate = this.packageForm.get('eventDate')?.value;
-      //   packageData.startTime = this.packageForm.get('startTime')?.value;
-      //   packageData.endTime = this.packageForm.get('endTime')?.value;
-      //   packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save it
-      // }
-      console.log("test")
-
-      await this.firestore.collection('packages').add(packageData)
-        .then(docRef => {
-          console.log('Document written with ID: ', docRef.id);
-          alert('Package saved successfully!');
-          this.router.navigate(['/spas']);
-        })
-        .catch(error => {
-          console.error('Error adding document: ', error);
-          throw error;
-        });
-
-    } catch (error) {
-      console.error('Error saving package:', error);
-      alert(`Failed to save package: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
-    } finally {
-      this.isSubmitting = false;
-    }
+ async onSubmit(): Promise<void> {
+  if (this.packageForm.invalid) {
+    this.packageForm.markAllAsTouched();
+    return;
   }
+
+  this.isSubmitting = true;
+
+  try {
+    const imageUrls = await Promise.all(
+      this.selectedImages.map(async image => {
+        if (image.file) {
+          return await this.uploadToCloudinary(image.file);
+        }
+        return image.preview;
+      })
+    );
+
+    const categoryValue = 'spa';
+
+    const packageData: any = {
+      category: categoryValue,
+      name: this.packageForm.get('name')?.value,
+      offerText: this.packageForm.get('offerText')?.value,
+      location: this.packageForm.get('location')?.value,
+      description: this.packageForm.get('description')?.value,
+      moreInfo: this.packageForm.get('moreInfo')?.value,
+      tickets: this.packageForm.get('tickets')?.value,
+      features: this.selectedFeatures,
+      images: imageUrls,
+      updatedAt: new Date().toISOString()
+    };
+
+    if (this.spaId) {
+      // Edit existing spa
+      await this.firestore.collection('packages').doc(this.spaId).update(packageData);
+      alert('Spa updated successfully!');
+    } else {
+      // Add new spa
+      packageData.createdAt = new Date().toISOString();
+      const docRef = await this.firestore.collection('packages').add(packageData);
+      console.log('Document written with ID: ', docRef.id);
+      alert('Spa added successfully!');
+    }
+
+    this.router.navigate(['/spas']);
+
+  } catch (error) {
+    console.error('Error saving spa:', error);
+    alert(`Failed to save spa: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+  } finally {
+    this.isSubmitting = false;
+  }
+}
+
 
   cancel(): void {
     this.router.navigate(['/packages']);

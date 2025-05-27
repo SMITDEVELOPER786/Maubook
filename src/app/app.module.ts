@@ -84,6 +84,7 @@ import { faqComponent } from './maubook-admin/faq/faq.component';
 import { TermConditionComponent } from './maubook-admin/terms/terms.component';
 import { FooterComponentAdmin } from './maubook-admin/footer/footer.component';
 import { chooseUsComponent } from './maubook-admin/choose-us/chooseUs.component';
+import { EditSpaComponent } from './maubook-admin/edit-spa/edit-spa.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -162,7 +163,9 @@ export const auth = firebaseAuth(firebaseApp);
 RefundPolicyComponent,
 TermConditionComponent,
 chooseUsComponent,
-FooterComponentAdmin
+FooterComponentAdmin,
+EditSpaComponent,
+
     
   ],
   imports: [

@@ -1,0 +1,47 @@
+<div class="edit-spa-container">
+  <h2>Edit Spa</h2>
+  <form [formGroup]="spaForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label>Name</label>
+      <input formControlName="name" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <input formControlName="category" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label>Location</label>
+      <input formControlName="location" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label>Price</label>
+      <input formControlName="price" type="number" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Image URL</label>
+      <input formControlName="image" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label>Duration</label>
+      <input formControlName="duration" type="text" />
+    </div>
+
+    <div class="form-group">
+      <label>Is Active</label>
+      <input formControlName="isActive" type="checkbox" />
+    </div>
+
+    <button type="submit" [disabled]="spaForm.invalid">Update Spa</button>
+  </form>
+</div>

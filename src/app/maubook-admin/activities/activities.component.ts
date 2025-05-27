@@ -82,7 +82,7 @@ export class ActivitiesComponent implements OnInit {
   }
 
   editPackage(id: string) {
-    this.router.navigate(['/edit-packages', id]);
+    this.router.navigate(['/activities/edit', id]);
   }
 
   async deletePackage(id: string) {

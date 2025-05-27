@@ -28,6 +28,7 @@
                 <th>Image</th>
                 <th>Name</th>
                 <th>Category</th>
+                 <th>Price</th>
                 <th>Location</th>
                 <th>Actions</th>
             </tr>
@@ -38,6 +39,7 @@
                 <td><img [src]="package.images[0]" alt="Package image" *ngIf="package.images?.length"></td>
                 <td>{{package.name}}</td>
                 <td>{{package.category}}</td>
+                 <td>{{ package.tickets[0]?.price || 0 }}</td>
                 <td>{{package.location}}</td>
                 <td>
                     <button class="btn-edit" (click)="editPackage(package.id)">Edit</button>

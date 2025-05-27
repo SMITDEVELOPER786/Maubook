@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
@@ -15,7 +15,8 @@ export class SpaComponent implements OnInit {
 
   constructor(
     private firestore: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute 
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +83,8 @@ export class SpaComponent implements OnInit {
   }
 
   editPackage(id: string) {
-    this.router.navigate(['/edit-packages', id]);
+    this.router.navigate(['/spas/edit', id]);
+
   }
 
   async deletePackage(id: string) {

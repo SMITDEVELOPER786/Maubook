@@ -82,7 +82,7 @@ export class eveningComponent implements OnInit {
   }
 
   editPackage(id: string) {
-    this.router.navigate(['/edit-packages', id]);
+    this.router.navigate(['/evening/edit', id]);
   }
 
   async deletePackage(id: string) {

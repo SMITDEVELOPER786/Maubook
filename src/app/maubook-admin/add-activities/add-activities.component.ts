@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
@@ -23,14 +23,16 @@ export class AddActivitiesComponent implements OnInit {
   selectedImages: ImagePreview[] = [];
   selectedFeatures: string[] = [];
   isSubmitting = false;
+  editMode = false;
+  docId: string | null = null;  // Store document ID when editing
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,  // To get route params
     private firestore: AngularFirestore
   ) {
     this.packageForm = this.fb.group({
-      // category: ['', Validators.required],
       name: ['', Validators.required],
       offerText: [''],
       location: [''],
@@ -40,36 +42,21 @@ export class AddActivitiesComponent implements OnInit {
       eventDate: [''],
       startTime: [''],
       endTime: [''],
-      chartKey: [''] // <-- Added chartKey field
+      chartKey: ['']
     });
-
   }
 
   ngOnInit(): void {
     this.addTicket();
 
-    this.packageForm.get('category')?.valueChanges.subscribe(value => {
-      const eventDate = this.packageForm.get('eventDate');
-      const startTime = this.packageForm.get('startTime');
-      const endTime = this.packageForm.get('endTime');
-
-      if (value === 'events') {
-        eventDate?.setValidators([Validators.required]);
-        startTime?.setValidators([Validators.required]);
-        endTime?.setValidators([Validators.required]);
-      } else {
-        eventDate?.clearValidators();
-        startTime?.clearValidators();
-        endTime?.clearValidators();
-
-        eventDate?.reset();
-        startTime?.reset();
-        endTime?.reset();
+    // Check if 'id' param exists to enable edit mode
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.editMode = true;
+        this.docId = id;
+        this.loadActivityData(id);
       }
-
-      eventDate?.updateValueAndValidity();
-      startTime?.updateValueAndValidity();
-      endTime?.updateValueAndValidity();
     });
   }
 
@@ -148,9 +135,54 @@ export class AddActivitiesComponent implements OnInit {
     }
   }
 
-  async onSubmit(): Promise<void> {
-      console.log("test")
+  // Load existing activity data to form (for editing)
+  async loadActivityData(id: string) {
+    const doc = await this.firestore.collection('packages').doc(id).get().toPromise();
+    if (doc && doc.exists) {
+      const data: any = doc.data();
 
+      // Reset tickets and populate from data
+      this.tickets.clear();
+      if (data?.tickets?.length) {
+        data.tickets.forEach((ticket: any) => {
+          this.tickets.push(this.fb.group({
+            name: [ticket.name, Validators.required],
+            price: [ticket.price, [Validators.required, Validators.min(0)]],
+            description: [ticket.description]
+          }));
+        });
+      } else {
+        this.addTicket();
+      }
+
+      // Populate form fields
+      this.packageForm.patchValue({
+        name: data?.name || '',
+        offerText: data?.offerText || '',
+        location: data?.location || '',
+        description: data?.description || '',
+        moreInfo: data?.moreInfo || '',
+        eventDate: data?.eventDate || '',
+        startTime: data?.startTime || '',
+        endTime: data?.endTime || '',
+        chartKey: data?.chartKey || ''
+      });
+
+      // Populate features
+      this.selectedFeatures = data?.features || [];
+
+      // For images: you can only set preview URLs for existing images
+      this.selectedImages = (data?.images || []).map((url: string) => ({
+        file: null as any,  // no file object for existing images
+        preview: url
+      }));
+    } else {
+      alert('Document not found!');
+      this.router.navigate(['/activities']);
+    }
+  }
+
+  async onSubmit(): Promise<void> {
     if (this.packageForm.invalid) {
       this.packageForm.markAllAsTouched();
       return;
@@ -159,11 +191,16 @@ export class AddActivitiesComponent implements OnInit {
     this.isSubmitting = true;
 
     try {
-      const imageUrls = await Promise.all(
-        this.selectedImages.map(image => this.uploadToCloudinary(image.file))
+      // Upload new images only (files which have a 'file' object)
+      const newImages = this.selectedImages.filter(img => img.file);
+      const existingImages = this.selectedImages.filter(img => !img.file).map(img => img.preview);
+
+      const uploadedUrls = await Promise.all(
+        newImages.map(image => this.uploadToCloudinary(image.file))
       );
 
-      // const categoryValue = this.packageForm.get('category')?.value;
+      const allImageUrls = [...existingImages, ...uploadedUrls];
+
       const categoryValue = 'activities';
 
       const packageData: any = {
@@ -175,32 +212,26 @@ export class AddActivitiesComponent implements OnInit {
         moreInfo: this.packageForm.get('moreInfo')?.value,
         tickets: this.packageForm.get('tickets')?.value,
         features: this.selectedFeatures,
-        images: imageUrls,
-        createdAt: new Date().toISOString()
+        images: allImageUrls,
+        updatedAt: new Date().toISOString()
       };
 
-      // if (categoryValue === 'events') {
-      //   packageData.eventDate = this.packageForm.get('eventDate')?.value;
-      //   packageData.startTime = this.packageForm.get('startTime')?.value;
-      //   packageData.endTime = this.packageForm.get('endTime')?.value;
-      //   packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save it
-      // }
-      console.log("test")
+      if (this.editMode && this.docId) {
+        // Update existing document
+        await this.firestore.collection('packages').doc(this.docId).update(packageData);
+        alert('Activity updated successfully!');
+      } else {
+        // Add new document
+        packageData.createdAt = new Date().toISOString();
+        await this.firestore.collection('packages').add(packageData);
+        alert('Activity saved successfully!');
+      }
 
-      await this.firestore.collection('packages').add(packageData)
-        .then(docRef => {
-          console.log('Document written with ID: ', docRef.id);
-          alert('Activities saved successfully!');
-          this.router.navigate(['/activities']);
-        })
-        .catch(error => {
-          console.error('Error adding document: ', error);
-          throw error;
-        });
+      this.router.navigate(['/activities']);
 
     } catch (error) {
       console.error('Error saving package:', error);
-      alert(`Failed to save Activities: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+      alert(`Failed to save Activity: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
     } finally {
       this.isSubmitting = false;
     }

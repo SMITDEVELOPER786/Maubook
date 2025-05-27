@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
 const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
@@ -23,11 +24,13 @@ export class AddResturantComponent implements OnInit {
   selectedImages: ImagePreview[] = [];
   selectedFeatures: string[] = [];
   isSubmitting = false;
+   resturantId: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+     private route: ActivatedRoute
   ) {
     this.packageForm = this.fb.group({
       category: ['restaurant'],
@@ -45,32 +48,68 @@ export class AddResturantComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.addTicket();
 
-    this.packageForm.get('category')?.valueChanges.subscribe(value => {
-      const eventDate = this.packageForm.get('eventDate');
-      const startTime = this.packageForm.get('startTime');
-      const endTime = this.packageForm.get('endTime');
+    // Check if there's an id param for editing
+    this.resturantId = this.route.snapshot.paramMap.get('id');
 
-      if (value === 'events') {
-        eventDate?.setValidators([Validators.required]);
-        startTime?.setValidators([Validators.required]);
-        endTime?.setValidators([Validators.required]);
-      } else {
-        eventDate?.clearValidators();
-        startTime?.clearValidators();
-        endTime?.clearValidators();
+    if (this.resturantId) {
+      // Load existing data for editing
+      const doc = await this.firestore.collection('packages').doc(this.resturantId).get().toPromise();
+      if (doc && doc.exists) {
+        const data = doc.data() as {
+          name?: string;
+          offerText?: string;
+          location?: string;
+          description?: string;
+          moreInfo?: string;
+          eventDate?: string;
+          startTime?: string;
+          endTime?: string;
+          chartKey?: string;
+          category?: string;
+          tickets?: any[];
+          features?: string[];
+          images?: string[];
+        };
+        this.packageForm.patchValue({
+          name: data?.name,
+          offerText: data?.offerText,
+          location: data?.location,
+          description: data?.description,
+          moreInfo: data?.moreInfo,
+          eventDate: data?.eventDate || '',
+          startTime: data?.startTime || '',
+          endTime: data?.endTime || '',
+          chartKey: data?.chartKey || '',
+          category: data?.category || 'restaurant'
+        });
 
-        eventDate?.reset();
-        startTime?.reset();
-        endTime?.reset();
+        // Set tickets FormArray
+        if (data?.tickets && Array.isArray(data.tickets)) {
+          this.tickets.clear();
+          data.tickets.forEach((ticket: any) => {
+            this.tickets.push(this.fb.group({
+              name: ticket.name,
+              price: ticket.price,
+              description: ticket.description
+            }));
+          });
+        }
+
+        // Set selected features
+        this.selectedFeatures = data.features || [];
+
+        // Set images as preview only (no File objects for existing images)
+        this.selectedImages = (data.images || []).map((url: string) => ({
+          file: null as any, // no actual file, so handle accordingly in upload
+          preview: url
+        }));
       }
+    }
 
-      eventDate?.updateValueAndValidity();
-      startTime?.updateValueAndValidity();
-      endTime?.updateValueAndValidity();
-    });
+    // Your category valueChanges subscription code...
   }
 
   get tickets(): FormArray {
@@ -148,9 +187,7 @@ export class AddResturantComponent implements OnInit {
     }
   }
 
-  async onSubmit(): Promise<void> {
-      console.log("test")
-
+   async onSubmit(): Promise<void> {
     if (this.packageForm.invalid) {
       this.packageForm.markAllAsTouched();
       return;
@@ -159,12 +196,19 @@ export class AddResturantComponent implements OnInit {
     this.isSubmitting = true;
 
     try {
-      const imageUrls = await Promise.all(
-        this.selectedImages.map(image => this.uploadToCloudinary(image.file))
+      // Upload new images only, keep old image URLs
+      const uploadedImageUrls = await Promise.all(
+        this.selectedImages.map(async (image) => {
+          if (image.file) {
+            return await this.uploadToCloudinary(image.file);
+          } else {
+            // Already an uploaded image URL (editing existing)
+            return image.preview;
+          }
+        })
       );
 
-      // const categoryValue = this.packageForm.get('category')?.value;
-      const categoryValue = 'restaurant';
+      const categoryValue = this.packageForm.get('category')?.value || 'restaurant';
 
       const packageData: any = {
         category: categoryValue,
@@ -175,28 +219,22 @@ export class AddResturantComponent implements OnInit {
         moreInfo: this.packageForm.get('moreInfo')?.value,
         tickets: this.packageForm.get('tickets')?.value,
         features: this.selectedFeatures,
-        images: imageUrls,
-        createdAt: new Date().toISOString()
+        images: uploadedImageUrls,
+        updatedAt: new Date().toISOString()
       };
 
-      // if (categoryValue === 'events') {
-      //   packageData.eventDate = this.packageForm.get('eventDate')?.value;
-      //   packageData.startTime = this.packageForm.get('startTime')?.value;
-      //   packageData.endTime = this.packageForm.get('endTime')?.value;
-      //   packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save it
-      // }
-      console.log("test")
+      // If adding new document
+      if (!this.resturantId) {
+        packageData.createdAt = new Date().toISOString();
+        await this.firestore.collection('packages').add(packageData);
+        alert('Resturant added successfully!');
+      } else {
+        // Update existing document
+        await this.firestore.collection('packages').doc(this.resturantId).update(packageData);
+        alert('Resturant updated successfully!');
+      }
 
-      await this.firestore.collection('packages').add(packageData)
-        .then(docRef => {
-          console.log('Document written with ID: ', docRef.id);
-          alert('Resturant saved successfully!');
-          this.router.navigate(['/resturants']);
-        })
-        .catch(error => {
-          console.error('Error adding document: ', error);
-          throw error;
-        });
+      this.router.navigate(['/resturants']);
 
     } catch (error) {
       console.error('Error saving package:', error);

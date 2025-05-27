@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
@@ -8,8 +8,9 @@ const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
 const CLOUDINARY_FOLDER = 'Folder Name';
 
 interface ImagePreview {
-  file: File;
+  file: File | null;
   preview: string;
+  existingUrl?: string; // for already uploaded image
 }
 
 @Component({
@@ -23,15 +24,17 @@ export class AddEventsComponent implements OnInit {
   selectedImages: ImagePreview[] = [];
   selectedFeatures: string[] = [];
   isSubmitting = false;
+  isEditMode = false;
+  eventId: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private firestore: AngularFirestore
   ) {
     this.packageForm = this.fb.group({
-       category: ['events'],
-      // category: ['', Validators.required],
+      category: ['events'],
       name: ['', Validators.required],
       offerText: [''],
       location: [''],
@@ -41,13 +44,21 @@ export class AddEventsComponent implements OnInit {
       eventDate: [''],
       startTime: [''],
       endTime: [''],
-      chartKey: [''] // <-- Added chartKey field
+      chartKey: ['']
     });
-    
   }
 
   ngOnInit(): void {
-    this.addTicket();
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.isEditMode = true;
+        this.eventId = id;
+        this.loadEventData(id);
+      } else {
+        this.addTicket();
+      }
+    });
 
     this.packageForm.get('category')?.valueChanges.subscribe(value => {
       const eventDate = this.packageForm.get('eventDate');
@@ -136,17 +147,13 @@ export class AddEventsComponent implements OnInit {
     formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
     formData.append('folder', CLOUDINARY_FOLDER);
 
-    try {
-      const res = await fetch(CLOUDINARY_URL, {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      return data.secure_url;
-    } catch (error) {
-      console.error('Cloudinary upload failed:', error);
-      throw error;
-    }
+    const res = await fetch(CLOUDINARY_URL, {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    return data.secure_url;
   }
 
   async onSubmit(): Promise<void> {
@@ -158,48 +165,91 @@ export class AddEventsComponent implements OnInit {
     this.isSubmitting = true;
 
     try {
-      const imageUrls = await Promise.all(
-        this.selectedImages.map(image => this.uploadToCloudinary(image.file))
+      const uploadedImageUrls = await Promise.all(
+        this.selectedImages.map(async img => {
+          if (img.file) {
+            return await this.uploadToCloudinary(img.file);
+          }
+          return img.existingUrl || '';
+        })
       );
 
-      const categoryValue = this.packageForm.get('category')?.value;
-
+      const formValues = this.packageForm.value;
       const packageData: any = {
-        category: categoryValue,
-        name: this.packageForm.get('name')?.value,
-        offerText: this.packageForm.get('offerText')?.value,
-        location: this.packageForm.get('location')?.value,
-        description: this.packageForm.get('description')?.value,
-        moreInfo: this.packageForm.get('moreInfo')?.value,
-        tickets: this.packageForm.get('tickets')?.value,
+        category: formValues.category,
+        name: formValues.name,
+        offerText: formValues.offerText,
+        location: formValues.location,
+        description: formValues.description,
+        moreInfo: formValues.moreInfo,
+        tickets: formValues.tickets,
         features: this.selectedFeatures,
-        images: imageUrls,
-        createdAt: new Date().toISOString()
+        images: uploadedImageUrls,
+        updatedAt: new Date().toISOString()
       };
 
-      if (categoryValue === 'events') {
-  packageData.eventDate = this.packageForm.get('eventDate')?.value;
-  packageData.startTime = this.packageForm.get('startTime')?.value;
-  packageData.endTime = this.packageForm.get('endTime')?.value;
-  packageData.chartKey = this.packageForm.get('chartKey')?.value; // <-- Save it
-}
+      if (formValues.category === 'events') {
+        packageData.eventDate = formValues.eventDate;
+        packageData.startTime = formValues.startTime;
+        packageData.endTime = formValues.endTime;
+        packageData.chartKey = formValues.chartKey;
+      }
 
-      await this.firestore.collection('packages').add(packageData)
-        .then(docRef => {
-          console.log('Document written with ID: ', docRef.id);
-          alert('Package saved successfully!');
-          this.router.navigate(['/packages']);
-        })
-        .catch(error => {
-          console.error('Error adding document: ', error);
-          throw error;
-        });
+      if (this.isEditMode && this.eventId) {
+        await this.firestore.collection('packages').doc(this.eventId).update(packageData);
+        alert('Event updated successfully!');
+      } else {
+        packageData.createdAt = new Date().toISOString();
+        await this.firestore.collection('packages').add(packageData);
+        alert('Event added successfully!');
+      }
+
+      this.router.navigate(['/events']);
 
     } catch (error) {
-      console.error('Error saving package:', error);
-      alert(`Failed to save package: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
+      console.error('Submit error:', error);
+      alert('Error saving event');
     } finally {
       this.isSubmitting = false;
+    }
+  }
+
+  async loadEventData(id: string): Promise<void> {
+    const docRef = this.firestore.collection('packages').doc(id);
+    const docSnap = await docRef.get().toPromise();
+
+    if (docSnap && docSnap.exists) {
+      const data = docSnap.data() as any;
+      this.packageForm.patchValue({
+        category: data.category,
+        name: data.name,
+        offerText: data.offerText,
+        location: data.location,
+        description: data.description,
+        moreInfo: data.moreInfo,
+        eventDate: data.eventDate,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        chartKey: data.chartKey
+      });
+
+      this.tickets.clear();
+      if (data.tickets && Array.isArray(data.tickets)) {
+        data.tickets.forEach((ticket: any) => {
+          this.tickets.push(this.fb.group({
+            name: [ticket.name],
+            price: [ticket.price],
+            description: [ticket.description]
+          }));
+        });
+      }
+
+      this.selectedFeatures = data.features || [];
+      this.selectedImages = (data.images || []).map((url: string) => ({
+        file: null,
+        preview: url,
+        existingUrl: url
+      }));
     }
   }
 

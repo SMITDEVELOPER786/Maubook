@@ -36,22 +36,23 @@ import { resturantsComponent } from './maubook-admin/resturants/resturants.compo
 import { ActivitiesComponent } from './maubook-admin/activities/activities.component';
 import { AddActivitiesComponent } from './maubook-admin/add-activities/add-activities.component';
 import { SettingsComponent } from './maubook-admin/settings/settings.component';
+import { EditSpaComponent } from './maubook-admin/edit-spa/edit-spa.component';
 
 const routes: Routes = [
   // Website routes
- {
-  path: '',
-  component: AdminLayoutComponent,
-  children: [
-    { path: '', component: AdminDashboardComponent },
-    { path: 'dashboard', component: AdminDashboardComponent },
-    { path: 'packages', component: PackagesComponent },
-    { path: 'add-packages', component: AddPackagesComponent },
-    { path: 'properties', component: PropertiesComponent },
-    { path: 'add-properties', component: AddPropertiesComponent },
-    { path: 'users', component: UsersComponent },
-    { path: 'hotels-bookings', component: HotelBookingsComponent },
-    { path: 'package-bookings', component: PackageBookingsComponent },
+  {
+    path: '',
+    component: AdminLayoutComponent,
+    children: [
+      { path: '', component: AdminDashboardComponent },
+      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'packages', component: PackagesComponent },
+      { path: 'add-packages', component: AddPackagesComponent },
+      { path: 'properties', component: PropertiesComponent },
+      { path: 'add-properties', component: AddPropertiesComponent },
+      { path: 'users', component: UsersComponent },
+      { path: 'hotels-bookings', component: HotelBookingsComponent },
+      { path: 'package-bookings', component: PackageBookingsComponent },
       { path: 'add-spa', component: AddSpaComponent },
       { path: 'spas', component: SpaComponent },
       { path: 'evening', component: eveningComponent },
@@ -63,18 +64,26 @@ const routes: Routes = [
       { path: 'activities', component: ActivitiesComponent },
       { path: 'add-activities', component: AddActivitiesComponent },
       { path: 'settings', component: SettingsComponent },
-
-      
-
-
-
-
-
+      { path: 'spas/edit/:id', component: AddSpaComponent },
+      { path: 'evening/edit/:id', component: AddEveningComponent },
+      { path: 'events/edit/:id', component: AddEventsComponent },
+      { path: 'resturants/edit/:id', component: AddResturantComponent },
+      { path: 'activities/edit/:id', component: AddActivitiesComponent },
 
 
 
-  ]
-}
+
+
+
+
+
+
+
+
+
+
+    ]
+  }
 
 ];
 
@@ -82,4 +91,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' })],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
