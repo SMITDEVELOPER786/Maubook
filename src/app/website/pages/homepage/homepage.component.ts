@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 
-
+import { AboutService } from 'src/app/services/about.service';
 import { DatePipe } from '@angular/common';
 import { PropertyService } from '../../../services/property.service';
 
@@ -24,11 +24,14 @@ export class HomepageComponent implements OnInit {
   numberOfGuests: number = 1;
   guestOptions: number[] = Array.from({ length: 15 }, (_, i) => i + 1);
   mostPickedProperties: any[] = [];
+  chooseUs: any[] = [];
+
 
   constructor(
     private router: Router,
     private datePipe: DatePipe,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private aboutService: AboutService
   ) {
     this.minDate.setHours(0, 0, 0, 0); // Set to start of today
   }
@@ -36,6 +39,7 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     this.checkScreenSize();
     this.loadRandomProperties();
+    this.getChooseUs();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -88,6 +92,16 @@ export class HomepageComponent implements OnInit {
     description: 'Fantasy is over, there will be something really convincing here'
   }
 ];
+
+getChooseUs(){
+   this.aboutService.getChooseUs().subscribe((intro: any) => {
+      console.log(intro!["items"]["items"]);
+      this.chooseUs=intro!["items"]["items"]
+      // this.loading=false;
+      
+
+    });
+}
 
 
   search() {
