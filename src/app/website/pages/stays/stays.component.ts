@@ -53,6 +53,8 @@ export class StaysComponent implements OnInit {
         id: doc.id,
         ...doc.data()
       }));
+
+      console.log('Loaded properties:', this.properties);
       
       this.properties.forEach(property => {
         if (!property.rooms || !property.rooms[0]?.plans[0]?.price) {

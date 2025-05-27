@@ -2,9 +2,9 @@
   <div class="category-header">
     <div class="header-wrapper">
       <h1>{{capitalizeFirstLetter(category)}} <span class="count">({{packages.length}})</span></h1>
-      <!-- <div class="search-date"> -->
-        <!-- <span class="search-label">Search Date:</span> -->
-        <!-- <div class="date-picker">
+      <!-- <div class="search-date">
+        <span class="search-label">Search Date:</span>
+        <div class="date-picker">
           <mat-form-field appearance="outline">
             <input matInput 
                    [matDatepicker]="picker" 
@@ -17,8 +17,8 @@
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-        </div> -->
-      </div>
+        </div>
+      </div> -->
     </div>
   </div>
 
@@ -27,10 +27,7 @@
       <div *ngFor="let package of packages" class="package-item">
         <div class="package-card">
           <div class="image-container">
-          <a [routerLink]="['/package', package.id]" class="image-link">
-  <img [src]="package.images[0]" alt="{{ package.name }}" class="main-image" />
-</a>
-
+            <img [src]="package.images[0]" [alt]="package.name" class="main-image">
           </div>
 
           <div class="content">
@@ -38,12 +35,12 @@
               <h3 class="title">{{package.name}}</h3>
               <div class="offer-text">{{package.offerText}}</div>
               <div class="location">
-                <i class="fas fa-map-marker-alt" style="color: #22bdc5;"></i>
+                <i class="fas fa-map-marker-alt"></i>
                 <span>{{package.location}}</span>
               </div>
               <div class="features-list">
                 <div class="feature" *ngFor="let feature of package.features">
-                  <i class="fas fa-check"  style="color: #22bdc5;"></i>
+                  <i class="fas fa-check"></i>
                   <span>{{formatFeature(feature)}}</span>
                 </div>
               </div>
@@ -55,7 +52,7 @@
                 <span class="label">From Rs</span>
                 <span class="price">{{package.tickets[0].price}}</span>
               </div>
-              <button class="btn-book" style="background-color: #22bdc5;" [routerLink]="['/package', package.id]">Get Tickets →</button>
+              <button class="btn-book" [routerLink]="['/package', package.id]">Get Tickets →</button>
             </div>
           </div>
         </div>
