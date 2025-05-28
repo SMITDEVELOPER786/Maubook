@@ -1,0 +1,175 @@
+<div
+  class="container-center"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  "
+>
+  <form
+    [formGroup]="couponForm"
+    style="
+      width: 500px;
+      height: 500px;
+      padding: 24px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+    "
+    (ngSubmit)="onSubmit()"
+  >
+    <h2 class="align-center">Coupon</h2>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Coupon Quantity</mat-label>
+      <input matInput type="number" formControlName="quantity" required />
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId" required>
+          <mat-option *ngFor="let category of categories">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categories" required>
+        <mat-option *ngFor="let cat of categories" [value]="cat">
+          {{ cat }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Expiry Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="expiryDate"
+        required
+      />
+
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col-10 align-middle">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Coupon Code</mat-label>
+          <input matInput formControlName="couponCode" required readonly />
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <button
+          mat-mini-fab
+          aria-label="Example icon button with a delete icon"
+          color="primary"
+          type="button"
+          (click)="generateCouponCode()"
+        >
+          <mat-icon>redeem</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="mt-3"
+      [disabled]="isLoading"
+      style="text-align: center; margin-top: 20px; position: relative"
+    >
+      <mat-spinner
+        *ngIf="isLoading"
+        diameter="20"
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
+      ></mat-spinner>
+
+      <span [style.visibility]="isLoading ? 'hidden' : 'visible'">
+        Add Coupon
+      </span>
+    </button>
+  </form>
+</div>
+
+<!-- add-coupon.component.html
+
+<div
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  "
+>
+  <form
+    [formGroup]="couponForm"
+    class="coupon-form"
+    style="
+      width: 500px;
+      padding: 24px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+    "
+  >
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Coupon Quantity</mat-label>
+      <input matInput formControlName="quantity" type="number" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Expiry Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="expiryDate"
+        required
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div style="display: flex; align-items: center">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Coupon Code</mat-label>
+        <input matInput formControlName="couponCode" required />
+      </mat-form-field>
+
+      <button
+        mat-fab
+        color="warn"
+        style="margin-left: 10px"
+        (click)="deleteCoupon()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let cat of categories" [value]="cat">
+          {{ cat }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div style="text-align: center; margin-top: 20px">
+      <button mat-raised-button color="primary" type="submit">
+        Add Coupon
+      </button>
+    </div>
+  </form>
+</div> -->

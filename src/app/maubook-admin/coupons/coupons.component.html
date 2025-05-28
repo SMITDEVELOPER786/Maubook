@@ -1,0 +1,56 @@
+<div class="packages-container">
+  <div class="header">
+    <h2>Coupons</h2>
+    <div class="actions">
+      <a href="/add-coupon">
+        <button mat-raised-button color="primary">Add New Coupon</button>
+        <!-- <button class="btn-primary">Add new Coupon</button> -->
+      </a>
+    </div>
+  </div>
+
+  <input
+    type="text"
+    class="form-control mb-3"
+    placeholder="Search by category or code..."
+    [(ngModel)]="filterText"
+  />
+
+  <table class="products-table" *ngIf="!loading; else loadingTemplate">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Coupon Code</th>
+        <th>Category</th>
+        <th>Expiry Date</th>
+        <th>Qty</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let coupon of filteredCoupons
+            | paginate : { itemsPerPage: 10, currentPage: page };
+          let i = index
+        "
+      >
+        <td>{{ i + 1 + (page - 1) * 5 }}</td>
+        <td>{{ coupon.couponCode }}</td>
+        <td>{{ coupon.category }}</td>
+        <td>{{ coupon.expiryDate | date : "MMMM d, y" }}</td>
+        <td>{{ coupon.quantity }}</td>
+        <td>
+          <button class="btn-edit">Edit</button>
+          <button class="btn-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
+  <ng-template #loadingTemplate>
+    <p>Loading coupons...</p>
+  </ng-template>
+</div>

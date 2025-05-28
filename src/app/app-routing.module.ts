@@ -37,6 +37,8 @@ import { ActivitiesComponent } from './maubook-admin/activities/activities.compo
 import { AddActivitiesComponent } from './maubook-admin/add-activities/add-activities.component';
 import { SettingsComponent } from './maubook-admin/settings/settings.component';
 import { EditSpaComponent } from './maubook-admin/edit-spa/edit-spa.component';
+import { AddCouponComponent } from './maubook-admin/add-coupon/add.coupon.component';
+import { CouponsComponent } from './maubook-admin/coupons/coupons.component';
 
 const routes: Routes = [
   // Website routes
@@ -69,6 +71,8 @@ const routes: Routes = [
       { path: 'events/edit/:id', component: AddEventsComponent },
       { path: 'resturants/edit/:id', component: AddResturantComponent },
       { path: 'activities/edit/:id', component: AddActivitiesComponent },
+      { path: 'add-coupon', component: AddCouponComponent },
+      { path: 'coupons', component: CouponsComponent },
 
 
 

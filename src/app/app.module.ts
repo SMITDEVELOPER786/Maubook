@@ -85,6 +85,20 @@ import { TermConditionComponent } from './maubook-admin/terms/terms.component';
 import { FooterComponentAdmin } from './maubook-admin/footer/footer.component';
 import { chooseUsComponent } from './maubook-admin/choose-us/chooseUs.component';
 import { EditSpaComponent } from './maubook-admin/edit-spa/edit-spa.component';
+import { AddCouponComponent } from './maubook-admin/add-coupon/add.coupon.component';
+import { MatButtonModule } from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { CouponsComponent } from './maubook-admin/coupons/coupons.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
+
+
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -165,19 +179,31 @@ TermConditionComponent,
 chooseUsComponent,
 FooterComponentAdmin,
 EditSpaComponent,
+AddCouponComponent,
+CouponsComponent,
+
 
     
   ],
   imports: [
+     MatFormFieldModule,
+        MatInputModule,
     BrowserModule,
-    
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
     AppRoutingModule,
     FormsModule,
     CommonModule,
     MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
     MatNativeDateModule,
+    MatSelectModule,
+    NgxPaginationModule,
+
+    MatButtonModule,
     ReactiveFormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),

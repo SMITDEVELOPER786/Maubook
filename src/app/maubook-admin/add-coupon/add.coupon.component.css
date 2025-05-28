@@ -1,0 +1,74 @@
+.coupon-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #f5f5f5;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.full-width {
+  width: 100%;
+  /* margin-bottom: 16px; */
+}
+.full-height {
+  height: 100%;
+  /* margin-bottom: 16px; */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.mt-3 {
+  margin-top: 16px;
+}
+
+
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 140px;
+}
+
+
+button {
+  margin-right: 8px;
+}
+
+

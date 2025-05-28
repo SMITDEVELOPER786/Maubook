@@ -22,31 +22,31 @@
             <span>Hotels</span>
           </a>
         </li>
-         <li class="nav-item" [class.active]="isActive('/spas')">
+        <li class="nav-item" [class.active]="isActive('/spas')">
           <a href="/spas">
             <i class="fas fa-users"></i>
             <span>Spa</span>
           </a>
         </li>
-         <li class="nav-item" [class.active]="isActive('/evening')">
+        <li class="nav-item" [class.active]="isActive('/evening')">
           <a href="/evening">
             <i class="fas fa-users"></i>
             <span>Day and Evening</span>
           </a>
         </li>
-          <li class="nav-item" [class.active]="isActive('/events')">
+        <li class="nav-item" [class.active]="isActive('/events')">
           <a href="/events">
             <i class="fas fa-box"></i>
             <span>Events</span>
           </a>
         </li>
-         <li class="nav-item" [class.active]="isActive('/resturants')">
+        <li class="nav-item" [class.active]="isActive('/resturants')">
           <a href="/resturants">
             <i class="fas fa-box"></i>
             <span>Resturants</span>
           </a>
         </li>
-         <li class="nav-item" [class.active]="isActive('/activities')">
+        <li class="nav-item" [class.active]="isActive('/activities')">
           <a href="/activities">
             <i class="fas fa-box"></i>
             <span>Activities</span>
@@ -64,13 +64,25 @@
             <span>Users</span>
           </a>
         </li>
-         <li class="nav-item">
+        <li class="nav-item" [class.active]="isActive('/coupons')">
+          <a href="/coupons">
+            <i class="fas fa-ticket"></i>
+            <span>Coupons</span>
+          </a>
+        </li>
+        <li class="nav-item" [class.active]="isActive('/add-coupon')">
+          <a href="/add-coupon">
+            <i class="fas fa-plus-circle"></i>
+            <span>Add Coupon</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
           <a href="/settings">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
           </a>
         </li>
-        
       </ul>
     </div>
 
@@ -89,7 +101,6 @@
             <span>Packages Bookings</span>
           </a>
         </li>
-        
       </ul>
     </div>
 
@@ -110,7 +121,6 @@
         </li>
       </ul>
     </div> -->
-    
   </nav>
 
   <div class="sidebar-footer">
