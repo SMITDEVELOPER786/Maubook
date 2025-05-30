@@ -39,6 +39,7 @@ import { SettingsComponent } from './maubook-admin/settings/settings.component';
 import { EditSpaComponent } from './maubook-admin/edit-spa/edit-spa.component';
 import { AddCouponComponent } from './maubook-admin/add-coupon/add.coupon.component';
 import { CouponsComponent } from './maubook-admin/coupons/coupons.component';
+import { EditCouponComponent } from './maubook-admin/edit-coupon/edit-coupon.component';
 
 const routes: Routes = [
   // Website routes
@@ -73,26 +74,15 @@ const routes: Routes = [
       { path: 'activities/edit/:id', component: AddActivitiesComponent },
       { path: 'add-coupon', component: AddCouponComponent },
       { path: 'coupons', component: CouponsComponent },
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ]
-  }
-
+      { path: 'edit-coupon/:id', component: EditCouponComponent },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -25,7 +25,8 @@ constructor(private fb: FormBuilder,private cateService: PackagesService, privat
       quantity: ['', [Validators.required, Validators.min(1)]],
       expiryDate: ['', Validators.required],
       couponCode: ['', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
-      categories: [null, Validators.required]
+      categories: [null, Validators.required],
+      discount: ['',[Validators.required, Validators.pattern(/^([1-9][0-9]?|100)%$/), ],]
     });
 
     this.cateService.getPackageCategories().subscribe((cats) => {
@@ -53,6 +54,7 @@ constructor(private fb: FormBuilder,private cateService: PackagesService, privat
         category: this.couponForm.value.categories,     
         expiryDate: this.couponForm.value.expiryDate, 
         couponCode: this.couponForm.value.couponCode,
+        discount: this.couponForm.value.discount,
       };
       console.log(coupon);
 

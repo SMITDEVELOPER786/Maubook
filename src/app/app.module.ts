@@ -31,7 +31,10 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 
-import { FirebaseApp, initializeApp as firebaseInitializeApp } from 'firebase/app';
+import {
+  FirebaseApp,
+  initializeApp as firebaseInitializeApp,
+} from 'firebase/app';
 import { getFirestore as firestoreDb } from 'firebase/firestore';
 import { getAuth as firebaseAuth } from 'firebase/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,7 +49,11 @@ import { TicketsComponent } from './website/pages/tickets/tickets.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { LoginComponent } from './login/login.component';
@@ -87,18 +94,18 @@ import { chooseUsComponent } from './maubook-admin/choose-us/chooseUs.component'
 import { EditSpaComponent } from './maubook-admin/edit-spa/edit-spa.component';
 import { AddCouponComponent } from './maubook-admin/add-coupon/add.coupon.component';
 import { MatButtonModule } from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CouponsComponent } from './maubook-admin/coupons/coupons.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-
-
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComComponent } from './dialog/dialog-com/dialog-com.component';
+import { EditCouponComponent } from './maubook-admin/edit-coupon/edit-coupon.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -113,7 +120,9 @@ export const MY_DATE_FORMATS = {
 };
 
 // Firebase instance exports
-export const firebaseApp: FirebaseApp = firebaseInitializeApp(environment.firebaseConfig);
+export const firebaseApp: FirebaseApp = firebaseInitializeApp(
+  environment.firebaseConfig
+);
 export const db = firestoreDb(firebaseApp);
 export const auth = firebaseAuth(firebaseApp);
 
@@ -172,22 +181,21 @@ export const auth = firebaseAuth(firebaseApp);
     AboutComponent,
     ContactComponent,
     ServicesComponent,
-   faqComponent,
+    faqComponent,
     PrivacyPolicyComponent,
-RefundPolicyComponent,
-TermConditionComponent,
-chooseUsComponent,
-FooterComponentAdmin,
-EditSpaComponent,
-AddCouponComponent,
-CouponsComponent,
-
-
-    
+    RefundPolicyComponent,
+    TermConditionComponent,
+    chooseUsComponent,
+    FooterComponentAdmin,
+    EditSpaComponent,
+    AddCouponComponent,
+    CouponsComponent,
+    DialogComComponent,
+    EditCouponComponent,
   ],
   imports: [
-     MatFormFieldModule,
-        MatInputModule,
+    MatFormFieldModule,
+    MatInputModule,
     BrowserModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
@@ -202,7 +210,7 @@ CouponsComponent,
     MatNativeDateModule,
     MatSelectModule,
     NgxPaginationModule,
-
+    MatDialogModule,
     MatButtonModule,
     ReactiveFormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
@@ -212,8 +220,7 @@ CouponsComponent,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     SeatsioAngularModule,
-    SwiperModule
-    
+    SwiperModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
@@ -221,6 +228,6 @@ CouponsComponent,
     AuthService, // Added AuthService to providers
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
