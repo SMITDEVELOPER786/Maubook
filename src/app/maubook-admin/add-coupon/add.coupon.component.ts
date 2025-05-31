@@ -1,42 +1,62 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {PackagesService} from '../services/packages.service';
+import { PackagesService } from '../services/packages.service';
 import { CouponService } from '../services/coupon.service';
 import { Coupon } from '../model/coupon.model';
 import { SnacbarService } from '../../services/snack-bar/snacbar.service';
-
+import { Packages } from '../model/packages.model';
 
 // import { HttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-coupon',
   templateUrl: './add.coupon.component.html',
-  styleUrls: ['./add.coupon.component.css']
+  styleUrls: ['./add.coupon.component.css'],
 })
-export class AddCouponComponent implements OnInit{
-   couponForm!: FormGroup;
-  categories: string[] = [];
+export class AddCouponComponent implements OnInit {
+  couponForm!: FormGroup;
+  packages: Packages[] = [];
+
   isLoading = false;
-constructor(private fb: FormBuilder,private cateService: PackagesService, private couponService: CouponService, private snackbarService: SnacbarService) {}
+  constructor(
+    private fb: FormBuilder,
+    private cateService: PackagesService,
+    private couponService: CouponService,
+    private snackbarService: SnacbarService
+  ) {}
 
   ngOnInit(): void {
     this.couponForm = this.fb.group({
       quantity: ['', [Validators.required, Validators.min(1)]],
       expiryDate: ['', Validators.required],
-      couponCode: ['', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
-      categories: [null, Validators.required],
-      discount: ['',[Validators.required, Validators.pattern(/^([1-9][0-9]?|100)%$/), ],]
-    });
+      packages: [null, Validators.required],
+      couponCode: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(16),
+          Validators.maxLength(16),
+        ],
+      ],
 
-    this.cateService.getPackageCategories().subscribe((cats) => {
-      this.categories = cats;
+      discount: [
+        '',
+        [Validators.required, Validators.pattern(/^([1-9][0-9]?|100)%$/)],
+      ],
+    });
+    this.getPackages();
+  }
+
+  getPackages() {
+    this.cateService.getPackages().subscribe((data) => {
+      this.packages = data;
+      console.log(this.packages);
     });
   }
-  
 
-    generateCouponCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$';
+  generateCouponCode() {
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$';
     let code = '';
     for (let i = 0; i < 16; i++) {
       code += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -51,32 +71,40 @@ constructor(private fb: FormBuilder,private cateService: PackagesService, privat
       // call your API here
       const coupon: Coupon = {
         quantity: this.couponForm.value.quantity,
-        category: this.couponForm.value.categories,     
-        expiryDate: this.couponForm.value.expiryDate, 
+        expiryDate: this.couponForm.value.expiryDate,
         couponCode: this.couponForm.value.couponCode,
         discount: this.couponForm.value.discount,
+        category: this.couponForm.value.packages.category,
+        package: this.couponForm.value.packages.id,
       };
       console.log(coupon);
 
-     this.couponService.addCoupon(coupon)
-      .then(() => {
-        this.snackbarService.showSuccess('Coupon added successfully!');
-        this.couponForm.reset();
-      })
-      .catch((error) => {
-        console.error('Error adding coupon:', error);
-        this.snackbarService.showError('Failed to add coupon. Please try again.');
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+      this.couponService
+        .addCoupon(coupon)
+        .then(() => {
+          this.snackbarService.showSuccess('Coupon added successfully!');
+          this.couponForm.reset();
+        })
+        .catch((error) => {
+          console.error('Error adding coupon:', error);
+          this.snackbarService.showError(error);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     }
   }
-   // Helper getters for form controls (optional, for easy access in template)
-  get couponQty() { return this.couponForm.get('couponQty'); }
-  get category() { return this.couponForm.get('category'); }
-  get expiryDate() { return this.couponForm.get('expiryDate'); }
-  get coupon() { return this.couponForm.get('coupon'); }
-
-
+  // Helper getters for form controls (optional, for easy access in template)
+  get couponQty() {
+    return this.couponForm.get('couponQty');
+  }
+  get category() {
+    return this.couponForm.get('category');
+  }
+  get expiryDate() {
+    return this.couponForm.get('expiryDate');
+  }
+  get coupon() {
+    return this.couponForm.get('coupon');
+  }
 }

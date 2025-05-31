@@ -15,6 +15,8 @@ import { MatPaginator } from '@angular/material/paginator';
 export class CouponsComponent implements OnInit {
   displayedColumns: string[] = [
     'index',
+    'Image',
+    'Service',
     'couponCode',
     'category',
     'expiryDate',
@@ -35,6 +37,7 @@ export class CouponsComponent implements OnInit {
   currentPage = 0;
   hasNextPage = false;
   hasPreviousPage = false;
+  hoveredCoupon: string | null = null;
 
   constructor(
     private couponService: CouponService,
@@ -45,22 +48,35 @@ export class CouponsComponent implements OnInit {
     this.loadPage(null);
   }
 
+  copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        // Optionally, show a snack bar or success alert
+        console.log('Copied to clipboard:', text);
+      },
+      (err) => {
+        console.error('Could not copy text: ', err);
+      }
+    );
+  }
+
   private loadPage(startAfterCode: string | null): void {
     this.loading = true;
     this.couponService
       .getCouponsPage(startAfterCode ?? undefined, this.pageSize)
       .subscribe((result) => {
+        console.log(result);
         const newCoupons = result.data.map((coupon) => ({
           ...coupon,
           expiryDate: (coupon.expiryDate as any)?.toDate?.() ?? null,
         }));
 
         this.dataSource.data = newCoupons;
+        this.allCouponsBackup = [...newCoupons];
+        this.loading = false;
         setTimeout(() => {
           this.dataSource.sort = this.sort;
         });
-        this.allCouponsBackup = [...newCoupons];
-        this.loading = false;
 
         this.hasNextPage = newCoupons.length === this.pageSize;
         this.hasPreviousPage = this.currentPage > 0;

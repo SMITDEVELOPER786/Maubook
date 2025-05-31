@@ -30,10 +30,48 @@
           <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
         </ng-container>
 
+        <!-- Service -->
+        <ng-container matColumnDef="Image">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Image</th>
+          <div class="image-container" *matCellDef="let element">
+            <img
+              *ngIf="element.packagesDetails.image"
+              [src]="element.packagesDetails.image"
+            />
+          </div>
+        </ng-container>
+
+        <!-- Service -->
+        <ng-container matColumnDef="Service">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Service</th>
+
+          <td mat-cell *matCellDef="let element">
+            {{ element.packagesDetails.name }}
+          </td>
+        </ng-container>
+
         <!-- Coupon Code -->
+
         <ng-container matColumnDef="couponCode">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Coupon Code</th>
-          <td mat-cell *matCellDef="let element">{{ element.couponCode }}</td>
+          <td mat-cell *matCellDef="let element">
+            <div
+              class="copy-container"
+              (mouseenter)="hoveredCoupon = element.id"
+              (mouseleave)="hoveredCoupon = null"
+            >
+              <span class="coupon-code-text">{{ element.couponCode }}</span>
+              <button
+                *ngIf="hoveredCoupon === element.id"
+                mat-icon-button
+                class="copy-icon"
+                (click)="copyToClipboard(element.couponCode)"
+                matTooltip="Copy Code"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </td>
         </ng-container>
 
         <!-- Category -->

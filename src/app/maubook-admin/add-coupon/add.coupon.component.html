@@ -24,23 +24,28 @@
       <input matInput type="number" formControlName="quantity" required />
     </mat-form-field>
 
-    <!-- <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="categoryId" required>
-          <mat-option *ngFor="let category of categories">
-            {{ category }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
-
     <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Packages</mat-label>
+      <mat-select formControlName="packages" required>
+        <mat-option *ngFor="let pac of packages" [value]="pac">
+          <div class="package-option">
+            <div class="image-container">
+              <img *ngIf="pac.image" [src]="pac.image" alt="{{ pac.name }}" />
+            </div>
+            <span class="package-name">{{ pac.name }}</span>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="full-width">
       <mat-label>Category</mat-label>
       <mat-select formControlName="categories" required>
         <mat-option *ngFor="let cat of categories" [value]="cat">
           {{ cat }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <!-- discount -->
     <mat-form-field appearance="outline" class="full-width">

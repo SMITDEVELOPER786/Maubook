@@ -1,10 +1,10 @@
 .packages-container {
-//   padding: 20px;
+  //   padding: 20px;
   margin-left: 280px;
-    margin-top: 70px;
-    padding: 2rem;
-    background: #f8fafc;
-    min-height: 100vh;
+  margin-top: 70px;
+  padding: 2rem;
+  background: #f8fafc;
+  min-height: 100vh;
   .header {
     display: flex;
     justify-content: space-between;
@@ -53,7 +53,8 @@
     background: white;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
-    th, td {
+    th,
+    td {
       padding: 12px;
       text-align: left;
       border-bottom: 1px solid #ddd;
@@ -71,7 +72,8 @@
       border-radius: 4px;
     }
 
-    .btn-edit, .btn-delete {
+    .btn-edit,
+    .btn-delete {
       padding: 6px 12px;
       border-radius: 4px;
       border: none;
@@ -80,7 +82,7 @@
     }
 
     .btn-edit {
-      background-color: #4CAF50;
+      background-color: #4caf50;
       color: white;
 
       &:hover {
@@ -100,27 +102,28 @@
 
   .btn-primary {
     padding: 10px 20px;
-    background-color: #2196F3;
+    background-color: #2196f3;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 
     &:hover {
-      background-color: #1976D2;
+      background-color: #1976d2;
     }
   }
 
-  .btn-filter, .btn-search {
+  .btn-filter,
+  .btn-search {
     padding: 8px 16px;
-    background-color: #607D8B;
+    background-color: #607d8b;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 
     &:hover {
-      background-color: #455A64;
+      background-color: #455a64;
     }
   }
 }
@@ -143,7 +146,6 @@
   position: relative;
 }
 
-
 .custom-paginator {
   display: flex;
   justify-content: flex-end;
@@ -161,4 +163,58 @@
       text-align: center;
     }
   }
+}
+
+.copy-container {
+  position: relative;
+  padding-right: 30px; // give space for the icon without shifting layout
+  display: inline-block;
+  width: 100%;
+
+  .coupon-code-text {
+    display: block;
+    word-break: break-word;
+  }
+
+  .copy-icon {
+    position: absolute;
+
+    top: 2px;
+    right: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 1;
+    background: white;
+    border-radius: 20%;
+    padding: 2px;
+
+    width: 30px; // smaller width
+    height: 30px; // smaller height
+
+    mat-icon {
+      font-size: 16px; // default is 24px, reduce it
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &:hover .copy-icon {
+    opacity: 1;
+  }
+}
+
+.image-container {
+  width: 40px; /* Adjust width to your image size */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
