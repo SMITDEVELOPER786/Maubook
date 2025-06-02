@@ -8,13 +8,12 @@ import { Packages } from '../model/packages.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CouponService {
+export class PropertyCouponService {
   constructor(private firestore: AngularFirestore) {}
-
   async addCoupon(coupon: Coupon): Promise<void> {
     // First, check if a coupon with the same packageId already exists
     const snapshot = await this.firestore
-      .collection<Coupon>('coupons', (ref_1) =>
+      .collection<Coupon>('property-coupons', (ref_1) =>
         ref_1.where('package', '==', coupon.package)
       )
       .get()
@@ -27,17 +26,20 @@ export class CouponService {
     }
     // If not found, create a new coupon
     const id = this.firestore.createId();
-    return await this.firestore.collection('coupons').doc(id).set(coupon);
+    return await this.firestore
+      .collection('property-coupons')
+      .doc(id)
+      .set(coupon);
   }
 
   getCoupons(): Observable<Coupon[]> {
     return this.firestore
-      .collection<Coupon>('coupons')
+      .collection<Coupon>('property-coupons')
       .valueChanges({ idField: 'id' }); // idField ensures the doc ID is included
   }
 
   deleteCoupon(id: string): Promise<void> {
-    return this.firestore.collection('coupons').doc(id).delete();
+    return this.firestore.collection('property-coupons').doc(id).delete();
   }
 
   async updateCoupon(
@@ -47,7 +49,7 @@ export class CouponService {
     // Only check for package conflict if the package is being updated
     if (updatedCoupon.package) {
       const snapshot = await this.firestore
-        .collection<Coupon>('coupons', (ref) =>
+        .collection<Coupon>('property-coupons', (ref) =>
           ref.where('package', '==', updatedCoupon.package)
         )
         .get()
@@ -62,12 +64,15 @@ export class CouponService {
     }
 
     // Proceed with the update if no conflict found
-    return this.firestore.collection('coupons').doc(id).update(updatedCoupon);
+    return this.firestore
+      .collection('property-coupons')
+      .doc(id)
+      .update(updatedCoupon);
   }
 
   getCouponById(id: string): Observable<Coupon | undefined> {
     return this.firestore
-      .collection('coupons')
+      .collection('property-coupons')
       .doc<Coupon>(id)
       .valueChanges({ idField: 'id' });
   }
@@ -77,7 +82,7 @@ export class CouponService {
     pageSize?: number
   ): Observable<{ data: Coupon[]; lastDocCode: string | null }> {
     return this.firestore
-      .collection<Coupon>('coupons', (ref) => {
+      .collection<Coupon>('property-coupons', (ref) => {
         let query = ref.orderBy('couponCode').limit(pageSize ?? 10);
         if (startAfterCode) {
           query = query.startAfter(startAfterCode);
@@ -104,7 +109,7 @@ export class CouponService {
               return of({ name: '', image: '', id: '', category: '' });
             }
             return this.firestore
-              .collection<Packages>('packages')
+              .collection<Packages>('properties')
               .doc(packageId)
               .get()
               .pipe(

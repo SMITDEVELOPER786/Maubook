@@ -1,0 +1,150 @@
+<p>property-coupon works!</p>
+<div class="packages-container">
+  <div class="header">
+    <h2>Coupons</h2>
+    <div class="actions">
+      <a href="/add-coupon">
+        <button mat-raised-button color="primary">Add New Coupon</button>
+      </a>
+    </div>
+  </div>
+
+  <mat-form-field appearance="outline" class="w-100 mb-3">
+    <mat-label>Search by code or category</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search..." />
+  </mat-form-field>
+
+  <div class="example-container mat-elevation-z8">
+    <div *ngIf="loading" class="example-loading-shade">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8 w-100"
+      >
+        <!-- Index Column -->
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <!-- Service -->
+        <ng-container matColumnDef="Image">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Image</th>
+          <div class="image-container" *matCellDef="let element">
+            <img
+              *ngIf="element.packagesDetails.image"
+              [src]="element.packagesDetails.image"
+            />
+          </div>
+        </ng-container>
+
+        <!-- Service -->
+        <ng-container matColumnDef="Service">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Service</th>
+
+          <td mat-cell *matCellDef="let element">
+            {{ element.packagesDetails.name }}
+          </td>
+        </ng-container>
+
+        <!-- Coupon Code -->
+
+        <ng-container matColumnDef="couponCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Coupon Code</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              class="copy-container"
+              (mouseenter)="hoveredCoupon = element.id"
+              (mouseleave)="hoveredCoupon = null"
+            >
+              <span class="coupon-code-text">{{ element.couponCode }}</span>
+              <button
+                *ngIf="hoveredCoupon === element.id"
+                mat-icon-button
+                class="copy-icon"
+                (click)="copyToClipboard(element.couponCode)"
+                matTooltip="Copy Code"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Category -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+          <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+        </ng-container>
+
+        <!-- Expiry Date -->
+        <ng-container matColumnDef="expiryDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Expiry Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.expiryDate | date : "MMMM d, y" }}
+          </td>
+        </ng-container>
+
+        <!-- Quantity -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Qty</th>
+          <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+        </ng-container>
+
+        <!-- Discount -->
+        <ng-container matColumnDef="discount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Discount</th>
+          <td mat-cell *matCellDef="let element">{{ element.discount }}</td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <a [routerLink]="['/edit-coupon', element.id]">
+              <button mat-button color="primary">Edit</button>
+            </a>
+            <button mat-button color="warn" (click)="deleteCoupon(element.id)">
+              Delete
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Table Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- Styled Firebase Pagination -->
+      <div class="mat-paginator custom-paginator">
+        <div class="mat-paginator-range-actions">
+          <button
+            mat-icon-button
+            (click)="getPreviousPage()"
+            [disabled]="!hasPreviousPage || loading"
+            aria-label="Previous page"
+          >
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+
+          <div class="mat-paginator-range-label">
+            Page {{ currentPage + 1 }}
+          </div>
+
+          <button
+            mat-icon-button
+            (click)="getNextPage()"
+            [disabled]="!hasNextPage || loading"
+            aria-label="Next page"
+          >
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

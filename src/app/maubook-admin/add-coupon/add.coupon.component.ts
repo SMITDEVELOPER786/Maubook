@@ -5,6 +5,8 @@ import { CouponService } from '../services/coupon.service';
 import { Coupon } from '../model/coupon.model';
 import { SnacbarService } from '../../services/snack-bar/snacbar.service';
 import { Packages } from '../model/packages.model';
+import { PropertyService } from 'src/app/maubook-admin/services/property.service';
+import { PropertyCouponService } from '../services/property-coupon.service';
 
 // import { HttpClient } from '@angular/common/http';
 
@@ -16,20 +18,25 @@ import { Packages } from '../model/packages.model';
 export class AddCouponComponent implements OnInit {
   couponForm!: FormGroup;
   packages: Packages[] = [];
-
+  categories: string[] = [];
+  couponForHotels: boolean = true;
   isLoading = false;
   constructor(
     private fb: FormBuilder,
     private cateService: PackagesService,
     private couponService: CouponService,
-    private snackbarService: SnacbarService
+    private snackbarService: SnacbarService,
+    private propertyService: PropertyService,
+    private propertyCouponService: PropertyCouponService
   ) {}
 
   ngOnInit(): void {
     this.couponForm = this.fb.group({
+      couponForServiceOrHotel: ['For Hotels', Validators.required],
       quantity: ['', [Validators.required, Validators.min(1)]],
       expiryDate: ['', Validators.required],
       packages: [null, Validators.required],
+      category: [null, Validators.required],
       couponCode: [
         '',
         [
@@ -44,7 +51,14 @@ export class AddCouponComponent implements OnInit {
         [Validators.required, Validators.pattern(/^([1-9][0-9]?|100)%$/)],
       ],
     });
-    this.getPackages();
+
+    this.getPropertyCategory();
+  }
+
+  getPackagesCategory() {
+    this.cateService.getPackageCategories().subscribe((cats) => {
+      this.categories = cats;
+    });
   }
 
   getPackages() {
@@ -52,6 +66,57 @@ export class AddCouponComponent implements OnInit {
       this.packages = data;
       console.log(this.packages);
     });
+  }
+
+  getPropertyPackages() {
+    this.propertyService.getAllPropertiesAsPackages().subscribe((data) => {
+      this.packages = data;
+      console.log(this.packages);
+    });
+  }
+
+  getPropertyPackagesByCategory(category: string) {
+    this.propertyService.getPropertiesByCategory(category).subscribe((data) => {
+      this.packages = data;
+      console.log(this.packages);
+    });
+  }
+
+  getPackagesByCategory(category: string) {
+    this.cateService.getPackagesByCategory(category).subscribe((data) => {
+      this.packages = data;
+      console.log(data);
+    });
+  }
+
+  getPropertyCategory() {
+    this.propertyService.getAllPropertyCategories().subscribe((data) => {
+      this.categories = data;
+      console.log(this.categories);
+    });
+  }
+
+  onServiceOrHotelChange(selectedValue: string): void {
+    console.log('Selected selectedValue:', selectedValue);
+    if (selectedValue === 'For Hotels') {
+      this.couponForHotels = true;
+      this.getPropertyCategory();
+      this.packages = [];
+    } else {
+      this.couponForHotels = false;
+      this.getPackagesCategory();
+      this.packages = [];
+    }
+    // You can call your getPackagesByCategory method here:
+    // this.getPackagesByCategory(selectedCategory);
+  }
+
+  onCategoryChange(selectedCategory: string): void {
+    if (this.couponForm.value.couponForServiceOrHotel == 'For Hotels') {
+      this.getPropertyPackagesByCategory(selectedCategory);
+    } else {
+      this.getPackagesByCategory(selectedCategory);
+    }
   }
 
   generateCouponCode() {
@@ -78,20 +143,35 @@ export class AddCouponComponent implements OnInit {
         package: this.couponForm.value.packages.id,
       };
       console.log(coupon);
-
-      this.couponService
-        .addCoupon(coupon)
-        .then(() => {
-          this.snackbarService.showSuccess('Coupon added successfully!');
-          this.couponForm.reset();
-        })
-        .catch((error) => {
-          console.error('Error adding coupon:', error);
-          this.snackbarService.showError(error);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      if (this.couponForm.value.couponForServiceOrHotel == 'For Hotels') {
+        this.propertyCouponService
+          .addCoupon(coupon)
+          .then(() => {
+            this.snackbarService.showSuccess('Coupon added successfully!');
+            this.couponForm.reset();
+          })
+          .catch((error) => {
+            console.error('Error adding coupon:', error);
+            this.snackbarService.showError(error);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
+      } else {
+        this.couponService
+          .addCoupon(coupon)
+          .then(() => {
+            this.snackbarService.showSuccess('Coupon added successfully!');
+            this.couponForm.reset();
+          })
+          .catch((error) => {
+            console.error('Error adding coupon:', error);
+            this.snackbarService.showError(error);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
+      }
     }
   }
   // Helper getters for form controls (optional, for easy access in template)
