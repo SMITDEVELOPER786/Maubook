@@ -43,8 +43,8 @@
         </ng-container>
 
         <!-- Service -->
-        <ng-container matColumnDef="Service">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Service</th>
+        <ng-container matColumnDef="HotelName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Hotel</th>
 
           <td mat-cell *matCellDef="let element">
             {{ element.packagesDetails.name }}
@@ -105,9 +105,9 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
-            <a [routerLink]="['/edit-coupon', element.id]">
+            <!-- <a [routerLink]="['/edit-coupon', element.id]">
               <button mat-button color="primary">Edit</button>
-            </a>
+            </a> -->
             <button mat-button color="warn" (click)="deleteCoupon(element.id)">
               Delete
             </button>

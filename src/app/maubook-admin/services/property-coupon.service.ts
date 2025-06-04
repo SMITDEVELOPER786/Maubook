@@ -11,7 +11,23 @@ import { Packages } from '../model/packages.model';
 export class PropertyCouponService {
   constructor(private firestore: AngularFirestore) {}
   async addCoupon(coupon: Coupon): Promise<void> {
-    // First, check if a coupon with the same packageId already exists
+    // 1. Check if a coupon with the same couponCode already exists
+    const codeSnapshot = await this.firestore
+      .collection<Coupon>('property-coupons', (ref) =>
+        ref.where('couponCode', '==', coupon.couponCode)
+      )
+      .get()
+      .toPromise();
+
+    if (codeSnapshot && !codeSnapshot.empty) {
+      return Promise.reject(
+        new Error(
+          'This coupon code is already in use. Please try another or auto-generate one.'
+        )
+      );
+    }
+
+    // 2. check if a coupon with the same packageId already exists
     const snapshot = await this.firestore
       .collection<Coupon>('property-coupons', (ref_1) =>
         ref_1.where('package', '==', coupon.package)
@@ -24,7 +40,7 @@ export class PropertyCouponService {
         new Error('A coupon for this package already exists.')
       );
     }
-    // If not found, create a new coupon
+    //3. If not found, create a new coupon
     const id = this.firestore.createId();
     return await this.firestore
       .collection('property-coupons')

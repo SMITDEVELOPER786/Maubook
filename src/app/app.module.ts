@@ -107,6 +107,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComComponent } from './dialog/dialog-com/dialog-com.component';
 import { EditCouponComponent } from './maubook-admin/edit-coupon/edit-coupon.component';
 import { PropertyCouponComponent } from './maubook-admin/property-coupon/property-coupon.component';
+import { AppearanceComponent } from './maubook-admin/appearance/appearance.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -194,6 +195,7 @@ export const auth = firebaseAuth(firebaseApp);
     DialogComComponent,
     EditCouponComponent,
     PropertyCouponComponent,
+    AppearanceComponent,
   ],
   imports: [
     MatFormFieldModule,

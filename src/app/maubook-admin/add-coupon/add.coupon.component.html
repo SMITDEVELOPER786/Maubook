@@ -25,6 +25,9 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Coupon Quantity</mat-label>
           <input matInput type="number" formControlName="quantity" required />
+          <mat-error *ngIf="couponForm.get('quantity')?.hasError('required')">
+            * Required
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="col-6">
@@ -34,6 +37,9 @@
           <input matInput formControlName="discount" />
           <mat-error *ngIf="couponForm.get('discount')?.hasError('pattern')">
             Discount must be a number followed by % and between 1% and 100%
+          </mat-error>
+          <mat-error *ngIf="couponForm.get('discount')?.hasError('required')">
+            * Required
           </mat-error>
         </mat-form-field>
       </div>
@@ -57,6 +63,11 @@
           </div>
         </mat-option>
       </mat-select>
+      <mat-error
+        *ngIf="couponForm.get('couponForServiceOrHotel')?.hasError('required')"
+      >
+        * Required
+      </mat-error>
     </mat-form-field>
 
     <div class="row">
@@ -75,6 +86,9 @@
               </div>
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="couponForm.get('category')?.hasError('required')">
+            * Required
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="col-6">
@@ -92,6 +106,9 @@
             [for]="picker"
           ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="couponForm.get('expiryDate')?.hasError('required')">
+            * Required
+          </mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -108,6 +125,9 @@
           </div>
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="couponForm.get('packages')?.hasError('required')">
+        * Required
+      </mat-error>
     </mat-form-field>
 
     <!-- <mat-form-field appearance="outline" class="full-width">
@@ -120,10 +140,32 @@
     </mat-form-field> -->
 
     <div class="row">
-      <div class="col-10 align-middle">
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Prefix</mat-label>
+          <input matInput formControlName="prefix" required />
+          <mat-error *ngIf="couponForm.get('prefix')?.hasError('required')">
+            * Required
+          </mat-error>
+
+          <mat-error *ngIf="couponForm.get('prefix')?.hasError('minlength')">
+            Prefix must be minimum 4 and at least 8 characters long
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 align-middle">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Coupon Code</mat-label>
-          <input matInput formControlName="couponCode" required readonly />
+          <input matInput formControlName="couponCode" required />
+          <mat-error *ngIf="couponForm.get('couponCode')?.hasError('required')">
+            * Required
+          </mat-error>
+
+          <mat-error
+            *ngIf="couponForm.get('couponCode')?.hasError('minlength')"
+          >
+            Coupon Code must be at least 16 characters long
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="col-2">

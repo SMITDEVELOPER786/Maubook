@@ -4,16 +4,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { db } from '../../app.module';
 import { collection, addDoc, doc, updateDoc } from 'firebase/firestore';
 
-
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
-const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
-const CLOUDINARY_FOLDER = 'Folder Name';
-const CLOUDINARY_API_KEY = '893699556445192';
+export const CLOUDINARY_URL =
+  'https://api.cloudinary.com/v1_1/dkfgfnbst/image/upload';
+export const CLOUDINARY_UPLOAD_PRESET = 'newpresent';
+export const CLOUDINARY_FOLDER = 'Folder Name';
+export const CLOUDINARY_API_KEY = '893699556445192';
 
 @Component({
   selector: 'app-add-properties',
   templateUrl: './add-properties.component.html',
-  styleUrls: ['./add-properties.component.scss']
+  styleUrls: ['./add-properties.component.scss'],
 })
 export class AddPropertiesComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -27,23 +27,48 @@ export class AddPropertiesComponent implements OnInit {
   propertyId: string | null = null;
 
   featuresList: string[] = [
-    'Exclusive', 'All-Inclusive', 'Family Friendly', 'Adults Only',
-    'Beachfront', 'Business Center', 'Pet Friendly'
+    'Exclusive',
+    'All-Inclusive',
+    'Family Friendly',
+    'Adults Only',
+    'Beachfront',
+    'Business Center',
+    'Pet Friendly',
   ];
 
   popularFacilitiesList: string[] = [
-    'Restaurant', 'Swimming Pool', 'Bar', 'Beach Access', 'Spa',
-    'Fitness Center', 'Free WiFi', 'Parking', 'Room Service', 'Theater'
+    'Restaurant',
+    'Swimming Pool',
+    'Bar',
+    'Beach Access',
+    'Spa',
+    'Fitness Center',
+    'Free WiFi',
+    'Parking',
+    'Room Service',
+    'Theater',
   ];
 
   otherFacilitiesList: string[] = [
-    'Airport Shuttle', 'Concierge', 'Currency Exchange', 'Laundry',
-    'Meeting Rooms', 'Tennis Court', 'Kids Club', '24/7 Security'
+    'Airport Shuttle',
+    'Concierge',
+    'Currency Exchange',
+    'Laundry',
+    'Meeting Rooms',
+    'Tennis Court',
+    'Kids Club',
+    '24/7 Security',
   ];
 
   roomFacilitiesList: string[] = [
-    'Air Conditioning', 'Mini Bar', 'Safe', 'TV',
-    'Private Balcony', 'Sea View', 'Bath Tub', 'Shower'
+    'Air Conditioning',
+    'Mini Bar',
+    'Safe',
+    'TV',
+    'Private Balcony',
+    'Sea View',
+    'Bath Tub',
+    'Shower',
   ];
 
   constructor(
@@ -54,19 +79,19 @@ export class AddPropertiesComponent implements OnInit {
     this.createForm();
     const propertyData = history.state.property;
     if (propertyData && history.state.isEditing) {
-        console.log('Property data:', propertyData); // Debug log
-        this.isEditing = true;
-        this.propertyId = propertyData.id;
-        setTimeout(() => {
-            this.populateForm(propertyData);
-        }, 100);
+      console.log('Property data:', propertyData); // Debug log
+      this.isEditing = true;
+      this.propertyId = propertyData.id;
+      setTimeout(() => {
+        this.populateForm(propertyData);
+      }, 100);
     }
-}
+  }
 
   ngOnInit(): void {
-      if (!this.isEditing) {
-          this.addRoom();
-      }
+    if (!this.isEditing) {
+      this.addRoom();
+    }
   }
 
   private createForm() {
@@ -85,7 +110,7 @@ export class AddPropertiesComponent implements OnInit {
       additionalInfo: [''],
       videoLink: [''],
       price: [''],
-      googleMapUrl: ['']
+      googleMapUrl: [''],
     });
   }
 
@@ -102,7 +127,7 @@ export class AddPropertiesComponent implements OnInit {
       additionalInfo: property.additionalInfo || '',
       videoLink: property.videoLink || '',
       googleMapUrl: property.googleMapUrl || '',
-      price: property.price || ''
+      price: property.price || '',
     });
 
     // Populate features
@@ -115,7 +140,9 @@ export class AddPropertiesComponent implements OnInit {
     });
 
     // Populate popular facilities
-    const popularFacilitiesArray = this.propertyForm.get('popularFacilities') as FormArray;
+    const popularFacilitiesArray = this.propertyForm.get(
+      'popularFacilities'
+    ) as FormArray;
     popularFacilitiesArray.clear();
     (property.popularFacilities || []).forEach((facility: string) => {
       if (this.popularFacilitiesList.includes(facility)) {
@@ -124,7 +151,9 @@ export class AddPropertiesComponent implements OnInit {
     });
 
     // Populate other facilities
-    const otherFacilitiesArray = this.propertyForm.get('otherFacilities') as FormArray;
+    const otherFacilitiesArray = this.propertyForm.get(
+      'otherFacilities'
+    ) as FormArray;
     otherFacilitiesArray.clear();
     (property.otherFacilities || []).forEach((facility: string) => {
       if (this.otherFacilitiesList.includes(facility)) {
@@ -140,7 +169,7 @@ export class AddPropertiesComponent implements OnInit {
       roomGroup.patchValue({
         type: room.type || '',
         description: room.description || '',
-         roomPrice: room.roomPrice || ''
+        roomPrice: room.roomPrice || '',
       });
 
       // Populate room facilities
@@ -154,27 +183,29 @@ export class AddPropertiesComponent implements OnInit {
       // Populate room plans
       const plansArray = roomGroup.get('plans') as FormArray;
       (room.plans || []).forEach((plan: any) => {
-        plansArray.push(this.fb.group({
-          adultCapacity: [plan.adultCapacity || ''],
-          teenCapacity: [plan.teenCapacity || ''],
-          childCapacity: [plan.childCapacity || ''],
-          bedType: [plan.bedType || ''],
-          price: [plan.price || '']
-        }));
+        plansArray.push(
+          this.fb.group({
+            adultCapacity: [plan.adultCapacity || ''],
+            teenCapacity: [plan.teenCapacity || ''],
+            childCapacity: [plan.childCapacity || ''],
+            bedType: [plan.bedType || ''],
+            price: [plan.price || ''],
+          })
+        );
       });
 
       roomsArray.push(roomGroup);
 
       // Initialize room images and removed images array
       this.roomImages[index] = (room.images || []).map((url: string) => ({
-        preview: url
+        preview: url,
       }));
       this.removedRoomImages[index] = [];
     });
 
     // Populate property images
     this.selectedImages = (property.images || []).map((url: string) => ({
-      preview: url
+      preview: url,
     }));
   }
 
@@ -189,7 +220,7 @@ export class AddPropertiesComponent implements OnInit {
       roomPrice: [''],
       facilities: this.fb.array([]),
       images: [[]],
-      plans: this.fb.array([])
+      plans: this.fb.array([]),
     });
   }
 
@@ -199,7 +230,7 @@ export class AddPropertiesComponent implements OnInit {
       teenCapacity: [''],
       childCapacity: [''],
       bedType: [''],
-      price: ['']
+      price: [''],
     });
   }
 
@@ -256,17 +287,19 @@ export class AddPropertiesComponent implements OnInit {
       let propertyData = {
         ...this.propertyForm.value,
         images: propertyImageUrls,
-        rooms: this.propertyForm.value.rooms.map((room: any, index: number) => ({
-          ...room,
-          images: roomImageUrls[index] || []
-        })),
-        updatedAt: new Date()
+        rooms: this.propertyForm.value.rooms.map(
+          (room: any, index: number) => ({
+            ...room,
+            images: roomImageUrls[index] || [],
+          })
+        ),
+        updatedAt: new Date(),
       };
 
       if (!this.isEditing) {
         propertyData = {
           ...propertyData,
-          createdAt: new Date()
+          createdAt: new Date(),
         };
       }
 
@@ -296,10 +329,13 @@ export class AddPropertiesComponent implements OnInit {
       formData.append('api_key', CLOUDINARY_API_KEY);
       formData.append('timestamp', timestamp.toString());
 
-      const response = await fetch('https://api.cloudinary.com/v1_1/dtsngfxmm/image/destroy', {
-        method: 'POST',
-        body: formData
-      });
+      const response = await fetch(
+        'https://api.cloudinary.com/v1_1/dtsngfxmm/image/destroy',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to delete image: ${publicId}`);
@@ -328,7 +364,9 @@ export class AddPropertiesComponent implements OnInit {
   removeRoom(index: number) {
     // Track images from the removed room for deletion
     if (this.roomImages[index]) {
-      this.removedRoomImages[index].push(...this.roomImages[index].map(img => img.preview));
+      this.removedRoomImages[index].push(
+        ...this.roomImages[index].map((img) => img.preview)
+      );
     }
     this.rooms.removeAt(index);
     this.roomImages.splice(index, 1);
@@ -370,7 +408,7 @@ export class AddPropertiesComponent implements OnInit {
     if (event.target.checked) {
       facilities.push(this.fb.control(facility));
     } else {
-      const index = facilities.controls.findIndex(x => x.value === facility);
+      const index = facilities.controls.findIndex((x) => x.value === facility);
       if (index >= 0) {
         facilities.removeAt(index);
       }
@@ -420,14 +458,20 @@ export class AddPropertiesComponent implements OnInit {
 
   removeRoomImage(roomIndex: number, imageIndex: number) {
     const removed = this.roomImages[roomIndex].splice(imageIndex, 1)[0];
-    if (!removed.file && !this.removedRoomImages[roomIndex].includes(removed.preview)) {
+    if (
+      !removed.file &&
+      !this.removedRoomImages[roomIndex].includes(removed.preview)
+    ) {
       this.removedRoomImages[roomIndex].push(removed.preview);
     }
   }
 
   removeImage(index: number) {
     const removed = this.selectedImages.splice(index, 1)[0];
-    if (!removed.file && !this.removedPropertyImages.includes(removed.preview)) {
+    if (
+      !removed.file &&
+      !this.removedPropertyImages.includes(removed.preview)
+    ) {
       this.removedPropertyImages.push(removed.preview);
     }
   }
@@ -444,7 +488,7 @@ export class AddPropertiesComponent implements OnInit {
 
     const response = await fetch(CLOUDINARY_URL, {
       method: 'POST',
-      body: formData
+      body: formData,
     });
 
     if (!response.ok) {
@@ -457,16 +501,16 @@ export class AddPropertiesComponent implements OnInit {
 
   getFacilityIcon(facility: string): string {
     const iconMap: { [key: string]: string } = {
-      'Restaurant': 'fas fa-utensils',
+      Restaurant: 'fas fa-utensils',
       'Swimming Pool': 'fas fa-swimming-pool',
-      'Bar': 'fas fa-glass-martini-alt',
+      Bar: 'fas fa-glass-martini-alt',
       'Beach Access': 'fas fa-umbrella-beach',
-      'Spa': 'fas fa-spa',
+      Spa: 'fas fa-spa',
       'Fitness Center': 'fas fa-dumbbell',
       'Free WiFi': 'fas fa-wifi',
-      'Parking': 'fas fa-parking',
+      Parking: 'fas fa-parking',
       'Room Service': 'fas fa-concierge-bell',
-      'Theater': 'fas fa-theater-masks'
+      Theater: 'fas fa-theater-masks',
     };
     return iconMap[facility] || 'fas fa-star';
   }
@@ -475,12 +519,12 @@ export class AddPropertiesComponent implements OnInit {
     const iconMap: { [key: string]: string } = {
       'Air Conditioning': 'fas fa-snowflake',
       'Mini Bar': 'fas fa-glass-martini',
-      'Safe': 'fas fa-lock',
-      'TV': 'fas fa-tv',
+      Safe: 'fas fa-lock',
+      TV: 'fas fa-tv',
       'Private Balcony': 'fas fa-door-open',
       'Sea View': 'fas fa-water',
       'Bath Tub': 'fas fa-bath',
-      'Shower': 'fas fa-shower'
+      Shower: 'fas fa-shower',
     };
     return iconMap[facility] || 'fas fa-check';
   }

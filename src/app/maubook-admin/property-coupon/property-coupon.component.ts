@@ -17,7 +17,7 @@ export class PropertyCouponComponent implements OnInit {
   displayedColumns: string[] = [
     'index',
     'Image',
-    'Service',
+    'HotelName',
     'couponCode',
     'category',
     'expiryDate',

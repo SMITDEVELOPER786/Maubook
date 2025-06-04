@@ -1,79 +1,94 @@
 <!-- Button Navigation -->
 <div class="nav-button-group packages-container">
-  <button 
-    [class.active]="selected === 'about'" 
-    (click)="select('about')">About Us</button>
+  <button [class.active]="selected === 'about'" (click)="select('about')">
+    About Us
+  </button>
 
-  <button 
-    [class.active]="selected === 'contact'" 
-    (click)="select('contact')">Contact</button>
+  <button [class.active]="selected === 'contact'" (click)="select('contact')">
+    Contact
+  </button>
 
-  <button 
-    [class.active]="selected === 'services'" 
-    (click)="select('services')">Services</button>
+  <button [class.active]="selected === 'services'" (click)="select('services')">
+    Services
+  </button>
 
-     <button 
-    [class.active]="selected === 'privacyPolicy'" 
-    (click)="select('privacyPolicy')">Privacy Policy</button>
+  <button
+    [class.active]="selected === 'privacyPolicy'"
+    (click)="select('privacyPolicy')"
+  >
+    Privacy Policy
+  </button>
 
-     <button 
-    [class.active]="selected === 'RefundPolicy'" 
-    (click)="select('RefundPolicy')">Refund Policy</button>
+  <button
+    [class.active]="selected === 'RefundPolicy'"
+    (click)="select('RefundPolicy')"
+  >
+    Refund Policy
+  </button>
 
-     <button 
-    [class.active]="selected === 'faq'" 
-    (click)="select('faq')">FAQ</button>
+  <button [class.active]="selected === 'faq'" (click)="select('faq')">
+    FAQ
+  </button>
 
-     <button 
-    [class.active]="selected === 'term'" 
-    (click)="select('term')">TERMS & Condition</button>
+  <button [class.active]="selected === 'term'" (click)="select('term')">
+    TERMS & Condition
+  </button>
 
-     <button 
-    [class.active]="selected === 'choose'" 
-    (click)="select('choose')">Choose Us</button>
+  <button [class.active]="selected === 'choose'" (click)="select('choose')">
+    Choose Us
+  </button>
 
-      <button 
-    [class.active]="selected === 'footer'" 
-    (click)="select('footer')">Footer</button>
+  <button [class.active]="selected === 'footer'" (click)="select('footer')">
+    Footer
+  </button>
 
+  <button
+    [class.active]="selected === 'appearance'"
+    (click)="select('appearance')"
+  >
+    Appearance
+  </button>
 
-<hr />
+  <hr />
 
-<!-- Dynamic Display Based on Selection -->
-<div *ngIf="selected === 'about'">
-  <app-about></app-about>
-</div>
+  <!-- Dynamic Display Based on Selection -->
+  <div *ngIf="selected === 'about'">
+    <app-about></app-about>
+  </div>
 
-<div *ngIf="selected === 'contact'">
-  <app-contact></app-contact>
-</div>
+  <div *ngIf="selected === 'contact'">
+    <app-contact></app-contact>
+  </div>
 
-<div *ngIf="selected === 'services'">
-  <app-services></app-services>
-</div>
+  <div *ngIf="selected === 'services'">
+    <app-services></app-services>
+  </div>
 
-<div *ngIf="selected === 'privacyPolicy'">
-  <app-privacy-policy></app-privacy-policy>
-</div>
+  <div *ngIf="selected === 'privacyPolicy'">
+    <app-privacy-policy></app-privacy-policy>
+  </div>
 
-<div *ngIf="selected === 'RefundPolicy'">
-  <app-refund-policy></app-refund-policy>
-</div>
+  <div *ngIf="selected === 'RefundPolicy'">
+    <app-refund-policy></app-refund-policy>
+  </div>
 
-<div *ngIf="selected === 'faq'">
-  <faq-questions></faq-questions>
-</div>
+  <div *ngIf="selected === 'faq'">
+    <faq-questions></faq-questions>
+  </div>
 
-<div *ngIf="selected === 'term'">
-  <app-terms></app-terms>
-</div>
+  <div *ngIf="selected === 'term'">
+    <app-terms></app-terms>
+  </div>
 
-<div *ngIf="selected === 'choose'">
-  <choose-us></choose-us>
-</div>
+  <div *ngIf="selected === 'choose'">
+    <choose-us></choose-us>
+  </div>
 
-<div *ngIf="selected === 'footer'">
-  <app-footer-admin></app-footer-admin>
-</div>
+  <div *ngIf="selected === 'footer'">
+    <app-footer-admin></app-footer-admin>
+  </div>
 
+  <div *ngIf="selected === 'appearance'">
+    <app-appearance></app-appearance>
+  </div>
 </div>

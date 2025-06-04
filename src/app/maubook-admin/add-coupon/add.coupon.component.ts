@@ -37,6 +37,10 @@ export class AddCouponComponent implements OnInit {
       expiryDate: ['', Validators.required],
       packages: [null, Validators.required],
       category: [null, Validators.required],
+      prefix: [
+        'MAUBOOK',
+        [Validators.required, Validators.minLength(4), Validators.maxLength(8)],
+      ],
       couponCode: [
         '',
         [
@@ -137,7 +141,8 @@ export class AddCouponComponent implements OnInit {
       const coupon: Coupon = {
         quantity: this.couponForm.value.quantity,
         expiryDate: this.couponForm.value.expiryDate,
-        couponCode: this.couponForm.value.couponCode,
+        couponCode:
+          this.couponForm.value.prefix + this.couponForm.value.couponCode,
         discount: this.couponForm.value.discount,
         category: this.couponForm.value.packages.category,
         package: this.couponForm.value.packages.id,
