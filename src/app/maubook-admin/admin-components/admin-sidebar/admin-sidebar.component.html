@@ -4,7 +4,7 @@
       <h3 class="nav-title">MAIN MENU</h3>
       <ul class="nav-list">
         <li class="nav-item" [class.active]="isActive('/dashboard')">
-          <a href="/dashboard">
+          <a routerLink="/dashboard">
             <i class="fas fa-th-large"></i>
             <span>Dashboard</span>
           </a>
@@ -17,74 +17,74 @@
       <h3 class="nav-title">MANAGEMENT</h3>
       <ul class="nav-list">
         <li class="nav-item" [class.active]="isActive('/properties')">
-          <a href="/properties">
+          <a routerLink="/properties">
             <i class="fas fa-building"></i>
             <span>Hotels</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/spas')">
-          <a href="/spas">
+          <a routerLink="/spas">
             <i class="fas fa-users"></i>
             <span>Spa</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/evening')">
-          <a href="/evening">
+          <a routerLink="/evening">
             <i class="fas fa-users"></i>
             <span>Day and Evening</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/events')">
-          <a href="/events">
+          <a routerLink="/events">
             <i class="fas fa-box"></i>
             <span>Events</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/resturants')">
-          <a href="/resturants">
+          <a routerLink="/resturants">
             <i class="fas fa-box"></i>
             <span>Resturants</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/activities')">
-          <a href="/activities">
+          <a routerLink="/activities">
             <i class="fas fa-box"></i>
             <span>Activities</span>
           </a>
         </li>
         <!-- <li class="nav-item" [class.active]="isActive('/packages')">
-          <a href="/packages">
+          <a routerLink="/packages">
             <i class="fas fa-box"></i>
             <span>Packages</span>
           </a>
         </li> -->
         <li class="nav-item" [class.active]="isActive('/users')">
-          <a href="/users">
+          <a routerLink="/users">
             <i class="fas fa-users"></i>
             <span>Users</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/property-coupon')">
-          <a href="/property-coupon">
+          <a routerLink="/property-coupon">
             <i class="fas fa-ticket"></i>
             <span>Hotel Coupons</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/coupons')">
-          <a href="/coupons">
+          <a routerLink="/coupons">
             <i class="fas fa-ticket"></i>
             <span>Services Coupons</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/add-coupon')">
-          <a href="/add-coupon">
+          <a routerLink="/add-coupon">
             <i class="fas fa-plus-circle"></i>
             <span>Add Coupon</span>
           </a>
         </li>
 
         <li class="nav-item">
-          <a href="/settings">
+          <a routerLink="/settings">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
           </a>
@@ -96,13 +96,13 @@
       <h3 class="nav-title">BOOKINGS</h3>
       <ul class="nav-list">
         <li class="nav-item" [class.active]="isActive('/hotels-bookings')">
-          <a href="/hotels-bookings">
+          <a routerLink="/hotels-bookings">
             <i class="fas fa-calendar-check"></i>
             <span>Hotels Bookings</span>
           </a>
         </li>
         <li class="nav-item" [class.active]="isActive('/package-bookings')">
-          <a href="/package-bookings">
+          <a routerLink="/package-bookings">
             <i class="fas fa-ticket-alt"></i>
             <span>Packages Bookings</span>
           </a>
@@ -114,13 +114,13 @@
       <h3 class="nav-title">SETTINGS</h3>
       <ul class="nav-list">
         <li class="nav-item">
-          <a href="/admin/profile">
+          <a routerLink="/admin/profile">
             <i class="fas fa-user-circle"></i>
             <span>Profile</span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/admin/settings">
+          <a routerLink="/admin/settings">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
           </a>

@@ -10,8 +10,17 @@
       color="primary"
       type="button"
       (click)="uploadSelectedFile()"
+      [disabled]="isLoading"
     >
-      <mat-icon>upload</mat-icon>
+      <mat-progress-spinner
+        *ngIf="isLoading"
+        mode="indeterminate"
+        diameter="20"
+        color="accent"
+        strokeWidth="3"
+      ></mat-progress-spinner>
+
+      <mat-icon *ngIf="!isLoading">upload</mat-icon>
     </button>
     <button
       *ngIf="imagePreview"
@@ -19,6 +28,7 @@
       color="warn"
       type="button"
       class="ms-2"
+      [disabled]="isLoading"
       (click)="clearImage($event)"
     >
       <mat-icon>clear</mat-icon>

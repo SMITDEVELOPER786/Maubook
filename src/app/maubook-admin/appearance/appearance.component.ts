@@ -5,6 +5,7 @@ import {
   CLOUDINARY_URL,
 } from '../add-properties/add-properties.component';
 import { SnacbarService } from 'src/app/services/snack-bar/snacbar.service';
+import { AppearanceService } from '../services/appearance.service';
 
 @Component({
   selector: 'app-appearance',
@@ -17,7 +18,10 @@ export class AppearanceComponent implements OnInit {
   isDragging = false;
   isLoading = false;
 
-  constructor(private snackBarService: SnacbarService) {}
+  constructor(
+    private appearanceService: AppearanceService,
+    private snackBarService: SnacbarService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -80,7 +84,11 @@ export class AppearanceComponent implements OnInit {
     this.uploadToCloudinary(file)
       .then((url) => {
         console.log('Uploaded file URL:', url);
-        this.snackBarService.showSuccess('File Uploaded Successfully');
+        this.appearanceService.saveLogoUrl(url).then((value) => {
+          this.selectedFile = null;
+          this.imagePreview = null;
+          this.snackBarService.showSuccess('File Uploaded Successfully');
+        });
       })
       .catch((error) => {
         console.error('Upload failed:', error);
