@@ -149,7 +149,7 @@
           </mat-error>
 
           <mat-error *ngIf="couponForm.get('prefix')?.hasError('minlength')">
-            Prefix must be minimum 4 and at least 8 characters long
+            Prefix must be minimum 4
           </mat-error>
         </mat-form-field>
       </div>
@@ -164,7 +164,7 @@
           <mat-error
             *ngIf="couponForm.get('couponCode')?.hasError('minlength')"
           >
-            Coupon Code must be at least 16 characters long
+            Coupon Code must be at least 10 characters long
           </mat-error>
         </mat-form-field>
       </div>

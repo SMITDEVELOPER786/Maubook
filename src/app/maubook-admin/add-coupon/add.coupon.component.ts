@@ -45,8 +45,8 @@ export class AddCouponComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(16),
-          Validators.maxLength(16),
+          Validators.minLength(1),
+          Validators.maxLength(10),
         ],
       ],
 
