@@ -1,0 +1,120 @@
+<div
+  class="container-center"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  "
+>
+  <form
+    [formGroup]="AccountForm"
+    style="
+      width: 500px;
+      height: 550px;
+      padding: 24px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+    "
+    (ngSubmit)="onSubmit()"
+  >
+    <h2 class="align-center">Account Details</h2>
+
+    <div class="row">
+      <div class="col-6 align-middle">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Bank Name</mat-label>
+          <input matInput formControlName="bankName" required />
+          <mat-error *ngIf="AccountForm.get('bankName')?.hasError('required')">
+            * Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <!-- discount -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Bank Account Name</mat-label>
+          <input matInput formControlName="bankAccountName" />
+
+          <mat-error
+            *ngIf="AccountForm.get('bankAccountName')?.hasError('required')"
+          >
+            * Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Account Number</mat-label>
+      <input matInput formControlName="accountNumber" required />
+      <mat-error *ngIf="AccountForm.get('accountNumber')?.hasError('required')">
+        * Required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col-9">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Branch</mat-label>
+          <input matInput formControlName="branch" required />
+          <mat-error *ngIf="AccountForm.get('branch')?.hasError('required')">
+            * Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="align-baseline full-width"
+          [disabled]="isLoading"
+          style="text-align: center; margin-top: 20px; position: relative"
+        >
+          <mat-spinner
+            *ngIf="isLoading"
+            diameter="20"
+            style="
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            "
+          ></mat-spinner>
+
+          <span [style.visibility]="isLoading ? 'hidden' : 'visible'">
+            Save
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-2 full-width">
+      <div class="card p-3 shadow-sm">
+        <!-- 🔁 Shimmer Placeholder While Loading -->
+        <ng-container *ngIf="bankInfo$ | async as bankInfo; else loading">
+          <h3><strong>Details</strong></h3>
+          <h5>
+            <strong>Bank name: </strong>
+            <span class="text-danger">{{ bankInfo.bankName }}</span>
+          </h5>
+          <p>
+            <strong>Bank Account Name: </strong> {{ bankInfo.bankAccountName }}
+          </p>
+          <p><strong>Account Number: </strong> {{ bankInfo.accountNumber }}</p>
+          <p><strong>Branch: </strong> {{ bankInfo.branch }}</p>
+        </ng-container>
+
+        <!-- ✨ Shimmer Template -->
+        <ng-template #loading>
+          <div class="shimmer-line w-50 mb-4"></div>
+          <div class="shimmer-line w-75 mb-2"></div>
+          <div class="shimmer-line w-100 mb-2"></div>
+          <div class="shimmer-line w-100 mb-2"></div>
+          <div class="shimmer-line w-50"></div>
+        </ng-template>
+      </div>
+    </div>
+  </form>
+</div>

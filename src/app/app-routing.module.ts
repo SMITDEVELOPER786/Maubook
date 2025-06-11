@@ -41,6 +41,7 @@ import { AddCouponComponent } from './maubook-admin/add-coupon/add.coupon.compon
 import { CouponsComponent } from './maubook-admin/coupons/coupons.component';
 import { EditCouponComponent } from './maubook-admin/edit-coupon/edit-coupon.component';
 import { PropertyCouponComponent } from './maubook-admin/property-coupon/property-coupon.component';
+import { AddAccountComponent } from './maubook-admin/add-account/add-account.component';
 
 const routes: Routes = [
   // Website routes
@@ -77,6 +78,7 @@ const routes: Routes = [
       { path: 'coupons', component: CouponsComponent },
       { path: 'property-coupon', component: PropertyCouponComponent },
       { path: 'edit-coupon/:id', component: EditCouponComponent },
+      { path: 'add-account', component: AddAccountComponent },
     ],
   },
 ];

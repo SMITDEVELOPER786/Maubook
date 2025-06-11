@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { BankInfo } from '../model/bank.info.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,21 @@ export class AppearanceService {
       .collection('appearance')
       .doc(this.docName)
       .set({ imageUrl: url }, { merge: true });
+  }
+
+  // ✅ Get real-time bank info
+  getBankInfo(): Observable<BankInfo | undefined> {
+    return this.firestore
+      .collection('bank-info')
+      .doc<BankInfo>('info')
+      .valueChanges();
+  }
+
+  // ✅ Save or update bank info
+  saveBankInfo(data: BankInfo): Promise<void> {
+    return this.firestore
+      .collection('bank-info')
+      .doc('info')
+      .set(data, { merge: true });
   }
 }
