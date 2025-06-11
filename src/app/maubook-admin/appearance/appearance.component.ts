@@ -5,7 +5,7 @@ import {
   CLOUDINARY_URL,
 } from '../add-properties/add-properties.component';
 import { SnacbarService } from 'src/app/services/snack-bar/snacbar.service';
-import { AppearanceService } from '../services/appearance.service';
+import { AppearanceService } from '../../services/appearance.service';
 
 @Component({
   selector: 'app-appearance',

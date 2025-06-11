@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PackagesService } from '../services/packages.service';
-import { CouponService } from '../services/coupon.service';
-import { Coupon } from '../model/coupon.model';
+import { PackagesService } from '../../services/packages.service';
+import { CouponService } from '../../services/coupon.service';
+import { Coupon } from '../../model/coupon.model';
 import { SnacbarService } from '../../services/snack-bar/snacbar.service';
-import { Packages } from '../model/packages.model';
+import { Packages } from '../../model/packages.model';
 import { PropertyService } from 'src/app/maubook-admin/services/property.service';
-import { PropertyCouponService } from '../services/property-coupon.service';
-import { AppearanceService } from '../services/appearance.service';
-import { BankInfo } from '../model/bank.info.model';
+import { PropertyCouponService } from '../../services/property-coupon.service';
+import { AppearanceService } from '../../services/appearance.service';
+import { BankInfo } from '../../model/bank.info.model';
 
 @Component({
   selector: 'app-add-account',

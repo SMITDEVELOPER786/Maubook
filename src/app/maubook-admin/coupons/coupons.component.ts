@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CouponService } from '../services/coupon.service';
-import { Coupon } from '../model/coupon.model';
+import { CouponService } from '../../services/coupon.service';
+import { Coupon } from '../../model/coupon.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComComponent } from 'src/app/dialog/dialog-com/dialog-com.component';
 import { MatTableDataSource } from '@angular/material/table';

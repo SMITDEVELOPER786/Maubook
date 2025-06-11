@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppearanceService } from '../../services/appearance.service';
+import { AppearanceService } from '../../../services/appearance.service';
 
 @Component({
   selector: 'app-admin-header',

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PackagesService } from '../services/packages.service';
-import { CouponService } from '../services/coupon.service';
+import { PackagesService } from '../../services/packages.service';
+import { CouponService } from '../../services/coupon.service';
 import { SnacbarService } from 'src/app/services/snack-bar/snacbar.service';
-import { Coupon } from '../model/coupon.model';
+import { Coupon } from '../../model/coupon.model';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Packages } from '../model/packages.model';
+import { Packages } from '../../model/packages.model';
 
 @Component({
   selector: 'app-edit-coupon',
