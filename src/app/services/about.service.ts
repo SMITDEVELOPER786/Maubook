@@ -14,11 +14,13 @@ export class AboutService {
   private refundpolicyCollection = this.firestore.collection('refund-policy');
   private termconditionsCollection = this.firestore.collection('term-conditions');
   private servicesCollection = this.firestore.collection('site-config');
+  private chooseUsCollection = this.firestore.collection('chooseUs');
 
 
 
 
-  constructor(private firestore: AngularFirestore) {}
+
+  constructor(private firestore: AngularFirestore) { }
 
   // Fetch 'About Us' content from Firestore
   getAbout(): Observable<any> {
@@ -27,6 +29,10 @@ export class AboutService {
 
   getappearance(): Observable<any> {
     return this.firestore.collection('appearance').valueChanges();
+  }
+
+    getChooseUs(): Observable<any> {
+    return this.chooseUsCollection.doc('chooseUs').valueChanges();
   }
 
   getContact(): Observable<any> {
@@ -38,7 +44,7 @@ export class AboutService {
     return this.servicesCollection.valueChanges();
   }
 
-    getFaq(): Observable<any> {
+  getFaq(): Observable<any> {
     return this.faqCollection.doc('faq').valueChanges();
   }
 
@@ -46,7 +52,7 @@ export class AboutService {
     return this.privacyCollection.doc('privacy-policy').valueChanges();
   }
 
-   getrefundPolicy(): Observable<any> {
+  getrefundPolicy(): Observable<any> {
     return this.refundpolicyCollection.doc('refund-policy').valueChanges();
   }
 
@@ -59,9 +65,9 @@ export class AboutService {
   }
 
   // Update 'About Us' content in Firestore
- updateAbout(content: string): Promise<void> {
- return this.firestore.collection('about').doc('aboutUs').set({ content }, { merge: true });
+  updateAbout(content: string): Promise<void> {
+    return this.firestore.collection('about').doc('aboutUs').set({ content }, { merge: true });
 
-}
+  }
 
 }

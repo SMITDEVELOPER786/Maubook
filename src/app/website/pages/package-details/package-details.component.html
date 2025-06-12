@@ -2,7 +2,10 @@
   <main class="container">
     <!-- Hero Banner -->
     <div class="hero-banner">
-      <div class="gallery-wrapper" *ngIf="package.images && package.images.length">
+      <div
+        class="gallery-wrapper"
+        *ngIf="package.images && package.images.length"
+      >
         <img [src]="package.images[currentImageIndex]" alt="Spa treatment" />
         <div class="hero-content">
           <div class="hero-badge">{{ package.category }}</div>
@@ -19,7 +22,6 @@
         </div>
       </div>
     </div>
-   
 
     <div class="content-wrapper">
       <div class="main-content">
@@ -36,7 +38,7 @@
             </div>
             <div class="highlight-item">
               <i class="fas fa-tag"></i>
-              <span>From Rs {{package.tickets[0]?.price}}</span>
+              <span>From Rs {{ package.tickets[0]?.price }}</span>
             </div>
           </div>
         </div>
@@ -44,24 +46,46 @@
         <!-- Description -->
         <div class="content-section">
           <h2 class="section-heading">About This Experience</h2>
-          <div class="section-content" style="font-weight: bold;font-size: 18px;">
+          <div
+            class="section-content"
+            style="font-weight: bold; font-size: 18px"
+          >
             <p>{{ package.description }}</p>
           </div>
         </div>
 
         <!-- Ticket Options - Horizontal Layout -->
-        <div   class="content-section">
-         <div class="date-selector-inline" *ngIf="package.category !== 'events'">
-          <label for="date-input" style="font-weight: bold;font-size: 20px;">Select Date<b style="color: red;">*</b> :</label>
-           <input id="date-input" type="date" (change)="onDateSelect($event)" class="custom-date-input" />
+        <div class="content-section">
+          <div
+            class="date-selector-inline"
+            *ngIf="package.category !== 'events'"
+          >
+            <label for="date-input" style="font-weight: bold; font-size: 20px"
+              >Select Date<b style="color: red">*</b> :</label
+            >
+            <input
+              id="date-input"
+              type="date"
+              (change)="onDateSelect($event)"
+              class="custom-date-input"
+            />
           </div>
 
-          <h2 class="section-heading" *ngIf="package.category == 'events'">Choose Your Ticket</h2>
+          <h2 class="section-heading" *ngIf="package.category == 'events'">
+            Choose Your Ticket
+          </h2>
 
-          <h2 class="section-heading" *ngIf="package.category !== 'events'">Choose Your Package</h2>
+          <h2 class="section-heading" *ngIf="package.category !== 'events'">
+            Choose Your Package
+          </h2>
           <div class="tickets-horizontal">
             <!-- Ticket Rows -->
-            <div class="ticket-row" *ngFor="let ticket of package.tickets" (click)="selectTicket(ticket)" [class.disabled]="!selectedDate">
+            <div
+              class="ticket-row"
+              *ngFor="let ticket of package.tickets"
+              (click)="selectTicket(ticket)"
+              [class.disabled]="!selectedDate"
+            >
               <div class="ticket-info">
                 <div class="ticket-header">
                   <h3 class="ticket-name">{{ ticket.name }}</h3>
@@ -71,11 +95,21 @@
               </div>
               <div class="ticket-action">
                 <div class="quantity-control">
-                  <button class="qty-btn" (click)="decrementQuantity(ticket.name)" [disabled]="!quantities[ticket.name] || !selectedDate">
+                  <button
+                    class="qty-btn"
+                    (click)="decrementQuantity(ticket.name)"
+                    [disabled]="!quantities[ticket.name] || !selectedDate"
+                  >
                     <i class="fas fa-minus"></i>
                   </button>
-                  <div class="qty-display">{{ quantities[ticket.name] || 0 }}</div>
-                  <button class="qty-btn" (click)="incrementQuantity(ticket.name)" [disabled]="!selectedDate">
+                  <div class="qty-display">
+                    {{ quantities[ticket.name] || 0 }}
+                  </div>
+                  <button
+                    class="qty-btn"
+                    (click)="incrementQuantity(ticket.name)"
+                    [disabled]="!selectedDate"
+                  >
                     <i class="fas fa-plus"></i>
                   </button>
                 </div>
@@ -87,7 +121,10 @@
         <!-- More Information -->
         <div class="content-section">
           <h2 class="section-heading">Additional Details</h2>
-          <div class="section-content"  style="font-weight: bold;font-size: 18px;">
+          <div
+            class="section-content"
+            style="font-weight: bold; font-size: 18px"
+          >
             <p>{{ package.moreInfo }}</p>
           </div>
         </div>
@@ -96,7 +133,7 @@
       <!-- Booking Summary -->
       <div class="sidebar">
         <div class="booking-card">
-          <div class="booking-header" style="background-color: #22bdc5;">
+          <div class="booking-header" style="background-color: #22bdc5">
             <h2>Your Booking</h2>
           </div>
           <div class="booking-body">
@@ -107,11 +144,15 @@
             <div class="booking-details">
               <div class="detail-row">
                 <span>Date</span>
-                <span>{{ selectedDate ? (selectedDate | date:'dd MMM yyyy') : 'No date selected' }}</span>
+                <span>{{
+                  selectedDate
+                    ? (selectedDate | date : "dd MMM yyyy")
+                    : "No date selected"
+                }}</span>
               </div>
               <div class="detail-row">
                 <span>Package</span>
-                <span>{{ selectedTicket?.name || 'No ticket selected' }}</span>
+                <span>{{ selectedTicket?.name || "No ticket selected" }}</span>
               </div>
               <div class="detail-row">
                 <span>Per ticket</span>
@@ -126,11 +167,27 @@
               <span>Total amount</span>
               <span>Rs {{ calculateTotalPrice() }}</span>
             </div>
-            <button class="book-now-btn" (click)="bookNow()" style="background-color: #22bdc5;">Book Now</button>
+            <button
+              class="book-now-btn"
+              (click)="bookNow()"
+              style="background-color: #22bdc5"
+            >
+              Book Now
+            </button>
+            <button
+              class="book-now-btn mt-2"
+              (click)="openCouponDialog()"
+              style="background-color: #22bdc5"
+            >
+              Apply Coupon
+            </button>
             <div class="support-section">
               <p>Need help with your booking?</p>
-              <button class="support-btn" style="border: 2px solid #22bdc5;color: #22bdc5;">
-                <i class="fas fa-comments" style="color: #22bdc5;"></i>
+              <button
+                class="support-btn"
+                style="border: 2px solid #22bdc5; color: #22bdc5"
+              >
+                <i class="fas fa-comments" style="color: #22bdc5"></i>
                 Chat with support
               </button>
             </div>
@@ -140,4 +197,3 @@
     </div>
   </main>
 </div>
-  

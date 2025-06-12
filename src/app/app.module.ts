@@ -31,7 +31,10 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 
-import { FirebaseApp, initializeApp as firebaseInitializeApp } from 'firebase/app';
+import {
+  FirebaseApp,
+  initializeApp as firebaseInitializeApp,
+} from 'firebase/app';
 import { getFirestore as firestoreDb } from 'firebase/firestore';
 import { getAuth as firebaseAuth } from 'firebase/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,7 +49,11 @@ import { TicketsComponent } from './website/pages/tickets/tickets.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { ProfileComponent } from './user/profile/profile.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { LoginComponent } from './login/login.component';
@@ -67,7 +74,10 @@ import { FaqsComponent } from './website/pages/faqs/faqs.component';
 import { privacyComponent } from './website/pages/privacy-policy/privacy-policy.component';
 import { refundComponent } from './website/pages/refund-policy/refund-policy.component';
 import { termComponent } from './website/pages/term-conditions/term-conditions';
+import { ApplyCouponComponent } from './website/apply-coupon/apply-coupon.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
+import { MatButtonModule } from '@angular/material/button';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -82,7 +92,9 @@ export const MY_DATE_FORMATS = {
 };
 
 // Firebase instance exports
-export const firebaseApp: FirebaseApp = firebaseInitializeApp(environment.firebaseConfig);
+export const firebaseApp: FirebaseApp = firebaseInitializeApp(
+  environment.firebaseConfig
+);
 export const db = firestoreDb(firebaseApp);
 export const auth = firebaseAuth(firebaseApp);
 
@@ -109,9 +121,9 @@ export const auth = firebaseAuth(firebaseApp);
     CategoryPackagesComponent,
     PackageDetailsComponent,
     TicketsComponent,
-    
+
     ProfileComponent,
-    
+
     ChangePasswordComponent,
     LoginComponent,
     RegisterComponent,
@@ -129,10 +141,12 @@ export const auth = firebaseAuth(firebaseApp);
     FaqsComponent,
     privacyComponent,
     refundComponent,
-    termComponent
-    
+    termComponent,
+    ApplyCouponComponent,
   ],
   imports: [
+    MatButtonModule,
+    MatDialogModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -149,8 +163,7 @@ export const auth = firebaseAuth(firebaseApp);
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     SeatsioAngularModule,
-    SwiperModule
-    
+    SwiperModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
@@ -158,6 +171,6 @@ export const auth = firebaseAuth(firebaseApp);
     AuthService, // Added AuthService to providers
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
