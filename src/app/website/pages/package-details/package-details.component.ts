@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BookingService } from 'src/app/services/booking.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ApplyCouponComponent } from '../../apply-coupon/apply-coupon.component';
+import { Coupon } from 'src/app/model/coupon.model';
 
 interface Treatment {
   id: string;
@@ -25,6 +26,10 @@ export class PackageDetailsComponent implements OnInit {
   currentImageIndex: number = 0;
   loading: boolean = true;
   quantities: { [key: string]: number } = {};
+  discount: string | null = null;
+  totalBeforeDiscount: number | null = null;
+  discountAmount: number | null = null;
+  netTotal: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,10 +52,22 @@ export class PackageDetailsComponent implements OnInit {
       data: {}, // optional
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: Coupon | null) => {
       if (result) {
         console.log('Coupon applied:', result);
-        // Apply discount logic here
+        const discount = result.discount;
+        const totalBeforeDiscount = this.calculateTotalPrice();
+        const discountAmount =
+          (totalBeforeDiscount * Number(discount.replace('%', ''))) / 100;
+        const netTotal = totalBeforeDiscount - discountAmount;
+        console.log(discount);
+        console.log(totalBeforeDiscount);
+        console.log(discountAmount);
+        console.log(netTotal);
+        this.discount = discount;
+        this.totalBeforeDiscount = totalBeforeDiscount;
+        this.discountAmount = discountAmount;
+        this.netTotal = Number(netTotal.toFixed(2));
       }
     });
   }
