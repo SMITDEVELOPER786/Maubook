@@ -1,17 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
-*{
-    font-family: 'Poppins' ;
+* {
+  font-family: "Poppins";
 }
-
 
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-h1,
-    .mat-headline-5,
-    .mat-typography .mat-h1,
-    .mat-typography .mat-headline-5,
-    .mat-typography h1,
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Poppins', sans-serif !important;
-    }
+.mat-headline-5,
+.mat-typography .mat-h1,
+.mat-typography .mat-headline-5,
+.mat-typography h1,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif !important;
+}

@@ -42,7 +42,8 @@ export class PackageDetailsComponent implements OnInit {
 
   openCouponDialog() {
     const dialogRef = this.dialog.open(ApplyCouponComponent, {
-      width: '400px',
+      width: '500px',
+
       data: {}, // optional
     });
 
