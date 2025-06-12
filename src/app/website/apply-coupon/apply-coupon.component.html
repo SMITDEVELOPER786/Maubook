@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Apply Coupon Code</h2>
+
+<div mat-dialog-content>
+  <form [formGroup]="couponForm" (ngSubmit)="onApply()">
+    <div class="mb-3">
+      <label class="form-label">Enter Coupon Code</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="code"
+        placeholder="e.g. SAVE10"
+        [class.is-invalid]="code.invalid && (code.dirty || code.touched)"
+      />
+      <div class="invalid-feedback" *ngIf="code.errors?.['required']">
+        Coupon code is required.
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="text-danger mb-2">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="couponData" class="alert alert-success mt-2">
+      🎉 Coupon <strong>{{ couponData.couponCode }}</strong> applied!
+      <br />
+      Discount: <strong>{{ couponData.discount }}</strong>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center mt-3">
+      <button
+        type="submit"
+        class="btn btn-primary me-2"
+        [disabled]="isLoading || (couponForm.invalid && !isConfirmed)"
+      >
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm me-1"
+        ></span>
+        {{ isConfirmed ? "Confirm" : "Apply" }}
+      </button>
+
+      <button type="button" class="btn btn-secondary" (click)="close()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,8 +1,9 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BookingService } from 'src/app/services/booking.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ApplyCouponComponent } from '../../apply-coupon/apply-coupon.component';
 
 interface Treatment {
   id: string;
@@ -14,12 +15,12 @@ interface Treatment {
 @Component({
   selector: 'app-package-details',
   templateUrl: './package-details.component.html',
-  styleUrls: ['./package-details.component.scss']
+  styleUrls: ['./package-details.component.scss'],
 })
 export class PackageDetailsComponent implements OnInit {
   package: any;
   selectedDate: Date | null = null;
-  category:string | undefined;
+  category: string | undefined;
   selectedTicket: any = null;
   currentImageIndex: number = 0;
   loading: boolean = true;
@@ -29,37 +30,55 @@ export class PackageDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private firestore: AngularFirestore,
     private router: Router,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.loadPackage(params['id']);
+    });
+  }
+
+  openCouponDialog() {
+    const dialogRef = this.dialog.open(ApplyCouponComponent, {
+      width: '400px',
+      data: {}, // optional
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Coupon applied:', result);
+        // Apply discount logic here
+      }
     });
   }
 
   loadPackage(id: string) {
     this.loading = true;
-    this.firestore.doc(`packages/${id}`).get().subscribe(doc => {
-      if (doc.exists) {
-        const data = doc.data() as any;
-        this.package = {
-          id: doc.id,
-          ...data,
-          tickets: data.tickets || [],
-          features: data.features || [],
-          images: data.images || []
-        };
-        this.quantities = {};
-        console.log(data)
-        this.category=data.category
-        this.selectedDate=data.eventDate
-        this.package.tickets.forEach((ticket: { name: string | number; }) => {
-          this.quantities[ticket.name] = 0;
-        });
-      }
-      this.loading = false;
-    });
+    this.firestore
+      .doc(`packages/${id}`)
+      .get()
+      .subscribe((doc) => {
+        if (doc.exists) {
+          const data = doc.data() as any;
+          this.package = {
+            id: doc.id,
+            ...data,
+            tickets: data.tickets || [],
+            features: data.features || [],
+            images: data.images || [],
+          };
+          this.quantities = {};
+          console.log(data);
+          this.category = data.category;
+          this.selectedDate = data.eventDate;
+          this.package.tickets.forEach((ticket: { name: string | number }) => {
+            this.quantities[ticket.name] = 0;
+          });
+        }
+        this.loading = false;
+      });
   }
 
   onDateSelect(event: any) {
@@ -74,7 +93,7 @@ export class PackageDetailsComponent implements OnInit {
   }
 
   resetQuantities() {
-    Object.keys(this.quantities).forEach(key => {
+    Object.keys(this.quantities).forEach((key) => {
       this.quantities[key] = 0;
     });
   }
@@ -94,11 +113,14 @@ export class PackageDetailsComponent implements OnInit {
   }
 
   prevImage() {
-    this.currentImageIndex = (this.currentImageIndex - 1 + this.package.images.length) % this.package.images.length;
+    this.currentImageIndex =
+      (this.currentImageIndex - 1 + this.package.images.length) %
+      this.package.images.length;
   }
 
   nextImage() {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.package.images.length;
+    this.currentImageIndex =
+      (this.currentImageIndex + 1) % this.package.images.length;
   }
 
   incrementQuantity(ticketName: string): void {
@@ -125,57 +147,57 @@ export class PackageDetailsComponent implements OnInit {
 
   calculateTotalPrice(): number {
     let total = 0;
-    this.package.tickets.forEach((ticket: { price: number; name: string | number; }) => {
-      total += ticket.price * this.quantities[ticket.name];
-    });
+    this.package.tickets.forEach(
+      (ticket: { price: number; name: string | number }) => {
+        total += ticket.price * this.quantities[ticket.name];
+      }
+    );
     return total;
   }
 
- bookNow(): void {
-  console.log('Selected date:', this.selectedDate);
+  bookNow(): void {
+    console.log('Selected date:', this.selectedDate);
 
-  // Always convert selectedDate to a Date object first
-  this.selectedDate = new Date(this.selectedDate!); 
+    // Always convert selectedDate to a Date object first
+    this.selectedDate = new Date(this.selectedDate!);
 
-  // Validate the date
-  if (this.category !== "events") {
-    if (
-      !this.selectedDate ||
-      !(this.selectedDate instanceof Date) ||
-      isNaN(this.selectedDate.getTime())
-    ) {
-      alert('Please select a valid date before proceeding.');
+    // Validate the date
+    if (this.category !== 'events') {
+      if (
+        !this.selectedDate ||
+        !(this.selectedDate instanceof Date) ||
+        isNaN(this.selectedDate.getTime())
+      ) {
+        alert('Please select a valid date before proceeding.');
+        return;
+      }
+    }
+
+    // Validate ticket selection and quantity
+    if (!this.selectedTicket || this.calculateTotalQuantity() === 0) {
+      alert('Please select a ticket and quantity before proceeding.');
       return;
     }
+
+    const bookingState = {
+      fromPackagePage: true,
+      packageId: this.package.id,
+      packageName: this.package.name,
+      amount: this.calculateTotalPrice(),
+      date: this.selectedDate.toISOString(),
+      ticketName: this.selectedTicket.name,
+      ticketPrice: this.selectedTicket.price,
+      quantity: this.quantities[this.selectedTicket.name],
+      category: this.category,
+    };
+
+    // Store in localStorage as a fallback
+    localStorage.setItem('bookingState', JSON.stringify(bookingState));
+
+    console.log('Navigating with state:', bookingState);
+
+    this.router.navigate(['/booking-category'], {
+      state: bookingState,
+    });
   }
-
-  // Validate ticket selection and quantity
-  if (!this.selectedTicket || this.calculateTotalQuantity() === 0) {
-    alert('Please select a ticket and quantity before proceeding.');
-    return;
-  }
-
-  const bookingState = {
-    fromPackagePage: true,
-    packageId: this.package.id,
-    packageName: this.package.name,
-    amount: this.calculateTotalPrice(),
-    date: this.selectedDate.toISOString(),
-    ticketName: this.selectedTicket.name,
-    ticketPrice: this.selectedTicket.price,
-    quantity: this.quantities[this.selectedTicket.name],
-    category : this.category
-  };
-
-  // Store in localStorage as a fallback
-  localStorage.setItem('bookingState', JSON.stringify(bookingState));
-  
-
-  console.log('Navigating with state:', bookingState);
-
-  this.router.navigate(['/booking-category'], {
-    state: bookingState
-  });
-}
-
 }
