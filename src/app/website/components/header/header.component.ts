@@ -3,6 +3,7 @@ import { AuthService } from '../../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { UserSidebarComponent } from 'src/app/user/user-sidebar/user-sidebar.component';
 import { Router } from '@angular/router';
+import { AboutService } from 'src/app/services/about.service';
 
 @Component({
   selector: 'app-header',
@@ -12,20 +13,28 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   userFirstName: string = '';
+  logo: string = '';
+
   isLoading: boolean = true;
   private authSubscription: Subscription | null = null;
   private loadingSubscription: Subscription | null = null;
 
   @ViewChild(UserSidebarComponent) sidebar!: UserSidebarComponent;
 
+
   constructor(
     private authService: AuthService,
+    private  aboutService: AboutService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadingSubscription = this.authService.loading$.subscribe(loading => {
       this.isLoading = loading;
+    });
+     this.aboutService.getappearance().subscribe((intro: any) => {
+      console.log(intro[0]["imageUrl"]);
+    this.logo=intro[0]["imageUrl"]
     });
 
     this.authSubscription = this.authService.authState$.subscribe(user => {

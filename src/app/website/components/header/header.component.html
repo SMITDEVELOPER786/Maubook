@@ -4,7 +4,7 @@
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand" routerLink="/">
-        <img src="assets/logo.png" alt="Maubook Logo" height="40">
+         <img *ngIf="logo" [src]="logo" alt="Maubook Logo" height="40">
       </a>
 
       <!-- Main Navigation -->

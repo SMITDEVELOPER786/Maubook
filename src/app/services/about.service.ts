@@ -25,6 +25,10 @@ export class AboutService {
     return this.aboutCollection.doc('aboutUs').valueChanges();
   }
 
+  getappearance(): Observable<any> {
+    return this.firestore.collection('appearance').valueChanges();
+  }
+
   getContact(): Observable<any> {
     return this.contactCollection.doc('contactInfo').valueChanges();
   }
