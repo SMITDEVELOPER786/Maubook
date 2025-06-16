@@ -4,117 +4,132 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
   "
 >
-  <form
-    [formGroup]="AccountForm"
-    style="
-      width: 500px;
-      height: 550px;
-      padding: 24px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      background-color: white;
-    "
-    (ngSubmit)="onSubmit()"
-  >
-    <h2 class="align-center">Account Details</h2>
-
-    <div class="row">
-      <div class="col-6 align-middle">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Bank Name</mat-label>
-          <input matInput formControlName="bankName" required />
-          <mat-error *ngIf="AccountForm.get('bankName')?.hasError('required')">
-            * Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-6">
-        <!-- discount -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Bank Account Name</mat-label>
-          <input matInput formControlName="bankAccountName" />
-
-          <mat-error
-            *ngIf="AccountForm.get('bankAccountName')?.hasError('required')"
-          >
-            * Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Account Number</mat-label>
-      <input matInput formControlName="accountNumber" required />
-      <mat-error *ngIf="AccountForm.get('accountNumber')?.hasError('required')">
-        * Required
-      </mat-error>
-    </mat-form-field>
-
-    <div class="row">
-      <div class="col-9">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Branch</mat-label>
-          <input matInput formControlName="branch" required />
-          <mat-error *ngIf="AccountForm.get('branch')?.hasError('required')">
-            * Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-3">
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          class="align-baseline full-width"
-          [disabled]="isLoading"
-          style="text-align: center; margin-top: 20px; position: relative"
+  <div style="width: 800px;">
+    <!-- Form Section -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="card-title">{{ isEditMode ? 'Edit Account' : 'Add New Account' }}</h2>
+        <form
+          [formGroup]="AccountForm"
+          (ngSubmit)="onSubmit()"
         >
-          <mat-spinner
-            *ngIf="isLoading"
-            diameter="20"
-            style="
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-            "
-          ></mat-spinner>
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Bank Name</mat-label>
+                <input matInput formControlName="bankName" required />
+                <mat-error *ngIf="AccountForm.get('bankName')?.hasError('required')">
+                  * Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Bank Account Name</mat-label>
+                <input matInput formControlName="bankAccountName" required />
+                <mat-error *ngIf="AccountForm.get('bankAccountName')?.hasError('required')">
+                  * Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
 
-          <span [style.visibility]="isLoading ? 'hidden' : 'visible'">
-            Save
-          </span>
-        </button>
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Account Number</mat-label>
+                <input matInput formControlName="accountNumber" required />
+                <mat-error *ngIf="AccountForm.get('accountNumber')?.hasError('required')">
+                  * Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Branch</mat-label>
+                <input matInput formControlName="branch" required />
+                <mat-error *ngIf="AccountForm.get('branch')?.hasError('required')">
+                  * Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-12 d-flex justify-content-end gap-2">
+              <button *ngIf="isEditMode" type="button" mat-stroked-button color="warn" (click)="cancelEdit()">
+                Cancel
+              </button>
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="isLoading"
+              >
+                <mat-spinner
+                  *ngIf="isLoading"
+                  diameter="20"
+                  style="display: inline-block; margin-right: 8px;"
+                ></mat-spinner>
+                <span [style.visibility]="isLoading ? 'hidden' : 'visible'">
+                  {{ isEditMode ? 'Update' : 'Save' }}
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 
-    <div class="mt-2 full-width">
-      <div class="card p-3 shadow-sm">
-        <!-- 🔁 Shimmer Placeholder While Loading -->
-        <ng-container *ngIf="bankInfo$ | async as bankInfo; else loading">
-          <h3><strong>Details</strong></h3>
-          <h5>
-            <strong>Bank name: </strong>
-            <span class="text-danger">{{ bankInfo.bankName }}</span>
-          </h5>
-          <p>
-            <strong>Bank Account Name: </strong> {{ bankInfo.bankAccountName }}
-          </p>
-          <p><strong>Account Number: </strong> {{ bankInfo.accountNumber }}</p>
-          <p><strong>Branch: </strong> {{ bankInfo.branch }}</p>
-        </ng-container>
-
-        <!-- ✨ Shimmer Template -->
-        <ng-template #loading>
-          <div class="shimmer-line w-50 mb-4"></div>
-          <div class="shimmer-line w-75 mb-2"></div>
-          <div class="shimmer-line w-100 mb-2"></div>
-          <div class="shimmer-line w-100 mb-2"></div>
-          <div class="shimmer-line w-50"></div>
-        </ng-template>
+    <!-- List Section -->
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Bank Accounts</h3>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Bank Name</th>
+                <th>Account Name</th>
+                <th>Account Number</th>
+                <th>Branch</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let bankInfo of bankInfo$ | async">
+                <td>{{ bankInfo.bankName }}</td>
+                <td>{{ bankInfo.bankAccountName }}</td>
+                <td>{{ bankInfo.accountNumber }}</td>
+                <td>{{ bankInfo.branch }}</td>
+                <td>
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="editAccount(bankInfo)"
+                    matTooltip="Edit"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="deleteAccount(bankInfo.id!)"
+                    matTooltip="Delete"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
+

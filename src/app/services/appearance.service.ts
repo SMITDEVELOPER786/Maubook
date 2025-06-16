@@ -35,19 +35,41 @@ export class AppearanceService {
       .set({ imageUrl: url }, { merge: true });
   }
 
-  // ✅ Get real-time bank info
-  getBankInfo(): Observable<BankInfo | undefined> {
+  // Get all bank accounts
+  getBankInfo(): Observable<BankInfo[]> {
     return this.firestore
-      .collection('bank-info')
-      .doc<BankInfo>('info')
-      .valueChanges();
+      .collection<BankInfo>('bank-info')
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as BankInfo;
+          const id = a.payload.doc.id;
+          return { ...data, id };
+        }))
+      );
   }
 
-  // ✅ Save or update bank info
+  // Add new bank account
   saveBankInfo(data: BankInfo): Promise<void> {
     return this.firestore
       .collection('bank-info')
-      .doc('info')
-      .set(data, { merge: true });
+      .add(data)
+      .then(() => {});
+  }
+
+  // Update existing bank account
+  updateBankInfo(id: string, data: BankInfo): Promise<void> {
+    return this.firestore
+      .collection('bank-info')
+      .doc(id)
+      .update(data);
+  }
+
+  // Delete bank account
+  deleteBankInfo(id: string): Promise<void> {
+    return this.firestore
+      .collection('bank-info')
+      .doc(id)
+      .delete();
   }
 }
