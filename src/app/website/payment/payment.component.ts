@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CardSelectionComponent } from './card-selection/card-selection.component';
+import { AppearanceService } from '../../services/appearance.service';
+import { BankInfo } from '../../model/bank.info.model';
 
 @Component({
   selector: 'app-payment',
@@ -19,31 +21,15 @@ export class PaymentComponent implements OnInit {
   selectedPaymentMethod: string = '';
   selectedSeat: any = null;
   isDialog: boolean = false;
+  bankInfos: BankInfo[] = [];
+  selectedBankIndex: number | null = null;
 
   paymentMethods = [
-    { 
-      id: 'card', 
-      name: 'Credit/Debit Card', 
-      icon: 'fa-credit-card',
-      description: 'Pay securely with your credit or debit card'
-    },
-    { 
-      id: 'mcb', 
-      name: 'MCB JUICE', 
-      icon: 'fa-mobile-alt',
-      description: 'Pay using MCB JUICE mobile app'
-    },
-    { 
-      id: 'bank', 
-      name: 'Bank Transfer', 
+    {
+      id: 'bank',
+      name: 'Bank Transfer',
       icon: 'fa-university',
       description: 'Make a direct bank transfer'
-    },
-    { 
-      id: 'blink', 
-      name: 'Blink by Emtel', 
-      icon: 'fa-bolt',
-      description: 'Pay using Blink mobile payment'
     }
   ];
 
@@ -52,7 +38,8 @@ export class PaymentComponent implements OnInit {
     private firestore: Firestore,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<PaymentComponent>
+    private dialogRef: MatDialogRef<PaymentComponent>,
+    private appearanceService: AppearanceService
   ) {
     this.isDialog = !!dialogRef;
     if (data) {
@@ -94,6 +81,9 @@ export class PaymentComponent implements OnInit {
         this.bookingId = state.bookingId || '';
       }
     }
+    this.appearanceService.getAllBankInfo().subscribe((infos) => {
+      this.bankInfos = infos;
+    });
   }
 
   selectPaymentMethod(method: any) {
@@ -187,6 +177,22 @@ export class PaymentComponent implements OnInit {
   close() {
     if (this.isDialog) {
       this.dialogRef.close();
+    }
+  }
+
+  selectBank(i: number) {
+    this.selectedBankIndex = i;
+  }
+
+  proceedWithBank() {
+    if (this.selectedBankIndex !== null) {
+      const selectedBank = this.bankInfos[this.selectedBankIndex];
+      // You can handle the selected bank here, e.g., emit, close dialog, or navigate
+      alert('Selected bank: ' + selectedBank.bankName + ' (' + selectedBank.branch + ')');
+      // Example: if dialog, close with result
+      if (this.isDialog && this.dialogRef) {
+        this.dialogRef.close({ bank: selectedBank });
+      }
     }
   }
 }

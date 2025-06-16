@@ -17,6 +17,13 @@
       <div class="method-details">
         <h3>{{method.name}}</h3>
         <p>{{method.description}}</p>
+        <ng-container *ngIf="method.id === 'bank' && bankInfos.length">
+          <div class="bank-info-card">
+            <div><strong>{{bankInfos[0].bankName}}</strong> ({{bankInfos[0].branch}})</div>
+            <div>Acc: {{bankInfos[0].accountNumber}}</div>
+            <div>Name: {{bankInfos[0].bankAccountName}}</div>
+          </div>
+        </ng-container>
       </div>
       <div class="method-check">
         <i class="fas fa-check" *ngIf="selectedPaymentMethod === method.id"></i>
@@ -55,4 +62,40 @@
       Proceed to Payment
     </button>
   </div>
+
+  <div class="bank-info-list" style="margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem;">
+    <div *ngFor="let bank of bankInfos; let i = index" 
+         class="bank-info-card" 
+         [ngClass]="{'selected': selectedBankIndex === i}" 
+         (click)="selectBank(i)"
+         style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; min-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); flex: 1 1 260px; max-width: 350px; cursor: pointer; border: 2px solid #f8f9fa; transition: border-color 0.2s;">
+      <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 0.5rem;">{{bank.bankName}} <span style="font-weight: normal; color: #888;">({{bank.branch}})</span></div>
+      <div><strong>Account Number:</strong> {{bank.accountNumber}}</div>
+      <div><strong>Account Name:</strong> {{bank.bankAccountName}}</div>
+    </div>
+  </div>
+  <div style="margin-top: 2rem; text-align: right;" *ngIf="selectedBankIndex !== null">
+    <button class="pay-button" (click)="proceedWithBank()">Proceed</button>
+  </div>
 </div>
+
+<style>
+.bank-info-card.selected {
+  border-color: #21BEC5 !important;
+  background: #e6fafd !important;
+}
+.pay-button {
+  background: #21BEC5;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pay-button:hover {
+  background: #1aa7b0;
+}
+</style>
