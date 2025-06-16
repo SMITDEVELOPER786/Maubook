@@ -1,0 +1,155 @@
+.card-selection-container {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+
+  h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+.saved-cards {
+  .card-list {
+    margin-bottom: 20px;
+  }
+
+  .card-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #21BEC5;
+      background-color: #f8f9fa;
+    }
+
+    &.selected {
+      border-color: #21BEC5;
+      background-color: #e7f1ff;
+    }
+
+    .card-icon {
+      font-size: 24px;
+      color: #21BEC5;
+      margin-right: 15px;
+    }
+
+    .card-details {
+      .card-number {
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+
+      .card-expiry {
+        font-size: 0.9em;
+        color: #666;
+      }
+    }
+  }
+
+  .add-new-card {
+    width: 100%;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #21BEC5;
+      color: #21BEC5;
+    }
+
+    i {
+      margin-right: 8px;
+    }
+  }
+}
+
+.new-card-form {
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+
+      &:focus {
+        outline: none;
+        border-color: #21BEC5;
+        box-shadow: 0 0 0 2px rgba(33, 190, 197, 0.1);
+      }
+    }
+
+    .error {
+      color: #dc3545;
+      font-size: 0.85em;
+      margin-top: 5px;
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+
+    button {
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &.btn-secondary {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        color: #666;
+
+        &:hover {
+          background-color: #e9ecef;
+        }
+      }
+
+      &.btn-primary {
+        background-color: #21BEC5;
+        border: none;
+        color: white;
+
+        &:hover {
+          background-color: #1a9ba1;
+        }
+
+        &:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+} 

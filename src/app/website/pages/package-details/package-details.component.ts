@@ -48,8 +48,7 @@ export class PackageDetailsComponent implements OnInit {
   openCouponDialog() {
     const dialogRef = this.dialog.open(ApplyCouponComponent, {
       width: '500px',
-
-      data: {}, // optional
+      data: { category: this.category }
     });
 
     dialogRef.afterClosed().subscribe((result: Coupon | null) => {
@@ -207,6 +206,8 @@ export class PackageDetailsComponent implements OnInit {
       ticketPrice: this.selectedTicket.price,
       quantity: this.quantities[this.selectedTicket.name],
       category: this.category,
+      discount: this.discount,
+      discountAmount: this.discountAmount,
     };
 
     // Store in localStorage as a fallback

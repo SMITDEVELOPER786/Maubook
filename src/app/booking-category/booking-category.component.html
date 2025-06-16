@@ -95,8 +95,16 @@
               <span>{{ selectedSeats.join(', ') || 'None' }}</span>
             </div>
             <div class="summary-row total">
-              <span>Amount:</span>
+              <span>Package Amount:</span>
               <span>Rs {{ bookingSummary.total || 0 | number }}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Discount Amount :</span>
+              <span>Rs {{ bookingSummary.discountAmount || 0 | number }}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total Amount:</span>
+              <span>Rs {{ bookingSummary.total - bookingSummary.discountAmount || 0 | number }}</span>
             </div>
           </div>
           <p class="summary-note">

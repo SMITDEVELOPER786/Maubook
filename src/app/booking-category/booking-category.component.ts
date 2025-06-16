@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material/dialog';
+import { PaymentComponent } from '../website/payment/payment.component';
 
 declare var seatsio: any; // Declare seatsio for TypeScript
 
@@ -40,13 +42,19 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
 
   seatsioChart: any;
 
-  constructor(private router: Router, private firestore: Firestore) {}
+  constructor(
+    private router: Router,
+    private firestore: Firestore,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
     let state = navigation?.extras.state as {
       packageId?: string;
       packageName?: string;
+      discount?: string;
+      discountAmount?: number;
       amount?: number;
       date?: string;
       ticketName?: string;
@@ -63,6 +71,7 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
         try {
           state = JSON.parse(storedState);
           this.category = JSON.parse(storedState)["category"];
+       
           console.log('Retrieved state from localStorage:', state);
         } catch (e) {
           console.error('Error parsing localStorage booking state:', e);
@@ -73,11 +82,14 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
     if (state && state.fromPackagePage) {
       this.isPackageCategory = true;
       this.packageName = state.packageName || 'Package Booking';
+      console.log(state)
       this.bookingSummary = {
         type: 'package',
         packageId: state.packageId,
         title: state.packageName,
         total: state.amount,
+        discount: state.discount,
+        discountAmount: state.discountAmount,
         checkIn: state.date ? new Date(state.date).toISOString().split('T')[0] : null,
         tickets: [{
           name: state.ticketName,
@@ -218,7 +230,6 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
         }],
         total: this.bookingSummary.total
       },
-      paymentMethod: 'Bank Transfer',
       status: 'Pending',
       createdAt: new Date().toISOString()
     };
@@ -228,25 +239,38 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
       const docRef = await addDoc(bookingsRef, bookingData);
       console.log('Booking saved to Firestore with ID:', docRef.id);
 
-      const confirmationState = {
+      const paymentState = {
         bookingId: docRef.id,
         bookingSummary: this.bookingSummary,
         bookingType: 'package',
         packageName: this.packageName,
         booking: this.booking,
-        paymentMethod: 'Bank Transfer',
         selectedSeats: this.selectedSeats
       };
 
-      localStorage.setItem('confirmationState', JSON.stringify(confirmationState));
-
-      console.log('Navigating to confirmation with state:', confirmationState);
-
-      this.router.navigate(['/confirmation'], {
-        state: confirmationState
+      // Open payment method selection dialog
+      const dialogRef = this.dialog.open(PaymentComponent, {
+        width: '800px',
+        data: paymentState
       });
 
-      localStorage.removeItem('bookingState');
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // Handle the payment result
+          const confirmationState = {
+            ...paymentState,
+            paymentMethod: result.paymentMethod,
+            cardDetails: result.cardDetails,
+            status: 'Pending'
+          };
+
+          localStorage.setItem('confirmationState', JSON.stringify(confirmationState));
+          this.router.navigate(['/confirmation'], {
+            state: confirmationState
+          });
+        }
+      });
+
     } catch (error) {
       console.error('Error saving booking to Firestore:', error);
       this.errorMessage = 'Failed to save booking. Please try again.';
