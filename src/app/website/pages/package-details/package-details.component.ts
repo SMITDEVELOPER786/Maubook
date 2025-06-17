@@ -175,8 +175,9 @@ export class PackageDetailsComponent implements OnInit {
   bookNow(): void {
     console.log('Selected date:', this.selectedDate);
 
-    var userLogin = localStorage.getItem('isLoggedIn');
-    if (!userLogin) {
+    var userLogin = localStorage.getItem('isLoggedIn')||false;
+    console.log(userLogin);
+    if (userLogin==false) {
       alert('Please login to proceed');
       this.router.navigate(['/login']);
       return;

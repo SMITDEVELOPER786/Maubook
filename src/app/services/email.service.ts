@@ -16,7 +16,7 @@ export class EmailService {
   // EmailJS configuration - you'll need to replace these with your actual EmailJS credentials
   private readonly EMAILJS_PUBLIC_KEY = '9maDXjCHA68NjWaiQ';
   private readonly EMAILJS_SERVICE_ID = 'service_jtabgaw';
-  private readonly EMAILJS_TEMPLATE_ID = '';
+  private readonly EMAILJS_TEMPLATE_ID = 'template_1i1znui';
 
   constructor() {
     // Initialize EmailJS with your public key
@@ -26,11 +26,13 @@ export class EmailService {
   }
 
   sendBookingConfirmationEmail(emailData: EmailData): Promise<any> {
+    console.log(emailData);
+ 
     const templateParams = {
-      to_email: emailData.to,
+      email: emailData.to,
       to_name: emailData.bookingData.customerName,
       booking_id: emailData.bookingData.bookingId,
-      booking_summary: JSON.stringify(emailData.bookingData.bookingSummary, null, 2),
+      booking_summary:emailData.bookingData.bookingSummary,
       customer_name: emailData.bookingData.customerName,
       customer_email: emailData.bookingData.customerEmail,
       customer_phone: emailData.bookingData.customerPhone,
@@ -39,10 +41,11 @@ export class EmailService {
       total_amount: emailData.bookingData.bookingSummary.total,
       package_name: emailData.bookingData.packageName || 'N/A',
       booking_type: emailData.bookingData.bookingType || 'N/A',
-      bank_details: JSON.stringify(emailData.bookingData.bankDetails, null, 2),
-      tickets: JSON.stringify(emailData.bookingData.tickets, null, 2),
+      bank_details: emailData.bookingData.bankDetails,
+      tickets:emailData.bookingData.tickets,
       html_content: emailData.htmlContent
     };
+    console.log(templateParams);
 
     return new Promise((resolve, reject) => {
       if (typeof emailjs !== 'undefined') {
@@ -64,6 +67,8 @@ export class EmailService {
         reject(new Error('EmailJS is not loaded. Please check if the EmailJS script is included.'));
       }
     });
+
+    // return ;
   }
 
   generateBookingEmailHTML(bookingData: any): string {

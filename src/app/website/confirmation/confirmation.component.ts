@@ -82,6 +82,8 @@ export class ConfirmationComponent implements OnInit {
       this.packageName = state.packageName || '';
       this.verifiedEmail = state.verifiedEmail || '';
       this.tickets = state.bookingSummary.tickets || [];
+
+      console.log(state);
       
       // Set customer details
       this.customerEmail = state.booking?.email || state.verifiedEmail || 'N/A';
@@ -105,8 +107,10 @@ export class ConfirmationComponent implements OnInit {
     // Get the logged-in user's email
     const loggedInEmail = this.authService.getUserEmail();
 
+    console.log(loggedInEmail);
+
     // Only send if not already sent and user is logged in
-    if (loggedInEmail && !localStorage.getItem('confirmationEmailSent')) {
+    if (loggedInEmail ) {
       this.sendBookingConfirmationEmail(loggedInEmail);
     }
   }
@@ -150,6 +154,8 @@ export class ConfirmationComponent implements OnInit {
       htmlContent: this.emailService.generateBookingEmailHTML(bookingData),
       bookingData: bookingData
     };
+
+   
 
     this.emailService.sendBookingConfirmationEmail(emailData)
       .then((response) => {

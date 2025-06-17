@@ -209,6 +209,7 @@ export class AuthService {
     localStorage.setItem('userEmail', user.email);
     localStorage.setItem('userDisplayName', user.displayName || '');
     localStorage.setItem('userFirstName', user.firstName || '');
+    localStorage.setItem('isLoggedIn', "true");
   }
 
   // Clear user data from localStorage
