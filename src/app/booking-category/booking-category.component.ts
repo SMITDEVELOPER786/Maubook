@@ -13,6 +13,7 @@ interface BookingDetails {
   email: string;
   note: string;
   agreedToTerms: boolean;
+  userUid: string;
 }
 
 @Component({
@@ -31,6 +32,7 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
     phoneNumber: '',
     email: '',
     note: '',
+    userUid: '',
     agreedToTerms: false
   };
   bookingSummary: any = {};
@@ -49,6 +51,9 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    // Load user details from localStorage
+    this.loadUserDetails();
+    
     const navigation = this.router.getCurrentNavigation();
     let state = navigation?.extras.state as {
       packageId?: string;
@@ -208,59 +213,68 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const bookingId = `PKG-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    // Save user details to localStorage
+    this.saveUserDetails();
 
-    const bookingData = {
+    // First open payment method selection dialog
+    const paymentState = {
+      bookingSummary: this.bookingSummary,
       bookingType: 'package',
-      booking: {
-        firstName: this.booking.firstName,
-        lastName: this.booking.lastName,
-        email: this.booking.email,
-        phoneNumber: this.booking.phoneNumber,
-        note: this.booking.note || ''
-      },
       packageName: this.packageName,
-      bookingSummary: {
-        checkIn: this.bookingSummary.checkIn,
-        tickets: [{
-          name: this.bookingSummary.tickets[0].name,
-          price: this.bookingSummary.tickets[0].price,
-          quantity: this.bookingSummary.tickets[0].quantity,
-          selectedSeats: this.selectedSeats
-        }],
-        total: this.bookingSummary.total
-      },
-      status: 'Pending',
-      createdAt: new Date().toISOString()
+      booking: this.booking,
+      selectedSeats: this.selectedSeats
     };
 
-    try {
-      const bookingsRef = collection(this.firestore, 'bookings');
-      const docRef = await addDoc(bookingsRef, bookingData);
-      console.log('Booking saved to Firestore with ID:', docRef.id);
+    // Open payment method selection dialog
+    const dialogRef = this.dialog.open(PaymentComponent, {
+      width: '800px',
+      data: paymentState
+    });
 
-      const paymentState = {
-        bookingId: docRef.id,
-        bookingSummary: this.bookingSummary,
-        bookingType: 'package',
-        packageName: this.packageName,
-        booking: this.booking,
-        selectedSeats: this.selectedSeats
-      };
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result && result.bookingSubmitted) {
+        // Generate booking ID after payment method is selected
+        const bookingId = `PKG-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+        
+        const bookingData = {
+          bookingType: 'package',
+          booking: {
+            firstName: this.booking.firstName,
+            lastName: this.booking.lastName,
+            email: result.verifiedEmail || this.booking.email,
+            phoneNumber: this.booking.phoneNumber,
+            note: this.booking.note || '',
+            userUid: this.booking.userUid
+          },
+          packageName: this.packageName,
+          bookingSummary: {
+            checkIn: this.bookingSummary.checkIn,
+            tickets: [{
+              name: this.bookingSummary.tickets[0].name,
+              price: this.bookingSummary.tickets[0].price,
+              quantity: this.bookingSummary.tickets[0].quantity,
+              selectedSeats: this.selectedSeats
+            }],
+            total: this.bookingSummary.total
+          },
+          paymentMethod: result.paymentMethod,
+          bankDetails: result.bankDetails,
+          status: 'Pending',
+          createdAt: new Date().toISOString()
+        };
 
-      // Open payment method selection dialog
-      const dialogRef = this.dialog.open(PaymentComponent, {
-        width: '800px',
-        data: paymentState
-      });
+        try {
+          const bookingsRef = collection(this.firestore, 'bookings');
+          const docRef = await addDoc(bookingsRef, bookingData);
+          console.log('Booking saved to Firestore with ID:', docRef.id);
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
           // Handle the payment result
           const confirmationState = {
             ...paymentState,
+            bookingId: docRef.id,
             paymentMethod: result.paymentMethod,
-            cardDetails: result.cardDetails,
+            bankDetails: result.bankDetails,
+            verifiedEmail: result.verifiedEmail,
             status: 'Pending'
           };
 
@@ -268,12 +282,44 @@ export class BookingCategoryComponent implements OnInit, AfterViewInit {
           this.router.navigate(['/confirmation'], {
             state: confirmationState
           });
-        }
-      });
 
-    } catch (error) {
-      console.error('Error saving booking to Firestore:', error);
-      this.errorMessage = 'Failed to save booking. Please try again.';
+        } catch (error) {
+          console.error('Error saving booking to Firestore:', error);
+          this.errorMessage = 'Failed to save booking. Please try again.';
+        }
+      }
+    });
+  }
+
+  // Method to save user details to localStorage
+  saveUserDetails() {
+    const userDetails = {
+      firstName: this.booking.firstName,
+      email: this.booking.email,
+      userUid: this.booking.userUid
+    };
+    localStorage.setItem('userDetails', JSON.stringify(userDetails));
+  }
+
+  // Method to load user details from localStorage
+  loadUserDetails() {
+
+    const email = localStorage.getItem('userEmail');
+    const userUid = localStorage.getItem('userUID');
+    const firstName = localStorage.getItem('userFirstName');
+    if (email) {
+      try {
+        this.booking.firstName = firstName|| '';
+        this.booking.email =email|| '';
+        this.booking.userUid =userUid || '';
+      } catch (e) {
+        console.error('Error parsing user details from localStorage:', e);
+      }
     }
+  }
+
+  // Method to clear user details from localStorage
+  clearUserDetails() {
+    localStorage.removeItem('userDetails');
   }
 }

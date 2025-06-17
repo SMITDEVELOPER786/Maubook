@@ -24,19 +24,19 @@
             <div class="detail-grid">
               <div class="detail-item">
                 <span class="label">Bank Name:</span>
-                <span class="value">MCB (Mauritius Commercial Bank)</span>
+                <span class="value">{{bankDetails.bankName || 'MCB (Mauritius Commercial Bank)'}}</span>
               </div>
               <div class="detail-item">
                 <span class="label">Account Name:</span>
-                <span class="value">Ticketbox (Mauritius) Ltd</span>
+                <span class="value">{{bankDetails.bankAccountName || 'Ticketbox (Mauritius) Ltd'}}</span>
               </div>
               <div class="detail-item">
                 <span class="label">Account Number:</span>
-                <span class="value">000447361260</span>
+                <span class="value">{{bankDetails.accountNumber || '000447361260'}}</span>
               </div>
               <div class="detail-item">
                 <span class="label">Branch:</span>
-                <span class="value">MCB, Ebene, Mauritius</span>
+                <span class="value">{{bankDetails.branch || 'MCB, Ebene, Mauritius'}}</span>
               </div>
             </div>
 
@@ -76,50 +76,174 @@
         </div>
       </div>
   
-      <!-- Existing booking summary section -->
+      <!-- Updated booking summary section to handle both hotel and package bookings -->
       <div class="booking-summary-section">
         <div class="summary-card">
           <h2>Booking Summary</h2>
           <div class="summary-content">
+            <!-- Package Booking -->
+            <div *ngIf="bookingType === 'package'">
+              <div class="summary-row">
+                <span>Package</span>
+                <span>{{packageName}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Type</span>
+                <span>{{bookingSummary.type}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.packageId">
+                <span>Package ID</span>
+                <span>{{bookingSummary.packageId}}</span>
+              </div>
+              <div class="summary-row" *ngIf="selectedSeats && selectedSeats.length > 0">
+                <span>Selected Seats</span>
+                <span>{{selectedSeats.length}} seat(s)</span>
+              </div>
+              <div class="summary-row" *ngIf="selectedSeats && selectedSeats.length > 0">
+                <span>Seat Details</span>
+                <span>{{selectedSeats.join(', ')}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.quantity">
+                <span>Quantity</span>
+                <span>{{bookingSummary.quantity}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.adults">
+                <span>Adults</span>
+                <span>{{bookingSummary.adults}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.children">
+                <span>Children</span>
+                <span>{{bookingSummary.children}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.teens">
+                <span>Teens</span>
+                <span>{{bookingSummary.teens}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.date">
+                <span>Date</span>
+                <span>{{bookingSummary.date}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.time">
+                <span>Time</span>
+                <span>{{bookingSummary.time}}</span>
+              </div>
+            </div>
+            
+            <!-- Ticket Details Section -->
+            <div *ngIf="tickets && tickets.length > 0" class="ticket-details">
+              <div class="section-header">
+                <h3>Ticket Details</h3>
+              </div>
+              <div class="ticket-list">
+                <div class="ticket-item" *ngFor="let ticket of tickets; let i = index">
+                  <div class="ticket-header">
+                    <span class="ticket-name">{{ticket.name | titlecase}} Ticket</span>
+                    <span class="ticket-quantity">x{{ticket.quantity}}</span>
+                  </div>
+                  <div class="ticket-price">
+                    <span>Price per ticket:</span>
+                    <span>Rs {{ticket.price | number}}</span>
+                  </div>
+                  <div class="ticket-subtotal">
+                    <span>Subtotal:</span>
+                    <span>Rs {{ticket.price * ticket.quantity | number}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Hotel Booking -->
+            <div *ngIf="bookingType !== 'package'">
+              <div class="summary-row">
+                <span>Hotel</span>
+                <span>{{hotelName}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Check In</span>
+                <span>{{bookingSummary.checkIn}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Check Out</span>
+                <span>{{bookingSummary.checkOut}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Nights</span>
+                <span>{{bookingSummary.nights}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Rooms</span>
+                <span>{{bookingSummary.rooms}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Adults</span>
+                <span>{{bookingSummary.adults}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Teens</span>
+                <span>{{bookingSummary.teens}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Children</span>
+                <span>{{bookingSummary.children}}</span>
+              </div>
+              <div class="summary-row">
+                <span>Room Category</span>
+                <span>{{bookingSummary.roomCategory}}</span>
+              </div>
+            </div>
+            
+            <!-- Common booking details -->
             <div class="summary-row">
-              <span>Hotel</span>
-              <span>{{hotelName}}</span>
+              <span>Payment Method</span>
+              <span>{{paymentMethod}}</span>
             </div>
             <div class="summary-row">
-              <span>Check In</span>
-              <span>{{bookingSummary.checkIn}}</span>
+              <span>Status</span>
+              <span>{{status}}</span>
             </div>
-            <div class="summary-row">
-              <span>Check Out</span>
-              <span>{{bookingSummary.checkOut}}</span>
+            
+            <!-- Price breakdown -->
+            <div class="price-breakdown" *ngIf="bookingSummary.subtotal || bookingSummary.tax || bookingSummary.fees">
+              <div class="summary-row" *ngIf="bookingSummary.subtotal">
+                <span>Subtotal</span>
+                <span>Rs {{bookingSummary.subtotal | number}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.tax">
+                <span>Tax</span>
+                <span>Rs {{bookingSummary.tax | number}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.fees">
+                <span>Fees</span>
+                <span>Rs {{bookingSummary.fees | number}}</span>
+              </div>
+              <div class="summary-row" *ngIf="bookingSummary.discount">
+                <span>Discount</span>
+                <span>- Rs {{bookingSummary.discount | number}}</span>
+              </div>
             </div>
-            <div class="summary-row">
-              <span>Nights</span>
-              <span>{{bookingSummary.nights}}</span>
-            </div>
-            <div class="summary-row">
-              <span>Rooms</span>
-              <span>{{bookingSummary.rooms}}</span>
-            </div>
-            <div class="summary-row">
-              <span>Adults</span>
-              <span>{{bookingSummary.adults}}</span>
-            </div>
-            <div class="summary-row">
-              <span>Teens</span>
-              <span>{{bookingSummary.teens}}</span>
-            </div>
-            <div class="summary-row">
-              <span>Children</span>
-              <span>{{bookingSummary.children}}</span>
-            </div>
-            <div class="summary-row">
-              <span>Room Category</span>
-              <span>{{bookingSummary.roomCategory}}</span>
-            </div>
+            
             <div class="summary-row total">
-              <span>Total</span>
+              <span>Total Amount</span>
               <span>Rs {{bookingSummary.total | number}}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Additional booking details card -->
+        <div class="summary-card" *ngIf="bookingSummary.description || bookingSummary.notes || bookingSummary.specialRequests">
+          <h2>Additional Details</h2>
+          <div class="summary-content">
+            <div class="summary-row" *ngIf="bookingSummary.description">
+              <span>Description</span>
+              <span>{{bookingSummary.description}}</span>
+            </div>
+            <div class="summary-row" *ngIf="bookingSummary.notes">
+              <span>Notes</span>
+              <span>{{bookingSummary.notes}}</span>
+            </div>
+            <div class="summary-row" *ngIf="bookingSummary.specialRequests">
+              <span>Special Requests</span>
+              <span>{{bookingSummary.specialRequests}}</span>
             </div>
           </div>
         </div>

@@ -23,6 +23,9 @@ export class PaymentComponent implements OnInit {
   isDialog: boolean = false;
   bankInfos: BankInfo[] = [];
   selectedBankIndex: number | null = null;
+  emailToVerify: string = '';
+  emailVerified: boolean = false;
+  emailError: string = '';
 
   paymentMethods = [
     {
@@ -182,6 +185,59 @@ export class PaymentComponent implements OnInit {
 
   selectBank(i: number) {
     this.selectedBankIndex = i;
+    // Pre-fill email from booking data if available
+    if (this.booking && this.booking.email) {
+      this.emailToVerify = this.booking.email;
+    }
+  }
+
+  verifyEmail() {
+    this.emailError = '';
+    
+    if (!this.emailToVerify || !this.emailToVerify.trim()) {
+      this.emailError = 'Please enter an email address.';
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.emailToVerify)) {
+      this.emailError = 'Please enter a valid email address.';
+      return;
+    }
+
+    // Check if email matches booking email (if available)
+    if (this.booking && this.booking.email && this.booking.email !== this.emailToVerify) {
+      this.emailError = 'Email does not match the booking email.';
+      return;
+    }
+
+    this.emailVerified = true;
+    this.emailError = '';
+  }
+
+  submitBooking() {
+    if (!this.emailVerified) {
+      this.emailError = 'Please verify your email first.';
+      return;
+    }
+
+    if (this.selectedBankIndex === null) {
+      alert('Please select a bank first.');
+      return;
+    }
+
+    const selectedBank = this.bankInfos[this.selectedBankIndex];
+    
+    // Close dialog with booking data
+    if (this.isDialog && this.dialogRef) {
+      this.dialogRef.close({
+        paymentMethod: 'Bank Transfer',
+        bankDetails: selectedBank,
+        verifiedEmail: this.emailToVerify,
+        bookingSubmitted: true
+      });
+    }
   }
 
   proceedWithBank() {

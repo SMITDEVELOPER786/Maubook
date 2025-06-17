@@ -37,7 +37,7 @@ export class PackageDetailsComponent implements OnInit {
     private router: Router,
     private bookingService: BookingService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
@@ -175,48 +175,59 @@ export class PackageDetailsComponent implements OnInit {
   bookNow(): void {
     console.log('Selected date:', this.selectedDate);
 
-    // Always convert selectedDate to a Date object first
-    this.selectedDate = new Date(this.selectedDate!);
-
-    // Validate the date
-    if (this.category !== 'events') {
-      if (
-        !this.selectedDate ||
-        !(this.selectedDate instanceof Date) ||
-        isNaN(this.selectedDate.getTime())
-      ) {
-        alert('Please select a valid date before proceeding.');
-        return;
-      }
-    }
-
-    // Validate ticket selection and quantity
-    if (!this.selectedTicket || this.calculateTotalQuantity() === 0) {
-      alert('Please select a ticket and quantity before proceeding.');
+    var userLogin = localStorage.getItem('isLoggedIn');
+    if (!userLogin) {
+      alert('Please login to proceed');
+      this.router.navigate(['/login']);
       return;
     }
+    else {
+      // Always convert selectedDate to a Date object first
+      this.selectedDate = new Date(this.selectedDate!);
 
-    const bookingState = {
-      fromPackagePage: true,
-      packageId: this.package.id,
-      packageName: this.package.name,
-      amount: this.calculateTotalPrice(),
-      date: this.selectedDate.toISOString(),
-      ticketName: this.selectedTicket.name,
-      ticketPrice: this.selectedTicket.price,
-      quantity: this.quantities[this.selectedTicket.name],
-      category: this.category,
-      discount: this.discount,
-      discountAmount: this.discountAmount,
-    };
+      // Validate the date
+      if (this.category !== 'events') {
+        if (
+          !this.selectedDate ||
+          !(this.selectedDate instanceof Date) ||
+          isNaN(this.selectedDate.getTime())
+        ) {
+          alert('Please select a valid date before proceeding.');
+          return;
+        }
+      }
 
-    // Store in localStorage as a fallback
-    localStorage.setItem('bookingState', JSON.stringify(bookingState));
+      // Validate ticket selection and quantity
+      if (!this.selectedTicket || this.calculateTotalQuantity() === 0) {
+        alert('Please select a ticket and quantity before proceeding.');
+        return;
+      }
 
-    console.log('Navigating with state:', bookingState);
+      const bookingState = {
+        fromPackagePage: true,
+        packageId: this.package.id,
+        packageName: this.package.name,
+        amount: this.calculateTotalPrice(),
+        date: this.selectedDate.toISOString(),
+        ticketName: this.selectedTicket.name,
+        ticketPrice: this.selectedTicket.price,
+        quantity: this.quantities[this.selectedTicket.name],
+        category: this.category,
+        discount: this.discount,
+        discountAmount: this.discountAmount,
+      };
 
-    this.router.navigate(['/booking-category'], {
-      state: bookingState,
-    });
+      // Store in localStorage as a fallback
+      localStorage.setItem('bookingState', JSON.stringify(bookingState));
+
+      console.log('Navigating with state:', bookingState);
+
+      this.router.navigate(['/booking-category'], {
+        state: bookingState,
+      });
+    }
+
   }
+
+
 }

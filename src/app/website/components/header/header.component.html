@@ -7,18 +7,23 @@
          <img *ngIf="logo" [src]="logo" alt="Maubook Logo" height="40">
       </a>
 
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+        <i class="fas fa-bars"></i>
+      </button>
+
       <!-- Main Navigation -->
-      <div class="main-nav">
+      <div class="main-nav" [class.mobile-menu-open]="isMobileMenuOpen">
         <ul class="nav-links">
-          <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-          <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
-          <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+          <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Home</a></li>
+          <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">About Us</a></li>
+          <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a></li>
         </ul>
 
         <!-- Login Button -->
         <div class="auth-section">
           <ng-container *ngIf="!isLoggedIn; else userInfo">
-            <a class="btn-login" routerLink="/login" style="background-color: #22bdc5;" >Login</a>
+            <a class="btn-login" routerLink="/login" style="background-color: #22bdc5;" (click)="closeMobileMenu()">Login</a>
           </ng-container>
           <ng-template #userInfo>
             <div class="user-info" (click)="toggleSidebar()">
@@ -31,38 +36,39 @@
     </div>
   </nav>
 
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+
   <!-- Add the sidebar component here -->
   <app-user-sidebar></app-user-sidebar>
 
   <!-- Categories Navigation -->
   <nav class="categories-nav">
-    <div class="" >
-      <div class="categories-scroll" style="height: 50px;">
-        <a class="category-link" routerLink="/stays" routerLinkActive="active" >
-          <i class="fas fa-bed"></i>
-          <span >Stays</span>
-        </a>
-        <a class="category-link" routerLink="/category/evening" routerLinkActive="active">
-          <i class="fas fa-sun"></i>
-          <span>Day & Evening</span>
-        </a>
-        <a class="category-link" routerLink="/category/spa" routerLinkActive="active">
-          <i class="fas fa-spa"></i>
-          <span>Spa Package</span>
-        </a>
-        <a class="category-link" routerLink="/category/events" routerLinkActive="active">
-          <i class="fas fa-calendar-alt"></i>
-          <span>Events</span>
-        </a>
-        <a class="category-link" routerLink="/category/restaurant" routerLinkActive="active">
-          <i class="fas fa-utensils"></i>
-          <span>Restaurant</span>
-        </a>
-        <a class="category-link" routerLink="/category/activities" routerLinkActive="active">
-          <i class="fas fa-hiking"></i>
-          <span>Activities</span>
-        </a>
-      </div>
+    <div class="categories-scroll">
+      <a class="category-link" routerLink="/stays" routerLinkActive="active" >
+        <i class="fas fa-bed"></i>
+        <span >Stays</span>
+      </a>
+      <a class="category-link" routerLink="/category/evening" routerLinkActive="active">
+        <i class="fas fa-sun"></i>
+        <span>Day & Evening</span>
+      </a>
+      <a class="category-link" routerLink="/category/spa" routerLinkActive="active">
+        <i class="fas fa-spa"></i>
+        <span>Spa Package</span>
+      </a>
+      <a class="category-link" routerLink="/category/events" routerLinkActive="active">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Events</span>
+      </a>
+      <a class="category-link" routerLink="/category/restaurant" routerLinkActive="active">
+        <i class="fas fa-utensils"></i>
+        <span>Restaurant</span>
+      </a>
+      <a class="category-link" routerLink="/category/activities" routerLinkActive="active">
+        <i class="fas fa-hiking"></i>
+        <span>Activities</span>
+      </a>
     </div>
   </nav>
 </ng-container>

@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   userFirstName: string = '';
   logo: string = '';
+  isMobileMenuOpen: boolean = false;
 
   isLoading: boolean = true;
   private authSubscription: Subscription | null = null;
@@ -57,6 +58,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    // Prevent body scroll when menu is open
+    if (this.isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    document.body.style.overflow = '';
+  }
+
   toggleSidebar(): void {
     console.log('HeaderComponent: toggleSidebar called, isLoading:', this.isLoading, 'isLoggedIn:', this.isLoggedIn);
     if (this.isLoading) {
@@ -67,5 +83,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return;
     }
     this.sidebar.toggleSidebar();
+    this.closeMobileMenu(); // Close mobile menu when opening sidebar
   }
 }

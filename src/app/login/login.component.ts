@@ -27,6 +27,17 @@ export class LoginComponent implements OnInit {
     try {
       await this.authService.login(this.email, this.password);
       this.authService.setLoginStatus(true); // Update login status
+      
+      // Example: Access stored user data from localStorage
+      const userUID = this.authService.getUserUID();
+      const userEmail = this.authService.getUserEmail();
+      const userFirstName = this.authService.getUserFirstName();
+      
+      console.log('User logged in successfully!');
+      console.log('User UID:', userUID);
+      console.log('User Email:', userEmail);
+      console.log('User First Name:', userFirstName);
+      
       await this.router.navigateByUrl(this.returnUrl);
     } catch (error: any) {
       this.errorMessage = error.message || 'Login failed. Please try again.';

@@ -6,30 +6,7 @@
     </button>
   </div>
 
-  <div class="payment-methods">
-    <div *ngFor="let method of paymentMethods" 
-         class="payment-method-option" 
-         [class.selected]="selectedPaymentMethod === method.id"
-         (click)="selectPaymentMethod(method)">
-      <div class="method-icon">
-        <i class="fas {{method.icon}}"></i>
-      </div>
-      <div class="method-details">
-        <h3>{{method.name}}</h3>
-        <p>{{method.description}}</p>
-        <ng-container *ngIf="method.id === 'bank' && bankInfos.length">
-          <div class="bank-info-card">
-            <div><strong>{{bankInfos[0].bankName}}</strong> ({{bankInfos[0].branch}})</div>
-            <div>Acc: {{bankInfos[0].accountNumber}}</div>
-            <div>Name: {{bankInfos[0].bankAccountName}}</div>
-          </div>
-        </ng-container>
-      </div>
-      <div class="method-check">
-        <i class="fas fa-check" *ngIf="selectedPaymentMethod === method.id"></i>
-      </div>
-    </div>
-  </div>
+ 
 
   <div class="payment-details" *ngIf="selectedPaymentMethod">
     <div class="form-card">
@@ -57,11 +34,7 @@
     </div>
   </div>
 
-  <div class="payment-actions">
-    <button class="pay-button" (click)="processPayment()" [disabled]="!selectedPaymentMethod">
-      Proceed to Payment
-    </button>
-  </div>
+  
 
   <div class="bank-info-list" style="margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem;">
     <div *ngFor="let bank of bankInfos; let i = index" 
@@ -74,7 +47,49 @@
       <div><strong>Account Name:</strong> {{bank.bankAccountName}}</div>
     </div>
   </div>
-  <div style="margin-top: 2rem; text-align: right;" *ngIf="selectedBankIndex !== null">
+
+  <!-- Email Verification Section -->
+  <div *ngIf="selectedBankIndex !== null" class="email-verification-section" style="margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+    <h3 style="margin-bottom: 1rem; color: #333;">Verify Your Email</h3>
+    
+    <div class="email-input-group" style="margin-bottom: 1rem;">
+      <label for="emailVerify" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email Address:</label>
+      <input 
+        type="email" 
+        id="emailVerify"
+        [(ngModel)]="emailToVerify" 
+        placeholder="Enter your email address"
+        style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;"
+        [class.error]="emailError"
+      >
+      <div *ngIf="emailError" class="error-message" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+        {{emailError}}
+      </div>
+      <div *ngIf="emailVerified" class="success-message" style="color: #28a745; font-size: 0.875rem; margin-top: 0.25rem;">
+        ✓ Email verified successfully
+      </div>
+    </div>
+
+    <div class="button-group" style="display: flex; gap: 1rem; align-items: center;">
+      <button 
+        *ngIf="!emailVerified" 
+        class="verify-button" 
+        (click)="verifyEmail()"
+        style="background: #007bff; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background 0.2s;">
+        Verify Email
+      </button>
+      
+      <button 
+        *ngIf="emailVerified" 
+        class="submit-button" 
+        (click)="submitBooking()"
+        style="background: #28a745; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background 0.2s; font-weight: 500;">
+        Submit Booking & Pay Amount
+      </button>
+    </div>
+  </div>
+
+  <div style="margin-top: 2rem; text-align: right;" *ngIf="selectedBankIndex !== null && !emailVerified">
     <button class="pay-button" (click)="proceedWithBank()">Proceed</button>
   </div>
 </div>
@@ -97,5 +112,14 @@
 }
 .pay-button:hover {
   background: #1aa7b0;
+}
+.verify-button:hover {
+  background: #0056b3;
+}
+.submit-button:hover {
+  background: #218838;
+}
+input.error {
+  border-color: #dc3545 !important;
 }
 </style>

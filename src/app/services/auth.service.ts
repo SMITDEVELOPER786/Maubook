@@ -43,14 +43,23 @@ export class AuthService {
           };
           this.currentUserSubject.next(user);
           this.setLoginStatus(true); // Sync login status
+          
+          // Store user data in localStorage
+          this.storeUserData(user);
         } else {
           this.currentUserSubject.next(null);
           this.setLoginStatus(false); // Sync login status
+          
+          // Clear user data from localStorage
+          this.clearUserData();
         }
       } catch (error) {
         console.error('Error processing auth state:', error);
         this.currentUserSubject.next(null);
         this.setLoginStatus(false);
+        
+        // Clear user data from localStorage on error
+        this.clearUserData();
       } finally {
         this.loadingSubject.next(false);
       }
@@ -91,6 +100,9 @@ export class AuthService {
       };
       this.currentUserSubject.next(user);
       this.setLoginStatus(true);
+      
+      // Store user UID and email in localStorage
+      this.storeUserData(user);
     }
   }
 
@@ -110,6 +122,9 @@ export class AuthService {
       };
       this.currentUserSubject.next(user);
       this.setLoginStatus(true);
+      
+      // Store user UID and email in localStorage
+      this.storeUserData(user);
     }
   }
 
@@ -117,6 +132,9 @@ export class AuthService {
     await this.afAuth.signOut();
     this.currentUserSubject.next(null);
     this.setLoginStatus(false);
+    
+    // Clear user data from localStorage
+    this.clearUserData();
   }
 
   async resetPassword(email: string): Promise<void> {
@@ -157,6 +175,9 @@ export class AuthService {
         photoURL: firebaseUser.photoURL || ''
       };
       this.currentUserSubject.next(updatedUser);
+      
+      // Update user data in localStorage
+      this.storeUserData(updatedUser);
     } else {
       throw new Error('No authenticated user found.');
     }
@@ -180,5 +201,46 @@ export class AuthService {
   public setLoginStatus(status: boolean): void {
     this.isLoggedInStatus = status;
     localStorage.setItem('isLoggedIn', status.toString());
+  }
+
+  // Store user data in localStorage
+  private storeUserData(user: User): void {
+    localStorage.setItem('userUID', user.uid);
+    localStorage.setItem('userEmail', user.email);
+    localStorage.setItem('userDisplayName', user.displayName || '');
+    localStorage.setItem('userFirstName', user.firstName || '');
+  }
+
+  // Clear user data from localStorage
+  private clearUserData(): void {
+    localStorage.removeItem('userUID');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userDisplayName');
+    localStorage.removeItem('userFirstName');
+  }
+
+  // Get user UID from localStorage
+  public getUserUID(): string | null {
+    return localStorage.getItem('userUID');
+  }
+
+  // Get user email from localStorage
+  public getUserEmail(): string | null {
+    return localStorage.getItem('userEmail');
+  }
+
+  // Get user display name from localStorage
+  public getUserDisplayName(): string | null {
+    return localStorage.getItem('userDisplayName');
+  }
+
+  // Get user first name from localStorage
+  public getUserFirstName(): string | null {
+    return localStorage.getItem('userFirstName');
+  }
+
+  // Check if user data exists in localStorage
+  public hasStoredUserData(): boolean {
+    return !!(localStorage.getItem('userUID') && localStorage.getItem('userEmail'));
   }
 }
