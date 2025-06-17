@@ -78,6 +78,7 @@ import { ApplyCouponComponent } from './website/apply-coupon/apply-coupon.compon
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { MatButtonModule } from '@angular/material/button';
+import { CardSelectionComponent } from './website/payment/card-selection/card-selection.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -143,6 +144,7 @@ export const auth = firebaseAuth(firebaseApp);
     refundComponent,
     termComponent,
     ApplyCouponComponent,
+    CardSelectionComponent
   ],
   imports: [
     MatButtonModule,

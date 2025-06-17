@@ -1,5 +1,5 @@
 // Variables - Blue Theme
-$primary-blue: #21BEC5;
+$primary-blue: #21bec5;
 $dark-blue: #0d47a1;
 $light-blue: #e3f2fd;
 $accent-blue: #64b5f6;
@@ -11,8 +11,8 @@ $light-gray: #f5f7fa;
 $border-color: #e0e0e0;
 
 // Typography
-$font-heading: 'Raleway', sans-serif;
-$font-body: 'Open Sans', sans-serif;
+$font-heading: "Raleway", sans-serif;
+$font-body: "Open Sans", sans-serif;
 
 // Mixins
 @mixin flex($align: center, $justify: flex-start, $direction: row) {
@@ -46,7 +46,6 @@ body {
   color: $text-dark;
   line-height: 1.6;
   background-color: $light-gray;
-
 }
 
 .date-selector-inline {
@@ -54,8 +53,8 @@ body {
 }
 
 .custom-date-input {
-  width: 250px;   /* Desktop width */
-  height: 75px;   /* Desktop height */
+  width: 250px; /* Desktop width */
+  height: 75px; /* Desktop height */
   font-size: 20px !important;
   padding: 8px 12px;
   border-radius: 6px;
@@ -66,38 +65,36 @@ body {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .custom-date-input {
-    width: 100%;       /* Full width on smaller screens */
-    height: 50px;      /* Smaller height for mobile */
+    width: 100%; /* Full width on smaller screens */
+    height: 50px; /* Smaller height for mobile */
     font-size: 16px !important;
     padding: 6px 10px;
   }
 }
 
-
-
 .container {
   max-width: 1400px;
-    margin: 25px auto;
-    padding: 0 0.5rem;
+  margin: 25px auto;
+  padding: 0 0.5rem;
 }
 
 // Hero Banner
 .hero-banner {
   margin-bottom: 30px;
-  
+
   .gallery-wrapper {
     position: relative;
     height: 450px;
     border-radius: 12px;
     overflow: hidden;
     @include card-shadow;
-    
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    
+
     .hero-content {
       position: absolute;
       bottom: 0;
@@ -105,7 +102,7 @@ body {
       right: 0;
       padding: 40px;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-      
+
       .hero-badge {
         display: inline-block;
         background-color: $primary-blue;
@@ -116,7 +113,7 @@ body {
         border-radius: 4px;
         margin-bottom: 12px;
       }
-      
+
       .hero-title {
         font-family: $font-heading;
         color: $white;
@@ -124,21 +121,21 @@ body {
         font-weight: 700;
         margin-bottom: 8px;
       }
-      
+
       .hero-subtitle {
         color: rgba(255, 255, 255, 0.9);
         font-size: 16px;
         max-width: 60%;
       }
     }
-    
+
     .gallery-controls {
       position: absolute;
       bottom: 40px;
       right: 40px;
       display: flex;
       gap: 12px;
-      
+
       .gallery-btn {
         width: 44px;
         height: 44px;
@@ -149,7 +146,7 @@ body {
         @include flex(center, center);
         cursor: pointer;
         transition: all 0.2s ease;
-        
+
         &:hover {
           background-color: $primary-blue;
           border-color: $primary-blue;
@@ -169,13 +166,12 @@ input[type="date"]#date-input {
   margin-top: 5px;
 }
 
-
 // Content Layout
 .content-wrapper {
   display: grid;
   grid-template-columns: 1fr 350px;
   gap: 30px;
-  
+
   @media (max-width: 992px) {
     grid-template-columns: 1fr;
   }
@@ -189,21 +185,21 @@ input[type="date"]#date-input {
     padding: 24px;
     margin-bottom: 30px;
     @include card-shadow;
-    
+
     .info-highlights {
       @include flex(center, space-around);
       flex-wrap: wrap;
       gap: 20px;
-      
+
       .highlight-item {
         @include flex(center, flex-start);
         gap: 10px;
-        
+
         i {
           color: $primary-blue;
           font-size: 18px;
         }
-        
+
         span {
           color: $text-medium;
           font-weight: 500;
@@ -211,40 +207,39 @@ input[type="date"]#date-input {
       }
     }
   }
-  
+
   .content-section {
     background-color: $white;
     border-radius: 12px;
     padding: 30px;
     margin-bottom: 30px;
     @include card-shadow;
-    
-   .section-heading {
-  font-family: $font-heading;
-  font-size: 24px;
-  font-weight: 700;
-  color: $text-dark;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
 
-  border-bottom: 2px solid $light-blue;
+    .section-heading {
+      font-family: $font-heading;
+      font-size: 24px;
+      font-weight: 700;
+      color: $text-dark;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
 
-  @media (max-width: 768px) {
-    font-size: 20px;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-     margin-top: 10%;
-  }
+      border-bottom: 2px solid $light-blue;
 
-  @media (max-width: 480px) {
-    font-size: 18px;
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-     margin-top: 10%;
-  }
-}
+      @media (max-width: 768px) {
+        font-size: 20px;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        margin-top: 10%;
+      }
 
-    
+      @media (max-width: 480px) {
+        font-size: 18px;
+        margin-bottom: 12px;
+        padding-bottom: 6px;
+        margin-top: 10%;
+      }
+    }
+
     .section-content {
       color: $text-medium;
       line-height: 1.8;
@@ -256,7 +251,7 @@ input[type="date"]#date-input {
 .date-selector {
   .date-input {
     position: relative;
-    
+
     i {
       position: absolute;
       left: 16px;
@@ -265,7 +260,7 @@ input[type="date"]#date-input {
       color: $primary-blue;
       font-size: 18px;
     }
-    
+
     input {
       width: 100%;
       padding: 16px 16px 16px 48px;
@@ -274,13 +269,13 @@ input[type="date"]#date-input {
       font-size: 16px;
       font-family: $font-body;
       color: $text-dark;
-      
+
       &:focus {
         outline: none;
         border-color: $primary-blue;
       }
     }
-    
+
     .calendar-btn {
       position: absolute;
       right: 16px;
@@ -294,7 +289,7 @@ input[type="date"]#date-input {
       height: 32px;
       @include flex(center, center);
       cursor: pointer;
-      
+
       &:hover {
         background-color: $dark-blue;
       }
@@ -307,7 +302,7 @@ input[type="date"]#date-input {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  
+
   .ticket-row {
     display: flex;
     justify-content: space-between;
@@ -317,28 +312,28 @@ input[type="date"]#date-input {
     padding: 24px;
     transition: all 0.3s ease;
     border-left: 4px solid $primary-blue;
-    
+
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(30, 136, 229, 0.1);
     }
-    
+
     .ticket-info {
       flex: 1;
-      
+
       .ticket-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
-        
+
         .ticket-name {
           font-family: $font-heading;
           font-size: 18px;
           font-weight: 700;
           color: $text-dark;
         }
-        
+
         .ticket-price {
           font-family: $font-heading;
           font-size: 20px;
@@ -346,16 +341,16 @@ input[type="date"]#date-input {
           color: $primary-blue;
         }
       }
-      
+
       .ticket-desc {
         color: $text-medium;
         font-size: 14px;
       }
     }
-    
+
     .ticket-action {
       margin-left: 20px;
-      
+
       .quantity-control {
         display: flex;
         align-items: center;
@@ -363,7 +358,7 @@ input[type="date"]#date-input {
         border-radius: 8px;
         padding: 4px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        
+
         .qty-btn {
           width: 36px;
           height: 36px;
@@ -374,12 +369,12 @@ input[type="date"]#date-input {
           font-size: 14px;
           cursor: pointer;
           @include flex(center, center);
-          
+
           &:hover {
             background-color: $dark-blue;
           }
         }
-        
+
         .qty-display {
           width: 40px;
           text-align: center;
@@ -401,11 +396,11 @@ input[type="date"]#date-input {
     border-radius: 12px;
     overflow: hidden;
     @include card-shadow;
-    
+
     .booking-header {
       background-color: $primary-blue;
       padding: 20px 24px;
-      
+
       h2 {
         font-family: $font-heading;
         color: $white;
@@ -413,40 +408,40 @@ input[type="date"]#date-input {
         font-weight: 700;
       }
     }
-    
+
     .booking-body {
       padding: 24px;
-      
+
       .booking-location {
         @include flex(center, flex-start);
         gap: 10px;
         margin-bottom: 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid $border-color;
-        
+
         i {
           color: $primary-blue;
         }
-        
+
         span {
           font-weight: 600;
         }
       }
-      
+
       .booking-details {
         margin-bottom: 20px;
-        
+
         .detail-row {
           @include flex(center, space-between);
           margin-bottom: 12px;
           flex-wrap: wrap; // Allow items to wrap within the row
-          
+
           span:first-child {
             color: $text-light;
             font-size: 14px;
             flex-basis: 100%; // Ensure label takes full width if needed
           }
-          
+
           span:last-child {
             font-weight: 600;
             word-wrap: break-word; // Allow text to wrap
@@ -455,19 +450,19 @@ input[type="date"]#date-input {
           }
         }
       }
-      
+
       .booking-total {
         @include flex(center, space-between);
         padding: 15px 0;
         margin-bottom: 20px;
         border-top: 1px solid $border-color;
         border-bottom: 1px solid $border-color;
-        
+
         span:first-child {
           font-size: 16px;
           font-weight: 600;
         }
-        
+
         span:last-child {
           font-family: $font-heading;
           font-size: 22px;
@@ -475,7 +470,26 @@ input[type="date"]#date-input {
           color: $primary-blue;
         }
       }
-      
+      .booking-total-net {
+        @include flex(center, space-between);
+        padding: 15px 0;
+        margin-bottom: 20px;
+        border-top: 1px solid $border-color;
+        border-bottom: 1px solid $border-color;
+
+        span:first-child {
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        span:last-child {
+          font-family: $font-heading;
+          font-size: 22px;
+          font-weight: 700;
+          color: $primary-blue;
+        }
+      }
+
       .book-now-btn {
         width: 100%;
         padding: 16px;
@@ -488,22 +502,22 @@ input[type="date"]#date-input {
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
-        
+
         &:hover {
           background-color: $dark-blue;
         }
       }
-      
+
       .support-section {
         margin-top: 20px;
         text-align: center;
-        
+
         p {
           font-size: 14px;
           color: $text-light;
           margin-bottom: 12px;
         }
-        
+
         .support-btn {
           width: 100%;
           padding: 12px;
@@ -518,7 +532,7 @@ input[type="date"]#date-input {
           gap: 8px;
           cursor: pointer;
           transition: all 0.3s ease;
-          
+
           &:hover {
             background-color: $light-blue;
           }
@@ -532,33 +546,33 @@ input[type="date"]#date-input {
 @media (max-width: 768px) {
   .hero-banner .gallery-wrapper {
     height: 350px;
-    
+
     .hero-content {
       padding: 30px;
-      
+
       .hero-title {
         font-size: 28px;
       }
-      
+
       .hero-subtitle {
         max-width: 100%;
       }
     }
   }
-  
+
   .tickets-horizontal .ticket-row {
     flex-direction: column;
     align-items: flex-start;
-    
+
     .ticket-info {
       width: 100%;
       margin-bottom: 16px;
     }
-    
+
     .ticket-action {
       margin-left: 0;
       width: 100%;
-      
+
       .quantity-control {
         width: 100%;
         justify-content: space-between;
@@ -573,27 +587,27 @@ input[type="date"]#date-input {
 //   align-items: center;
 //   margin-bottom: 20px; // Add space below the heading
 
-  .section-heading {
-    margin: 0; // Remove default margin
+.section-heading {
+  margin: 0; // Remove default margin
+}
+
+.date-selector-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px; // Space between label and input
+  justify-content: end;
+  margin-bottom: -30px;
+
+  label {
+    font-weight: 600;
+    color: $text-dark;
   }
 
-  .date-selector-inline {
-    display: flex;
-    align-items: center;
-    gap: 10px; // Space between label and input
-    justify-content: end;
-    margin-bottom: -30px;
-
-    label {
-      font-weight: 600;
-      color: $text-dark;
-    }
-
-    input[type="date"] {
-      padding: 8px;
-      border: 1px solid $border-color;
-      border-radius: 4px;
-      font-size: 14px;
-      color: $text-dark;
-    }
+  input[type="date"] {
+    padding: 8px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    font-size: 14px;
+    color: $text-dark;
   }
+}

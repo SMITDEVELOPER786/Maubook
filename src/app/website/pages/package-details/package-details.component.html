@@ -162,11 +162,33 @@
                 <span>Quantity</span>
                 <span>{{ calculateTotalQuantity() }}</span>
               </div>
+              <div class="detail-row" *ngIf="discount">
+                <span>Discount</span>
+                <span>{{ discount }}</span>
+              </div>
+              <div class="detail-row" *ngIf="totalBeforeDiscount">
+                <span>Total before discount</span>
+                <span>Rs {{ totalBeforeDiscount }}</span>
+              </div>
+              <div class="detail-row" *ngIf="discountAmount">
+                <span>Discount amount</span>
+                <span>Rs {{ discountAmount }}</span>
+              </div>
             </div>
-            <div class="booking-total">
+            <div
+              class="booking-total"
+              [style.text-decoration]="netTotal ? 'line-through' : 'none'"
+            >
               <span>Total amount</span>
               <span>Rs {{ calculateTotalPrice() }}</span>
             </div>
+            <div class="booking-total-net" *ngIf="netTotal">
+              <!-- <div class="booking-total-net"> -->
+              <span>Net total</span>
+              <span>Rs {{ netTotal }}</span>
+              <!-- <span>Rs 55</span> -->
+            </div>
+
             <button
               class="book-now-btn"
               (click)="bookNow()"
@@ -174,10 +196,14 @@
             >
               Book Now
             </button>
+
             <button
               class="book-now-btn mt-2"
               (click)="openCouponDialog()"
-              style="background-color: #22bdc5"
+              [style.background-color]="
+                !selectedTicket?.name ? '#808080' : '#22bdc5'
+              "
+              [disabled]="!selectedTicket?.name"
             >
               Apply Coupon
             </button>

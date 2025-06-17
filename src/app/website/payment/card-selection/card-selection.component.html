@@ -1,0 +1,66 @@
+<div class="card-selection-container">
+  <h2 mat-dialog-title>Select Payment Card</h2>
+
+  <div mat-dialog-content>
+    <!-- Saved Cards Section -->
+    <div class="saved-cards" *ngIf="!isNewCard">
+      <div class="card-list">
+        <div *ngFor="let card of savedCards" 
+             class="card-item" 
+             [class.selected]="selectedCard === card"
+             (click)="selectCard(card)">
+          <div class="card-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <div class="card-details">
+            <div class="card-number">**** **** **** {{card.last4}}</div>
+            <div class="card-expiry">Expires {{card.expiryDate}}</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="add-new-card" (click)="addNewCard()">
+        <i class="fas fa-plus"></i> Add New Card
+      </button>
+    </div>
+
+    <!-- New Card Form -->
+    <form *ngIf="isNewCard" [formGroup]="cardForm" (ngSubmit)="onSubmit()" class="new-card-form">
+      <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" formControlName="cardNumber" placeholder="1234 5678 9012 3456">
+        <div class="error" *ngIf="cardForm.get('cardNumber')?.errors?.['pattern']">
+          Please enter a valid 16-digit card number
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Card Holder Name</label>
+        <input type="text" formControlName="cardHolder" placeholder="John Doe">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <input type="text" formControlName="expiryDate" placeholder="MM/YY">
+          <div class="error" *ngIf="cardForm.get('expiryDate')?.errors?.['pattern']">
+            Please enter a valid expiry date (MM/YY)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>CVV</label>
+          <input type="text" formControlName="cvv" placeholder="123">
+          <div class="error" *ngIf="cardForm.get('cvv')?.errors?.['pattern']">
+            Please enter a valid CVV
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="close()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="!cardForm.valid">Save Card</button>
+      </div>
+    </form>
+  </div>
+</div> 

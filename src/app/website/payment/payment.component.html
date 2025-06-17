@@ -1,96 +1,101 @@
 <div class="payment-container">
-  <div class="payment-content">
-    <div class="payment-form-section">
-      <!-- Discount Code Section -->
-      <div class="form-card">
-        <h2><i class="fas fa-tag" style="background-color: #21BEC5;"></i> Discount Code</h2>
-        <div class="discount-form">
-          <input type="text" [(ngModel)]="discountCode" placeholder="Enter discount code">
-          <button (click)="applyDiscount()">Apply</button>
-        </div>
-      </div>
+  <div class="payment-header">
+    <h2>Select Payment Method</h2>
+    <button *ngIf="isDialog" class="close-button" (click)="close()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
 
-      <!-- Payment Methods -->
-      <div class="form-card">
-        <h2><i class="fas fa-credit-card" style="color: #21BEC5;"></i> Payment Method</h2>
-        <div class="payment-methods">
-          <div *ngFor="let method of paymentMethods" 
-               class="payment-method-option"
-               [class.selected]="selectedPaymentMethod === method.id"
-               (click)="selectedPaymentMethod = method.id">
-            <i class="fas" [ngClass]="method.icon"></i>
-            <span>{{ method.name }}</span>
-          </div>
-        </div>
+  <div class="payment-methods">
+    <div *ngFor="let method of paymentMethods" 
+         class="payment-method-option" 
+         [class.selected]="selectedPaymentMethod === method.id"
+         (click)="selectPaymentMethod(method)">
+      <div class="method-icon">
+        <i class="fas {{method.icon}}"></i>
       </div>
-    </div>
-
-    <!-- Booking Summary -->
-    <div class="booking-summary-section">
-      <div class="summary-card">
-        <h2>Booking Summary</h2>
-        <div class="summary-content">
-          <div class="summary-row">
-            <span>Hotel</span>
-            <span>{{ bookingSummary.hotelName || 'N/A' }}</span>
+      <div class="method-details">
+        <h3>{{method.name}}</h3>
+        <p>{{method.description}}</p>
+        <ng-container *ngIf="method.id === 'bank' && bankInfos.length">
+          <div class="bank-info-card">
+            <div><strong>{{bankInfos[0].bankName}}</strong> ({{bankInfos[0].branch}})</div>
+            <div>Acc: {{bankInfos[0].accountNumber}}</div>
+            <div>Name: {{bankInfos[0].bankAccountName}}</div>
           </div>
-          <div class="summary-row">
-            <span>Check In</span>
-            <span>{{ bookingSummary.checkIn || 'N/A' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Check Out</span>
-            <span>{{ bookingSummary.checkOut || 'N/A' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Nights</span>
-            <span>{{ bookingSummary.nights || 'N/A' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Rooms</span>
-            <span>{{ bookingSummary.rooms || 'N/A' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Adults</span>
-            <span>{{ bookingSummary.adults || 0 }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Teens</span>
-            <span>{{ bookingSummary.teens || 0 }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Children</span>
-            <span>{{ bookingSummary.children || 0 }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Room Category</span>
-            <span>{{ bookingSummary.roomCategory || 'N/A' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Plan</span>
-            <span>{{ bookingSummary.plan?.name || 'N/A' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Bed Type</span>
-            <span>{{ bookingSummary.plan?.bedType || 'N/A' }}</span>
-          </div>
-          <div class="summary-row">
-            <span>Price per Night</span>
-            <span>Rs {{ bookingSummary.plan?.price || 0 | number }}</span>
-          </div>
-          <div class="summary-row total">
-            <span>Total</span>
-            <span>Rs {{ bookingSummary.total || 0 | number }}</span>
-          </div>
-        </div>
-        <p class="summary-note">
-          <i class="fas fa-info-circle"></i>
-          Rates, taxes, and fees included
-        </p>
-        <button class="pay-button" [disabled]="!selectedPaymentMethod" (click)="processPayment()" style="background-color:#21BEC5 ;">
-          Pay Now
-        </button>
+        </ng-container>
+      </div>
+      <div class="method-check">
+        <i class="fas fa-check" *ngIf="selectedPaymentMethod === method.id"></i>
       </div>
     </div>
   </div>
+
+  <div class="payment-details" *ngIf="selectedPaymentMethod">
+    <div class="form-card">
+      <h3>Payment Details</h3>
+      <div *ngIf="selectedPaymentMethod === 'card'">
+        <p>Please click "Proceed to Payment" to enter your card details securely.</p>
+      </div>
+      <div *ngIf="selectedPaymentMethod === 'mcb'">
+        <p>You will be redirected to MCB JUICE to complete your payment.</p>
+        <p>Please ensure you have the MCB JUICE app installed on your device.</p>
+      </div>
+      <div *ngIf="selectedPaymentMethod === 'bank'">
+        <p>Please use the following bank details for your transfer:</p>
+        <div class="bank-details">
+          <p><strong>Bank:</strong> Mauritius Commercial Bank</p>
+          <p><strong>Account Name:</strong> Your Company Name</p>
+          <p><strong>Account Number:</strong> XXXX-XXXX-XXXX</p>
+          <p><strong>Reference:</strong> {{bookingId}}</p>
+        </div>
+      </div>
+      <div *ngIf="selectedPaymentMethod === 'blink'">
+        <p>You will be redirected to Blink to complete your payment.</p>
+        <p>Please ensure you have the Blink app installed on your device.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="payment-actions">
+    <button class="pay-button" (click)="processPayment()" [disabled]="!selectedPaymentMethod">
+      Proceed to Payment
+    </button>
+  </div>
+
+  <div class="bank-info-list" style="margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem;">
+    <div *ngFor="let bank of bankInfos; let i = index" 
+         class="bank-info-card" 
+         [ngClass]="{'selected': selectedBankIndex === i}" 
+         (click)="selectBank(i)"
+         style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; min-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); flex: 1 1 260px; max-width: 350px; cursor: pointer; border: 2px solid #f8f9fa; transition: border-color 0.2s;">
+      <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 0.5rem;">{{bank.bankName}} <span style="font-weight: normal; color: #888;">({{bank.branch}})</span></div>
+      <div><strong>Account Number:</strong> {{bank.accountNumber}}</div>
+      <div><strong>Account Name:</strong> {{bank.bankAccountName}}</div>
+    </div>
+  </div>
+  <div style="margin-top: 2rem; text-align: right;" *ngIf="selectedBankIndex !== null">
+    <button class="pay-button" (click)="proceedWithBank()">Proceed</button>
+  </div>
 </div>
+
+<style>
+.bank-info-card.selected {
+  border-color: #21BEC5 !important;
+  background: #e6fafd !important;
+}
+.pay-button {
+  background: #21BEC5;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pay-button:hover {
+  background: #1aa7b0;
+}
+</style>

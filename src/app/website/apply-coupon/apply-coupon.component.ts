@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CouponService } from '../../services/coupon.service';
 import { Coupon } from 'src/app/model/coupon.model';
 
@@ -15,12 +15,15 @@ export class ApplyCouponComponent {
   errorMessage = '';
   isLoading = false;
   isConfirmed = false;
-
+  category: string = '';
+  
   constructor(
     private dialogRef: MatDialogRef<ApplyCouponComponent>,
     private fb: FormBuilder,
-    private couponService: CouponService
+    private couponService: CouponService,
+    @Inject(MAT_DIALOG_DATA) public data: { category: string }
   ) {
+    this.category = data?.category || '';
     this.couponForm = this.fb.group({
       code: ['', Validators.required],
     });
@@ -45,7 +48,15 @@ export class ApplyCouponComponent {
 
     try {
       const coupon = await this.couponService.getCouponByCode(code);
+      console.log(coupon);
+      console.log(this.category)
       if (coupon) {
+        if (coupon.category && this.category && coupon.category !== this.category) {
+          this.errorMessage = `❌ This coupon is only valid for ${coupon.category} category.`;
+          this.couponData = null;
+          this.isConfirmed = false;
+          return;
+        }
         this.couponData = coupon;
         this.isConfirmed = true; // show Confirm button
       } else {

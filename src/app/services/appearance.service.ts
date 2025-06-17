@@ -50,4 +50,9 @@ export class AppearanceService {
       .doc('info')
       .set(data, { merge: true });
   }
+
+  // Get all bank info documents
+  getAllBankInfo(): Observable<BankInfo[]> {
+    return this.firestore.collection<BankInfo>('bank-info').valueChanges({ idField: 'id' });
+  }
 }
