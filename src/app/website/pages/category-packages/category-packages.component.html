@@ -2,27 +2,28 @@
   <div class="category-header">
     <div class="header-wrapper">
       <h1>{{capitalizeFirstLetter(category)}} <span class="count">({{packages.length}})</span></h1>
-      <!-- <div class="search-date">
-        <span class="search-label">Search Date:</span>
-        <div class="date-picker">
-          <mat-form-field appearance="outline">
-            <input matInput 
-                   [matDatepicker]="picker" 
-                   [(ngModel)]="selectedDate" 
-                   (dateChange)="onDateChange($event)"
-                   [placeholder]="'DD/MM/YYYY'"
-                   readonly>
-            <mat-datepicker-toggle matSuffix [for]="picker">
-              <i class="far fa-calendar"></i>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </div> -->
+      <div class="search-bar-card custom-search-bar">
+        <form class="search-bar-form" (ngSubmit)="applyFilters()">
+          <div class="custom-input-group">
+            <input class="custom-search-input" type="text" placeholder="Search title, description, location..." [(ngModel)]="searchText" name="searchText">
+            <button *ngIf="searchText" type="button" class="clear-btn" (click)="$event.stopPropagation(); searchText=''; applyFilters();" tabindex="-1">&#10005;</button>
+          </div>
+          <input class="custom-price-input" type="number" placeholder="Min Price" [(ngModel)]="minPrice" name="minPrice">
+          <input class="custom-price-input" type="number" placeholder="Max Price" [(ngModel)]="maxPrice" name="maxPrice">
+          <button class="custom-filter-btn" type="submit">
+            <span class="icon">&#128269;</span> Filter
+          </button>
+          <button class="custom-reset-btn" type="button" (click)="resetFilters()">
+            <span class="icon">&#8635;</span> Reset
+          </button>
+        </form>
+      </div>
+      <mat-divider></mat-divider>
+    
     </div>
   </div>
 
-  <div class="container">
+  <div class="container" *ngIf="packages.length > 0">
     <div class="packages-row">
       <div *ngFor="let package of packages" class="package-item">
         <div class="package-card">
@@ -44,7 +45,6 @@
                   <span>{{formatFeature(feature)}}</span>
                 </div>
               </div>
-              
             </div>
 
             <div class="package-meta">
@@ -58,5 +58,12 @@
         </div>
       </div>
     </div>
+    
+  </div>
+  <div class="container" *ngIf="packages.length == 0">
+  <div *ngIf="!loading && (allPackages.length === 0 || packages.length === 0)" class="no-data-message">
+    <span class="no-data-icon">😧</span>
+    <span>No data available</span>
+  </div>
   </div>
 </div>

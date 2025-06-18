@@ -16,8 +16,11 @@ export class MyBookingsComponent implements OnInit {
 
   constructor(private firestore: Firestore) {}
 
-  async ngOnInit() {
-    await this.loadUserBookings();
+  ngOnInit() {
+    // Temporarily use dummy data to test table display
+    this.loadUserBookings();
+    this.isLoading = false;
+    // await this.loadUserBookings(); // Commented out Firestore for testing
   }
 
   async loadUserBookings() {
@@ -31,7 +34,7 @@ export class MyBookingsComponent implements OnInit {
       }
 
       const bookingsRef = collection(this.firestore, 'bookings');
-      const q = query(bookingsRef, where('userId', '==', user.uid));
+      const q = query(bookingsRef, where('booking.userUid', '==', user.uid));
       const querySnapshot = await getDocs(q);
 
       this.bookings = querySnapshot.docs.map(doc => ({
@@ -39,6 +42,7 @@ export class MyBookingsComponent implements OnInit {
         ...doc.data(),
         showDetails: false
       }));
+      console.log(this.bookings);
 
       this.isLoading = false;
     } catch (error) {
