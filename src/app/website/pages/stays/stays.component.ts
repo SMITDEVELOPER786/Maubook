@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 })
 export class StaysComponent implements OnInit {
   properties: any[] = [];
+  allProperties: any[] = [];
   propertyCount: number = 0;
   loading: boolean = true;
   error: string | null = null;
@@ -19,6 +20,9 @@ export class StaysComponent implements OnInit {
   minDate: Date = new Date();
   numberOfGuests: number = 1;
   guestOptions: number[] = Array.from({ length: 15 }, (_, i) => i + 1);
+  searchText: string = '';
+  minPrice: number | null = null;
+  maxPrice: number | null = null;
 
   constructor(
     private firestore: Firestore,
@@ -48,24 +52,15 @@ export class StaysComponent implements OnInit {
     try {
       const propertiesRef = collection(this.firestore, 'properties');
       const querySnapshot = await getDocs(propertiesRef);
-      
-      this.properties = querySnapshot.docs.map(doc => ({
+      this.allProperties = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
-
-      console.log('Loaded properties:', this.properties);
-      
-      this.properties.forEach(property => {
-        if (!property.rooms || !property.rooms[0]?.plans[0]?.price) {
-          console.warn(`Property ${property.id} is missing rooms or price`);
-        }
-      });
-
+      this.properties = [...this.allProperties];
       this.propertyCount = this.properties.length;
       this.loading = false;
+      // Do not call filterProperties here
     } catch (error) {
-      console.error('Error fetching properties:', error);
       this.error = 'Failed to load properties';
       this.loading = false;
     }
@@ -85,6 +80,24 @@ export class StaysComponent implements OnInit {
 
   navigateToPropertyDetails(propertyId: string) {
     this.router.navigate(['/property', propertyId]);
+  }
+
+  filterProperties() {
+    let filtered = this.allProperties;
+    const text = this.searchText.trim().toLowerCase();
+    if (text) {
+      filtered = filtered.filter(property =>
+        (property.name && property.name.toLowerCase().includes(text)) ||
+        (property.description && property.description.toLowerCase().includes(text))
+      );
+    }
+    if (this.minPrice !== null) {
+      filtered = filtered.filter(property => (property.rooms?.[0]?.roomPrice ?? 0) >= this.minPrice!);
+    }
+    if (this.maxPrice !== null) {
+      filtered = filtered.filter(property => (property.rooms?.[0]?.roomPrice ?? 0) <= this.maxPrice!);
+    }
+    this.properties = filtered;
   }
 
   searchProperties() {
@@ -116,5 +129,16 @@ console.log("test")
       },
       queryParamsHandling: 'merge'
     });
+    // Do not call filterProperties here
+  }
+
+  resetFilters() {
+    this.searchText = '';
+    this.minPrice = null;
+    this.maxPrice = null;
+    this.checkInDate = null;
+    this.checkOutDate = null;
+    this.numberOfGuests = 1;
+    this.properties = [...this.allProperties];
   }
 }

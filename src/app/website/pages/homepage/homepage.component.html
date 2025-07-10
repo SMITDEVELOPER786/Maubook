@@ -124,9 +124,11 @@
 <section class="most-picked">
   <h2>Most Picked</h2>
   <div class="most-picked-grid" >
-    <div class="most-picked-item" *ngFor="let property of mostPickedProperties" (click)="goToPropertyDetails(property)" style="height: 400px;">
-      <div class="price-tag">Rs {{ property.rooms[0]?.plans[0]?.price || 0 }} per night</div>
-      <img [src]="property.images[0]" [alt]="property.name" *ngIf="property.images?.length > 0">
+    <div class="most-picked-item" *ngFor="let property of mostPickedProperties" (click)="goToPropertyDetails(property)">
+      <div class="image-wrapper">
+        <img [src]="property.images[0] ? property.images[0] : 'assets/fallback.jpg'" [alt]="property.name" />
+        <div class="price-tag" *ngIf="property.images[0]">Rs {{ property.rooms[0]?.plans[0]?.price || 0 }} per night</div>
+      </div>
       <div class="property-info">
         <h3>{{ property.name }}</h3>
         <p>{{ property.location }}</p>
